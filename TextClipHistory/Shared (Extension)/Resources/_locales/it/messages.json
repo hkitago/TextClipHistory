@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Cronologia Appunti di Testo",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Questa estensione del browser memorizza automaticamente il testo copiato come cronologia. È possibile salvare e riutilizzare fino a 10 voci quando necessario.",
+        "description": "Description of what the extension does."
+    }
+}

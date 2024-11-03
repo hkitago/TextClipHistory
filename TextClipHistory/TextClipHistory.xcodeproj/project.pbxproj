@@ -1,0 +1,921 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		604D48FA2CC86FEB003D59F7 /* TextClipHistory Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 604D48F92CC86FEB003D59F7 /* TextClipHistory Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		604D49042CC86FEB003D59F7 /* TextClipHistory Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 604D49032CC86FEB003D59F7 /* TextClipHistory Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		604D48FB2CC86FEB003D59F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604D48BF2CC86FE8003D59F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 604D48F82CC86FEB003D59F7;
+			remoteInfo = "ClipboardHistory Extension (iOS)";
+		};
+		604D49052CC86FEB003D59F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604D48BF2CC86FE8003D59F7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 604D49022CC86FEB003D59F7;
+			remoteInfo = "ClipboardHistory Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		604D492D2CC86FEB003D59F7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				604D48FA2CC86FEB003D59F7 /* TextClipHistory Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D49372CC86FEB003D59F7 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				604D49042CC86FEB003D59F7 /* TextClipHistory Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		603092F72CD712F0000851C5 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		603092F82CD712F0000851C5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		604D48DB2CC86FEB003D59F7 /* TextClipHistory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextClipHistory.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		604D48ED2CC86FEB003D59F7 /* TextClipHistory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextClipHistory.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		604D48F92CC86FEB003D59F7 /* TextClipHistory Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "TextClipHistory Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		604D49032CC86FEB003D59F7 /* TextClipHistory Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "TextClipHistory Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		604D49282CC86FEB003D59F7 /* Exceptions for "Shared (App)" folder in "TextClipHistory (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Resources/Main.html",
+				Assets.xcassets,
+				InfoPlist.xcstrings,
+				Resources/Icon.png,
+				Resources/Script.js,
+				Resources/Style.css,
+				ViewController.swift,
+			);
+			target = 604D48DA2CC86FEB003D59F7 /* TextClipHistory (iOS) */;
+		};
+		604D492C2CC86FEB003D59F7 /* Exceptions for "iOS (Extension)" folder in "TextClipHistory Extension (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 604D48F82CC86FEB003D59F7 /* TextClipHistory Extension (iOS) */;
+		};
+		604D49312CC86FEB003D59F7 /* Exceptions for "iOS (App)" folder in "TextClipHistory (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 604D48DA2CC86FEB003D59F7 /* TextClipHistory (iOS) */;
+		};
+		604D49322CC86FEB003D59F7 /* Exceptions for "Shared (App)" folder in "TextClipHistory (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"/Localized: Resources/Main.html",
+				Assets.xcassets,
+				InfoPlist.xcstrings,
+				Resources/Icon.png,
+				Resources/Script.js,
+				Resources/Style.css,
+				ViewController.swift,
+			);
+			target = 604D48EC2CC86FEB003D59F7 /* TextClipHistory (macOS) */;
+		};
+		604D49362CC86FEB003D59F7 /* Exceptions for "macOS (Extension)" folder in "TextClipHistory Extension (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 604D49022CC86FEB003D59F7 /* TextClipHistory Extension (macOS) */;
+		};
+		604D493B2CC86FEB003D59F7 /* Exceptions for "Shared (Extension)" folder in "TextClipHistory Extension (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/_locales,
+				Resources/background.js,
+				Resources/content.js,
+				Resources/images,
+				Resources/localization.js,
+				Resources/manifest.json,
+				Resources/popup.css,
+				Resources/popup.html,
+				Resources/popup.js,
+				Resources/utils.js,
+				SafariWebExtensionHandler.swift,
+			);
+			target = 604D48F82CC86FEB003D59F7 /* TextClipHistory Extension (iOS) */;
+		};
+		604D493C2CC86FEB003D59F7 /* Exceptions for "Shared (Extension)" folder in "TextClipHistory Extension (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/_locales,
+				Resources/background.js,
+				Resources/content.js,
+				Resources/images,
+				Resources/localization.js,
+				Resources/manifest.json,
+				Resources/popup.css,
+				Resources/popup.html,
+				Resources/popup.js,
+				Resources/utils.js,
+				SafariWebExtensionHandler.swift,
+			);
+			target = 604D49022CC86FEB003D59F7 /* TextClipHistory Extension (macOS) */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		604D48C32CC86FE9003D59F7 /* Shared (App) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				604D49282CC86FEB003D59F7 /* Exceptions for "Shared (App)" folder in "TextClipHistory (iOS)" target */,
+				604D49322CC86FEB003D59F7 /* Exceptions for "Shared (App)" folder in "TextClipHistory (macOS)" target */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		604D48CC2CC86FEB003D59F7 /* Shared (Extension) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				604D493B2CC86FEB003D59F7 /* Exceptions for "Shared (Extension)" folder in "TextClipHistory Extension (iOS)" target */,
+				604D493C2CC86FEB003D59F7 /* Exceptions for "Shared (Extension)" folder in "TextClipHistory Extension (macOS)" target */,
+			);
+			explicitFolders = (
+				Resources/_locales,
+				Resources/images,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		604D48DD2CC86FEB003D59F7 /* iOS (App) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				604D49312CC86FEB003D59F7 /* Exceptions for "iOS (App)" folder in "TextClipHistory (iOS)" target */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		604D48EE2CC86FEB003D59F7 /* macOS (App) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		604D48FD2CC86FEB003D59F7 /* iOS (Extension) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				604D492C2CC86FEB003D59F7 /* Exceptions for "iOS (Extension)" folder in "TextClipHistory Extension (iOS)" target */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		604D49072CC86FEB003D59F7 /* macOS (Extension) */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				604D49362CC86FEB003D59F7 /* Exceptions for "macOS (Extension)" folder in "TextClipHistory Extension (macOS)" target */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		604D48D82CC86FEB003D59F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48EA2CC86FEB003D59F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48F62CC86FEB003D59F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D49002CC86FEB003D59F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		604D48BE2CC86FE8003D59F7 = {
+			isa = PBXGroup;
+			children = (
+				603092F72CD712F0000851C5 /* LICENSE */,
+				603092F82CD712F0000851C5 /* README.md */,
+				604D48C32CC86FE9003D59F7 /* Shared (App) */,
+				604D48CC2CC86FEB003D59F7 /* Shared (Extension) */,
+				604D48DD2CC86FEB003D59F7 /* iOS (App) */,
+				604D48EE2CC86FEB003D59F7 /* macOS (App) */,
+				604D48FD2CC86FEB003D59F7 /* iOS (Extension) */,
+				604D49072CC86FEB003D59F7 /* macOS (Extension) */,
+				604D48DC2CC86FEB003D59F7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		604D48DC2CC86FEB003D59F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				604D48DB2CC86FEB003D59F7 /* TextClipHistory.app */,
+				604D48ED2CC86FEB003D59F7 /* TextClipHistory.app */,
+				604D48F92CC86FEB003D59F7 /* TextClipHistory Extension.appex */,
+				604D49032CC86FEB003D59F7 /* TextClipHistory Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		604D48DA2CC86FEB003D59F7 /* TextClipHistory (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604D492E2CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory (iOS)" */;
+			buildPhases = (
+				604D48D72CC86FEB003D59F7 /* Sources */,
+				604D48D82CC86FEB003D59F7 /* Frameworks */,
+				604D48D92CC86FEB003D59F7 /* Resources */,
+				604D492D2CC86FEB003D59F7 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				604D48FC2CC86FEB003D59F7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				604D48DD2CC86FEB003D59F7 /* iOS (App) */,
+			);
+			name = "TextClipHistory (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "ClipboardHistory (iOS)";
+			productReference = 604D48DB2CC86FEB003D59F7 /* TextClipHistory.app */;
+			productType = "com.apple.product-type.application";
+		};
+		604D48EC2CC86FEB003D59F7 /* TextClipHistory (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604D49382CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory (macOS)" */;
+			buildPhases = (
+				604D48E92CC86FEB003D59F7 /* Sources */,
+				604D48EA2CC86FEB003D59F7 /* Frameworks */,
+				604D48EB2CC86FEB003D59F7 /* Resources */,
+				604D49372CC86FEB003D59F7 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				604D49062CC86FEB003D59F7 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				604D48EE2CC86FEB003D59F7 /* macOS (App) */,
+			);
+			name = "TextClipHistory (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "ClipboardHistory (macOS)";
+			productReference = 604D48ED2CC86FEB003D59F7 /* TextClipHistory.app */;
+			productType = "com.apple.product-type.application";
+		};
+		604D48F82CC86FEB003D59F7 /* TextClipHistory Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604D49292CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory Extension (iOS)" */;
+			buildPhases = (
+				604D48F52CC86FEB003D59F7 /* Sources */,
+				604D48F62CC86FEB003D59F7 /* Frameworks */,
+				604D48F72CC86FEB003D59F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				604D48FD2CC86FEB003D59F7 /* iOS (Extension) */,
+			);
+			name = "TextClipHistory Extension (iOS)";
+			packageProductDependencies = (
+			);
+			productName = "ClipboardHistory Extension (iOS)";
+			productReference = 604D48F92CC86FEB003D59F7 /* TextClipHistory Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		604D49022CC86FEB003D59F7 /* TextClipHistory Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604D49332CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory Extension (macOS)" */;
+			buildPhases = (
+				604D48FF2CC86FEB003D59F7 /* Sources */,
+				604D49002CC86FEB003D59F7 /* Frameworks */,
+				604D49012CC86FEB003D59F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				604D49072CC86FEB003D59F7 /* macOS (Extension) */,
+			);
+			name = "TextClipHistory Extension (macOS)";
+			packageProductDependencies = (
+			);
+			productName = "ClipboardHistory Extension (macOS)";
+			productReference = 604D49032CC86FEB003D59F7 /* TextClipHistory Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		604D48BF2CC86FE8003D59F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					604D48DA2CC86FEB003D59F7 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					604D48EC2CC86FEB003D59F7 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					604D48F82CC86FEB003D59F7 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					604D49022CC86FEB003D59F7 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 604D48C22CC86FE8003D59F7 /* Build configuration list for PBXProject "TextClipHistory" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 604D48BE2CC86FE8003D59F7;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 604D48DC2CC86FEB003D59F7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				604D48DA2CC86FEB003D59F7 /* TextClipHistory (iOS) */,
+				604D48EC2CC86FEB003D59F7 /* TextClipHistory (macOS) */,
+				604D48F82CC86FEB003D59F7 /* TextClipHistory Extension (iOS) */,
+				604D49022CC86FEB003D59F7 /* TextClipHistory Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		604D48D92CC86FEB003D59F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48EB2CC86FEB003D59F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48F72CC86FEB003D59F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D49012CC86FEB003D59F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		604D48D72CC86FEB003D59F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48E92CC86FEB003D59F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48F52CC86FEB003D59F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604D48FF2CC86FEB003D59F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		604D48FC2CC86FEB003D59F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 604D48F82CC86FEB003D59F7 /* TextClipHistory Extension (iOS) */;
+			targetProxy = 604D48FB2CC86FEB003D59F7 /* PBXContainerItemProxy */;
+		};
+		604D49062CC86FEB003D59F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 604D49022CC86FEB003D59F7 /* TextClipHistory Extension (macOS) */;
+			targetProxy = 604D49052CC86FEB003D59F7 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		604D492A2CC86FEB003D59F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "TextClipHistory Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory.Extension;
+				PRODUCT_NAME = "TextClipHistory Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		604D492B2CC86FEB003D59F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "TextClipHistory Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory.Extension;
+				PRODUCT_NAME = "TextClipHistory Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		604D492F2CC86FEB003D59F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = TextClipHistory;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory;
+				PRODUCT_NAME = TextClipHistory;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		604D49302CC86FEB003D59F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = TextClipHistory;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory;
+				PRODUCT_NAME = TextClipHistory;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		604D49342CC86FEB003D59F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/TextClipHistory.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "TextClipHistory Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory.Extension;
+				PRODUCT_NAME = "TextClipHistory Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		604D49352CC86FEB003D59F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/TextClipHistory.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "TextClipHistory Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory.Extension;
+				PRODUCT_NAME = "TextClipHistory Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		604D49392CC86FEB003D59F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/TextClipHistory.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = TextClipHistory;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory;
+				PRODUCT_NAME = TextClipHistory;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		604D493A2CC86FEB003D59F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/TextClipHistory.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = R3F5JGKA7W;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = TextClipHistory;
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.hkitago.TextClipHistory;
+				PRODUCT_NAME = TextClipHistory;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		604D493D2CC86FEB003D59F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		604D493E2CC86FEB003D59F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		604D48C22CC86FE8003D59F7 /* Build configuration list for PBXProject "TextClipHistory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604D493D2CC86FEB003D59F7 /* Debug */,
+				604D493E2CC86FEB003D59F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604D49292CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604D492A2CC86FEB003D59F7 /* Debug */,
+				604D492B2CC86FEB003D59F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604D492E2CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604D492F2CC86FEB003D59F7 /* Debug */,
+				604D49302CC86FEB003D59F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604D49332CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604D49342CC86FEB003D59F7 /* Debug */,
+				604D49352CC86FEB003D59F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604D49382CC86FEB003D59F7 /* Build configuration list for PBXNativeTarget "TextClipHistory (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604D49392CC86FEB003D59F7 /* Debug */,
+				604D493A2CC86FEB003D59F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 604D48BF2CC86FE8003D59F7 /* Project object */;
+}

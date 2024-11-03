@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Tekstfragmenten Geschiedenis",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Diese Browser-Erweiterung speichert automatisch kopierten Text als Verlauf. Bis zu 10 Einträge können gespeichert und bei Bedarf wiederverwendet werden.",
+        "description": "Description of what the extension does."
+    }
+}

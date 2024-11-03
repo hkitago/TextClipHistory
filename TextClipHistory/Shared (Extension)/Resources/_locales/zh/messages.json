@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "文本剪贴历史",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "此浏览器扩展程序可自动将复制的文本存储为历史记录。最多可保存10条记录，并可在需要时重复使用。",
+        "description": "Description of what the extension does."
+    }
+}

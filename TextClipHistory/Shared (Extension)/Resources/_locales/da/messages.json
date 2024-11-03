@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Tekstkliphistorik",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Denne browser-udvidelse gemmer automatisk kopieret tekst som historik. Op til 10 poster kan gemmes og genbruges efter behov.",
+        "description": "Description of what the extension does."
+    }
+}

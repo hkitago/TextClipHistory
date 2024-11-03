@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Tekstutklippshistorikk",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Denne nettleserutvidelsen lagrer automatisk kopiert tekst som historikk. Opptil 10 oppføringer kan lagres og gjenbrukes ved behov.",
+        "description": "Description of what the extension does."
+    }
+}

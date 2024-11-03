@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Historie Textových Výstřižků",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Toto rozšíření prohlížeče automaticky ukládá zkopírovaný text jako historii. Až 10 položek lze uložit a znovu použít podle potřeby.",
+        "description": "Description of what the extension does."
+    }
+}

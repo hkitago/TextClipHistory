@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "TextClipHistory",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "This browser extension automatically stores copied text as history. Up to 10 entries can be saved and reused when needed.",
+        "description": "Description of what the extension does."
+    }
+}

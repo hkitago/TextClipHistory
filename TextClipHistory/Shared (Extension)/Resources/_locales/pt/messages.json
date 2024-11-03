@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Histórico de Recortes de Texto",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Esta extensão do navegador guarda automaticamente o texto copiado como histórico. Até 10 entradas podem ser guardadas e reutilizadas quando necessário.",
+        "description": "Description of what the extension does."
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Riwayat Potongan Teks",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Ekstensi browser ini secara otomatis menyimpan teks yang disalin sebagai riwayat. Hingga 10 entri dapat disimpan dan digunakan kembali saat diperlukan.",
+        "description": "Description of what the extension does."
+    }
+}

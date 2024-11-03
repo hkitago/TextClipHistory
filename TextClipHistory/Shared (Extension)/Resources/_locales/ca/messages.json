@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Historial de Retalls de Text",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Aquesta extensió del navegador emmagatzema automàticament el text copiat com a historial. Es poden desar i reutilitzar fins a 10 entrades quan calgui.",
+        "description": "Description of what the extension does."
+    }
+}
