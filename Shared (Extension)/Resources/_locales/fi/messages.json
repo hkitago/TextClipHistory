@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Tekstileikkeiden Historia",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Tämä selaimen laajennus tallentaa automaattisesti kopioidun tekstin historiaksi. Enintään 10 merkintää voidaan tallentaa ja käyttää uudelleen tarvittaessa.",
+        "description": "Description of what the extension does."
+    }
+}

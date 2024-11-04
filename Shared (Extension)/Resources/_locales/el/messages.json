@@ -1,0 +1,10 @@
+{
+    "extension_name": {
+        "message": "Ιστορικό Αποκομμάτων Κειμένου",
+        "description": "The display name for the extension."
+    },
+    "extension_description": {
+        "message": "Αυτή η επέκταση προγράμματος περιήγησης αποθηκεύει αυτόματα το αντιγραμμένο κείμενο ως ιστορικό. Έως 10 καταχωρήσεις μπορούν να αποθηκευτούν και να επαναχρησιμοποιηθούν όταν χρειάζεται.",
+        "description": "Description of what the extension does."
+    }
+}
