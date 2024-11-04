@@ -69,7 +69,7 @@ class ViewController: PlatformViewController, WKNavigationDelegate, WKScriptMess
       var url: URL?
 
       if messageBody == "open-support" {
-          url = URL(string: "https://hkitago.com/")
+          url = URL(string: "https://github.com/hkitago/TextClipHistory")
       }
 
   #if os(macOS)
