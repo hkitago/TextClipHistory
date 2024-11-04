@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "ส่วนขยายเบราว์เซอร์นี้จัดเก็บข้อความที่คัดลอกไว้เป็นประวัติโดยอัตโนมัติ สามารถบันทึกและนำกลับมาใช้ได้สูงสุด 10 รายการตามต้องการ",
+        "message": "ส่วนขยายนี้บันทึกข้อความที่คัดลอกเป็นประวัติ สามารถบันทึกและใช้ซ้ำได้ถึง 10 รายการ",
         "description": "Description of what the extension does."
     }
 }

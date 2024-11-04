@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Esta extensão do navegador guarda automaticamente o texto copiado como histórico. Até 10 entradas podem ser guardadas e reutilizadas quando necessário.",
+        "message": "Esta extensão guarda o texto copiado como histórico. Até 10 entradas podem ser reutilizadas.",
         "description": "Description of what the extension does."
     }
 }

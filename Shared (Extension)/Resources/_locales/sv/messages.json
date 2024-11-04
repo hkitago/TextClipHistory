@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Detta webbläsartillägg sparar automatiskt kopierad text som historik. Upp till 10 poster kan sparas och återanvändas vid behov.",
+        "message": "Detta tillägg sparar kopierad text som historik. Upp till 10 poster kan sparas och återanvändas.",
         "description": "Description of what the extension does."
     }
 }

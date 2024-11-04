@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Cette extension de navigateur enregistre automatiquement le texte copié comme historique. Jusqu'à 10 entrées peuvent être sauvegardées et réutilisées si nécessaire.",
+        "message": "Cette extension sauvegarde le texte copié comme historique. 10 entrées peuvent être réutilisées.",
         "description": "Description of what the extension does."
     }
 }

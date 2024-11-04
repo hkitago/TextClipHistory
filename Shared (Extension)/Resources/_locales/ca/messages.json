@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Aquesta extensió del navegador emmagatzema automàticament el text copiat com a historial. Es poden desar i reutilitzar fins a 10 entrades quan calgui.",
+        "message": "Aquesta extensió guarda el text copiat com a historial. Es poden desar fins a 10 entrades per reutilitzar-les.",
         "description": "Description of what the extension does."
     }
 }

@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Tämä selaimen laajennus tallentaa automaattisesti kopioidun tekstin historiaksi. Enintään 10 merkintää voidaan tallentaa ja käyttää uudelleen tarvittaessa.",
+        "message": "Tämä laajennus tallentaa kopioidun tekstin historiaksi. 10 merkintää voidaan käyttää uudelleen.",
         "description": "Description of what the extension does."
     }
 }

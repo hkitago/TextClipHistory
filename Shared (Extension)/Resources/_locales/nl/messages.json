@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Deze browserextensie slaat automatisch gekopieerde tekst op als geschiedenis. Tot 10 items kunnen worden opgeslagen en hergebruikt wanneer nodig.",
+        "message": "Deze extensie slaat gekopieerde tekst op als geschiedenis. Tot 10 items kunnen worden hergebruikt.",
         "description": "Description of what the extension does."
     }
 }

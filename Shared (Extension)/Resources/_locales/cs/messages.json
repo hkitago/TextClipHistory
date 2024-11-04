@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Toto rozšíření prohlížeče automaticky ukládá zkopírovaný text jako historii. Až 10 položek lze uložit a znovu použít podle potřeby.",
+        "message": "Toto rozšíření ukládá zkopírovaný text jako historii. Lze uložit až 10 položek pro opětovné použití.",
         "description": "Description of what the extension does."
     }
 }

@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Sambungan pelayar ini secara automatik menyimpan teks yang disalin sebagai sejarah. Sehingga 10 entri boleh disimpan dan digunakan semula apabila diperlukan.",
+        "message": "Sambungan ini menyimpan teks yang disalin sebagai sejarah. 10 entri boleh diguna semula bila perlu.",
         "description": "Description of what the extension does."
     }
 }

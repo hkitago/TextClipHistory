@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Это расширение браузера автоматически сохраняет скопированный текст как историю. До 10 записей можно сохранять и повторно использовать при необходимости.",
+        "message": "Это расширение сохраняет скопированный текст как историю. До 10 записей можно использовать повторно.",
         "description": "Description of what the extension does."
     }
 }

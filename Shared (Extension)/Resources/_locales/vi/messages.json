@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Tiện ích mở rộng này tự động lưu văn bản đã sao chép làm lịch sử. Có thể lưu và tái sử dụng tối đa 10 mục khi cần.",
+        "message": "Tiện ích này tự động lưu văn bản đã sao chép. Có thể lưu và tái sử dụng tối đa 10 mục.",
         "description": "Description of what the extension does."
     }
 }

@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Bu tarayıcı eklentisi, kopyalanan metni otomatik olarak geçmiş olarak saklar. İhtiyaç duyulduğunda 10 adede kadar girdi kaydedilebilir ve yeniden kullanılabilir.",
+        "message": "Bu eklenti, kopyalanan metni geçmiş olarak saklar. 10 adede kadar girdi yeniden kullanılabilir.",
         "description": "Description of what the extension does."
     }
 }

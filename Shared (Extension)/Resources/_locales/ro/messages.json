@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "Această extensie de browser stochează automat textul copiat ca istoric. Până la 10 înregistrări pot fi salvate și reutilizate când este necesar.",
+        "message": "Această extensie salvează textul copiat ca istoric. Până la 10 înregistrări pot fi reutilizate.",
         "description": "Description of what the extension does."
     }
 }

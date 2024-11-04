@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "To rozszerzenie przeglądarki automatycznie zapisuje skopiowany tekst jako historię. Do 10 wpisów można zapisać i ponownie wykorzystać w razie potrzeby.",
+        "message": "To rozszerzenie zapisuje skopiowany tekst jako historię. Do 10 wpisów można ponownie użyć.",
         "description": "Description of what the extension does."
     }
 }

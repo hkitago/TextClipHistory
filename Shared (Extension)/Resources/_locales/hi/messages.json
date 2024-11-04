@@ -4,7 +4,7 @@
         "description": "The display name for the extension."
     },
     "extension_description": {
-        "message": "यह ब्राउज़र एक्सटेंशन कॉपी किए गए टेक्स्ट को स्वचालित रूप से इतिहास के रूप में संग्रहित करता है। आवश्यकता पड़ने पर 10 प्रविष्टियों तक को सहेजा और पुनः उपयोग किया जा सकता है।",
+        "message": "यह एक्सटेंशन कॉपी किया टेक्स्ट सहेजता है। 10 प्रविष्टियों को पुनः उपयोग किया जा सकता है।",
         "description": "Description of what the extension does."
     }
 }
