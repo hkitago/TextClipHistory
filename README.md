@@ -27,15 +27,15 @@ Notes:
 
 ## Version History
 
-### 1.0
+### 1.0 - 2024-11-05
 
-#### **macOS** - 2024-11-XX
+#### **macOS**
 
 - Initial release
 
 ## Roadmap
 
-- Pined flag
+- Add Pined flag function
 - Edit items function
 - iOS/iPad OS version release
 
@@ -56,7 +56,7 @@ You can reach me via [email](mailto:hkitago@icloud.com?subject=Support%20for%20T
 
 ### Related Links
 
-- App Store: [QuoteLink on the App Store](https://apps.apple.com/app/textcliphistory-for-safari/id0000000000)
+- App Store: [QuoteLink on the App Store](https://apps.apple.com/app/textcliphistory-for-safari/id6737747660)
 - [Get extensions to customize Safari on iPhone - Apple Support](https://support.apple.com/guide/iphone/iphab0432bf6/18.0/ios/18.0)
 - [Get extensions to customize Safari on Mac - Apple Support](https://support.apple.com/guide/safari/get-extensions-sfri32508/mac)
 - Privacy Policy Page: [Privacy Policy – hkitago software dev](https://hkitago.com/wpautoterms/privacy-policy/)
