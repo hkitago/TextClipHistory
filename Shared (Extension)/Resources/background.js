@@ -9,7 +9,7 @@ browser.runtime.onInstalled.addListener(async () => {
   }
 });
 
-// UUID生成関数
+// UUID
 const generateUUID = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
     const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
@@ -17,6 +17,7 @@ const generateUUID = () => {
   });
 };
 
+// GLOBAL VAR with Save
 const MAX_HISTORY_SIZE = 10;
 
 const saveToHistory = async (text) => {
@@ -42,20 +43,18 @@ const saveToHistory = async (text) => {
   }
 };
 
-// ピン留めのトグルをIDで処理
-/*
- const togglePin = async (id) => {
-   try {
-     const { history = [] } = await browser.storage.local.get('history');
-     const updatedHistory = history.map(item =>
-       item.id === id ? { ...item, pinned: !item.pinned } : item
-     );
-     await browser.storage.local.set({ history: updatedHistory });
-   } catch (error) {
-     console.error('Failed to toggle pin:', error);
-   }
- };
- */
+// Toggle Pins
+const togglePin = async (id) => {
+  try {
+    const { history = [] } = await browser.storage.local.get('history');
+    const updatedHistory = history.map(item =>
+      item.id === id ? { ...item, pinned: !item.pinned } : item
+    );
+    await browser.storage.local.set({ history: updatedHistory });
+  } catch (error) {
+    console.error('Failed to toggle pin:', error);
+  }
+};
 
 // Update icon logic
 const updateIcon = (iconState) => {
@@ -72,24 +71,23 @@ const updateIcon = (iconState) => {
   browser.action.setIcon({ path: iconPath });
 };
 
-// ツールバーのボタンがクリックされた際に実行
-browser.action.onClicked.addListener(async (tab) => {
-  const hasHistory = await checkHistoryStorage();
-  browser.tabs.sendMessage(tab.id, { request: "checkStorage", hasHistory });
-});
-
-// ストレージのデータを確認し、空かどうかを返す関数
-const checkHistoryStorage = async () => {
+// Checking Storage
+const isHistoryStorage = async () => {
   const { history = [] } = await browser.storage.local.get('history');
   return history.length > 0;
 };
 
-// リスナーでメッセージを受け取って処理
+// Clicking Icon on Toolbar
+browser.action.onClicked.addListener(async (tab) => {
+  const hasHistory = await isHistoryStorage();
+  browser.tabs.sendMessage(tab.id, { request: "checkStorage", hasHistory });
+});
+// Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   //console.log('background:', message.request);
   
   if (message.request === "checkStorage") {
-    const hasHistory = await checkHistoryStorage();
+    const hasHistory = await isHistoryStorage();
     sendResponse({ hasHistory });
     return true;
   }
@@ -101,10 +99,11 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.request === "saveClipboard") {
     saveToHistory(message.text);
   }
+
+  if (message.request === "togglePin") {
+    togglePin(message.id);
+  }
 /*
- if (message.request === "togglePin") {
-   togglePin(message.id);
- }
  */
 
   return false;
