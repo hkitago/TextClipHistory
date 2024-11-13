@@ -26,6 +26,13 @@ Note:
 
 ## Version History
 
+### 1.1 - 2024-11-13
+
+#### **macOS**
+
+- Pin items to keep them at the top for easy access
+- Added support for all languages in the App Store
+
 ### 1.0 - 2024-11-05
 
 #### **macOS**
@@ -34,13 +41,11 @@ Note:
 
 ## Roadmap
 
-- Add Pined flag function
 - Edit items function
 - iOS/iPad OS version release
 
 ## Compatibility
 
-- iOS/iPadOS 15+
 - macOS 10.14+
 
 ## License
