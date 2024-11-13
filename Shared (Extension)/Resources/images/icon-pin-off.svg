@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   viewBox="0 0 15.9375 15.9453"
+   id="svg2"
+   sodipodi:docname="icon-pin-off.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="namedview2"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="37.128905"
+     inkscape:cx="4.4843768"
+     inkscape:cy="8.2550239"
+     inkscape:window-width="2640"
+     inkscape:window-height="1032"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <g
+     id="g4"
+     transform="matrix(0.06345744,0,0,0.06345744,-7.1654906,-7.2845016)">
+    <path
+       d="m 144,114.7 c -13.4,2.3 -23.6,9.6 -28.6,20.5 l -2.9,6.3 -0.3,96 c -0.2,70.3 0,97.5 0.8,101.5 2.5,11.7 10.1,20.9 20.9,25.2 l 5.6,2.3 h 99 99 l 6.6,-3.1 c 11.3,-5.4 17.7,-14.2 19.9,-27.4 0.7,-4.4 1,-35.9 0.8,-99 -0.3,-85.1 -0.5,-92.9 -2.1,-97.7 -3.8,-11.3 -11.7,-19.2 -23,-23 -4.8,-1.6 -12.6,-1.8 -99.2,-1.9 -51.7,-0.1 -95.1,0 -96.5,0.3 z m 187.8,24.9 c 3.9,1.9 5.8,3.7 7.5,6.8 l 2.2,4.1 0.3,88.3 c 0.2,62.7 -0.1,89.5 -0.9,92.5 -1.7,6.2 -7.2,11.2 -14,12.6 -4,0.8 -29.6,1.1 -92,0.9 L 148.5,344.5 144,342 c -2.9,-1.7 -5.3,-4.1 -7,-7 l -2.5,-4.5 v -89 c 0,-96.2 -0.1,-93.6 5.4,-98.9 5.9,-5.7 3.2,-5.5 98.7,-5.6 h 88 z"
+       id="path1"
+       style="fill:#000000;stroke:none;stroke-width:0.1" />
+    <path
+       d="m 227.3,159.7 c -5.7,2 -13.8,9.4 -17.1,15.7 -2.3,4.4 -2.7,6.3 -2.7,14.1 0,7.8 0.4,9.7 2.7,14 3,5.8 10.5,13.1 14.9,14.7 l 2.9,1 v 35.6 c 0.1,47.5 1.8,65 7,69.7 2.9,2.6 6.3,1.5 8.4,-2.8 3.7,-7.6 4.6,-19.9 4.6,-62.2 v -40.1 l 3.7,-1.3 c 5.3,-1.9 12.7,-9.3 15.4,-15.4 3.3,-7.4 3.3,-19.1 0,-26.5 -3.2,-7 -11.5,-14.7 -18.3,-16.7 -6.4,-1.9 -16,-1.8 -21.5,0.2 z m 8.3,14.1 c 2.7,2.1 4.4,5.4 4.4,8.2 0,3.2 -6.2,9 -9.5,9 -3.3,0 -9.5,-5.8 -9.5,-8.9 0,-2.9 2.6,-7.7 4.7,-9 2.7,-1.6 7.6,-1.2 9.9,0.7 z"
+       id="path2"
+       style="fill:#000000;stroke:none;stroke-width:0.1" />
+  </g>
+</svg>
