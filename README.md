@@ -20,11 +20,20 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 3. Tap the icon next to the address bar and choose the extension.
 4. A window will slide up from the bottom on iPhone, or a pop-up window will appear on iPad and Mac; select an item of text for pasting and click or tap it.
 
-Note:
+Notes:
 
-- If you enable the extension and it doesn't function correctly, please refresh the page, or close and restart the app, and try again.
+- Due to security concerns, the window will automatically close after 3 minutes of idle time while the popover is open, or immediately if the focus is lost.
+- If you enable the extension and it doesn't function correctly, please refresh the page, or close and restart Safari, and try again.
 
 ## Version History
+
+### 1.1.1 - 2024-11-21
+
+#### **macOS**
+
+- Added auto-close functionality to the popover window for enhanced security
+- Improved pin and unpin behavior for items
+- Updated app icon for a refreshed look
 
 ### 1.1 - 2024-11-13
 
