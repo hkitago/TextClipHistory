@@ -85,6 +85,7 @@ main > ul > li > div {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  white-space: pre-wrap;
 }
 
 main > ul > li > img {
@@ -106,6 +107,10 @@ body.rtl main > ul > li > img {
 
 main > ul > li > img:hover {
   opacity:1;
+}
+
+main > ul > li.history-item[data-pinned="true"] > img {
+  display: initial;
 }
 
 main > div {

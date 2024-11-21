@@ -11,45 +11,43 @@ browser.runtime.onInstalled.addListener(async () => {
 
 // UUID
 const generateUUID = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
     const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 };
 
-// GLOBAL VAR with Save
-const MAX_HISTORY_SIZE = 10;
-
 const saveToHistory = async (text) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
+    const newEntry = {
+      id: generateUUID(),
+      text: text,
+      pinned: false
+    };
 
-    // 新しい履歴項目を作成（ID付き）
-    const newEntry = { id: generateUUID(), text, pinned: false };
-
-    // 既存の履歴を更新
+    const filteredHistory = history.filter(item => item.text !== text);
+    
     const updatedHistory = [
       newEntry,
-      ...history.filter(item => item.text !== text)
-    ]
-    .filter((item, index, self) => item.pinned || self.findIndex(h => h.text === item.text) === index)
-    .slice(0, MAX_HISTORY_SIZE);
+      ...filteredHistory
+    ];
 
     await browser.storage.local.set({ history: updatedHistory });
-
     updateIcon('extension-on');
   } catch (error) {
     console.error('Failed to save to history:', error);
   }
 };
 
-// Toggle Pins
 const togglePin = async (id) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
+    
     const updatedHistory = history.map(item =>
       item.id === id ? { ...item, pinned: !item.pinned } : item
     );
+
     await browser.storage.local.set({ history: updatedHistory });
   } catch (error) {
     console.error('Failed to toggle pin:', error);
@@ -82,6 +80,7 @@ browser.action.onClicked.addListener(async (tab) => {
   const hasHistory = await isHistoryStorage();
   browser.tabs.sendMessage(tab.id, { request: "checkStorage", hasHistory });
 });
+
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   //console.log('background:', message.request);
@@ -103,9 +102,6 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.request === "togglePin") {
     togglePin(message.id);
   }
-/*
- */
 
   return false;
 });
-
