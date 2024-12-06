@@ -27,9 +27,13 @@ Notes:
 
 ## Version History
 
-### 1.1.1 - 2024-11-21
+### 1.1.1
 
-#### **macOS**
+#### **iOS/iPadOS** - 2024-12-06
+
+- Initial release with extended features from macOS version
+
+#### **macOS** - 2024-11-21
 
 - Added auto-close functionality to the popover window for enhanced security
 - Improved pin and unpin behavior for items
@@ -48,13 +52,9 @@ Notes:
 
 - Initial release
 
-## Roadmap
-
-- Edit items function
-- iOS/iPad OS version release
-
 ## Compatibility
 
+- iOS/iPadOS 15+
 - macOS 10.14+
 
 ## License
@@ -69,7 +69,7 @@ You can reach me via [email](mailto:hkitago@icloud.com?subject=Support%20for%20T
 
 ### Related Links
 
-- App Store: [QuoteLink on the App Store](https://apps.apple.com/app/textcliphistory-for-safari/id6737747660)
+- App Store: [TextClipHistory on the App Store](https://apps.apple.com/app/textcliphistory-for-safari/id6737747660)
 - [Get extensions to customize Safari on iPhone - Apple Support](https://support.apple.com/guide/iphone/iphab0432bf6/18.0/ios/18.0)
 - [Get extensions to customize Safari on Mac - Apple Support](https://support.apple.com/guide/safari/get-extensions-sfri32508/mac)
 - Privacy Policy Page: [Privacy Policy – hkitago software dev](https://hkitago.com/wpautoterms/privacy-policy/)

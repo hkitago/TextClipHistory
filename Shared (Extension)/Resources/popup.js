@@ -8,6 +8,29 @@
 import { labelStrings, getCurrentLangCode } from './localization.js';
 const langCode = getCurrentLangCode();
 
+const appState = {
+  isEditMode: false,
+};
+
+const getState = (key) => {
+  return appState[key];
+}
+
+const setState = (key, value) => {
+  appState[key] = value;
+}
+
+/* Environmental detection */
+const isMacOS = () => {
+  const isPlatformMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
+
+  const isUserAgentMac = /Mac/.test(navigator.userAgent) &&
+                         !/iPhone/.test(navigator.userAgent) &&
+                         !/iPad/.test(navigator.userAgent);
+  
+  return (isPlatformMac || isUserAgentMac) && !('ontouchend' in document);
+};
+
 const getiOSVersion = () => {
   return parseInt((navigator.userAgent.match(/OS (\d+)_/) || [])[1] || 0);
 };
@@ -50,6 +73,32 @@ if (document.readyState !== 'loading') {
   initPage();
 } else {
   document.addEventListener('DOMContentLoaded', initPage);
+}
+
+const toggleEditMode = () => {
+  setState('isEditMode', !getState('isEditMode'));
+  const header = document.querySelector('header');
+  const ul = document.getElementById('historyList');
+
+  if (getState('isEditMode')) {
+    header.style.display = 'block';
+    ul.classList.add('isEditMode');
+    editActions.style.display = 'none';
+    editDone.style.display = 'block';
+  } else {
+    header.style.display = 'none';
+    ul.classList.remove('isEditMode');
+    editActions.style.display = 'block';
+    editDone.style.display = 'none';
+  }
+};
+
+const onMouseOver = (event) => {
+  event.target.closest('li').classList.add('hover');
+}
+
+const onMouseOut = (event) => {
+  event.target.closest('li').classList.remove('hover');
 }
 
 /* Rendering */
@@ -124,6 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   /* rendering Main List */
   const ul = document.createElement('ul');
+  ul.id = 'historyList';
   const pinIcons = { 'on': './images/icon-pin-on.svg', 'off': './images/icon-pin-off.svg'};
   
   const createListItem = (item) => {
@@ -136,6 +186,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     icon.src = item.pinned ? pinIcons.on : pinIcons.off;
 
     icon.addEventListener('click', async (event) => {
+      if (!getState('isEditMode') && !isMacOS()) return false;
+
       event.stopPropagation();
 
       const itemId = li.dataset.id;
@@ -164,7 +216,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           if (lastPinnedItem) {
             lastPinnedItem.after(li);
           } else {
-            const ul = document.querySelector('ul');
+            const ul = document.getElementById('historyList');
             ul.prepend(li);
           }
         } else {
@@ -197,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             createListItem(nextVisibleItem);
           }
         } else {
-          const ul = document.querySelector('ul');
+          const ul = document.getElementById('historyList');
 
           const referenceItem = Array.from(ul.children).find(child => {
             const childId = child.dataset.id;
@@ -225,18 +277,43 @@ document.addEventListener('DOMContentLoaded', async () => {
     li.dataset.pinned = item.pinned;
 
     li.addEventListener('click', async (event) => {
+      if (getState('isEditMode') && !isMacOS()) return false;
+
       const textToCopy = item.text;
       await navigator.clipboard.writeText(textToCopy);
       
       // send msg to content.js
       browser.tabs.query({active: true, currentWindow: true}, async (tabs) => {
         await browser.tabs.sendMessage(tabs[0].id, {
-          request: "pasteText",
+          request: 'pasteText',
+          langcode: langCode.substring(0, 2),
           text: textToCopy
         });
       });
       
       closeWindow();
+    });
+
+    if (isMacOS()) {
+      li.addEventListener('mouseover', onMouseOver);
+      li.addEventListener('mouseout', onMouseOut);
+    }
+
+    li.addEventListener('touchstart', (event) => {
+      if (getState('isEditMode')) return false;
+
+      event.stopPropagation();
+      event.target.closest('li').classList.add('selected');
+    });
+    
+    li.addEventListener('touchend', (event) => {
+      event.stopPropagation();
+      event.target.closest('li').classList.remove('selected');
+    });
+
+    li.addEventListener('touchcancel', (event) => {
+      event.stopPropagation();
+      event.target.closest('li').classList.remove('selected');
     });
 
     ul.appendChild(li);
@@ -248,13 +325,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   main.appendChild(ul);
 
-  /* rendering Clear All History */
+  /* rendering header */
+  if (!isMacOS()) {
+    header.style.display = 'none';
+  }
+  
   clearAllHistory.textContent = labelStrings[langCode].clearAllHistory;
   clearAllHistory.addEventListener('click', async () => {
     try {
       await browser.storage.local.clear();
       initializePopupPage();
-      browser.runtime.sendMessage({ request: "updateIcon", iconState: "default" });
+      browser.runtime.sendMessage({ request: 'updateIcon', iconState: 'default' });
       setTimeout(() => {
         closeWindow();
       }, closeWindowTime);
@@ -264,6 +345,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  editActions.style.display = 'none';
-  editDone.style.display = 'none';
+  /* rendering footer */
+  if (isMacOS()) {
+    footer.style.display = 'none';
+  }
+
+  editActions.textContent = labelStrings[langCode].editActions;
+  editActions.addEventListener('click', toggleEditMode);
+  editActions.addEventListener('touchstart', (event) => {
+    event.target.classList.add('selected');
+  });
+  editActions.addEventListener('touchend', (event) => {
+    event.target.classList.remove('selected');
+  });
+
+  editDone.textContent = labelStrings[langCode].editDone;
+  editDone.addEventListener('click', toggleEditMode);
+  editDone.addEventListener('touchstart', (event) => {
+    event.target.classList.add('selected');
+  });
+  editDone.addEventListener('touchend', (event) => {
+    event.target.classList.remove('selected');
+  });
 });
