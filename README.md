@@ -16,7 +16,7 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 ## Usage
 
 1. Load the web page.
-2. Select the text within the web page and copy it.
+2. Select the text within the web page and copy it. The extension also supports the 'Cut' and 'Copy link' command from the context menu.
 3. Tap the icon next to the address bar and choose the extension.
 4. A window will slide up from the bottom on iPhone, or a pop-up window will appear on iPad and Mac; select an item of text for pasting and click or tap it. If an input field (including textareas) is focused, the selected text will be inserted automatically.
 
@@ -26,6 +26,15 @@ Notes:
 - If you enable the extension and it doesn't function correctly, please refresh the page, or close and restart Safari, and try again.
 
 ## Version History
+
+### 1.2
+
+#### **macOS** - 2024-12-09
+
+- Improved how spaces are handled when entering text into input fields, ensuring better word separation.
+- Fixed a bug with the pinning order and improved performance.
+- Added animation effects to the pinning process for smoother interactions.
+- Updated app names in multiple languages for better localization.
 
 ### 1.1.1
 
