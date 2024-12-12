@@ -1,6 +1,6 @@
 {
     "extension_name": {
-        "message": "텍스트 클립 기록",
+        "message": "텍스트클립기록",
         "description": "The display name for the extension."
     },
     "extension_description": {

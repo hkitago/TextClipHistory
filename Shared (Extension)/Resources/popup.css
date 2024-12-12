@@ -119,6 +119,20 @@ main > ul.isEditMode > li.history-item[data-pinned="false"] > img {
   opacity:1;
 }
 
+/* Pin-Toggle related animation */
+.history-item {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.history-item.fade-out {
+  opacity: 0;
+}
+
+.history-item.fade-in {
+  opacity: 1;
+}
+
 main > div {
   margin: 0 35px;
   height: 100%;

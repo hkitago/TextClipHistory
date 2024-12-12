@@ -1,6 +1,6 @@
 {
     "extension_name": {
-        "message": "Tekstutklippshistorikk",
+        "message": "TekstKlipphistorikk",
         "description": "The display name for the extension."
     },
     "extension_description": {

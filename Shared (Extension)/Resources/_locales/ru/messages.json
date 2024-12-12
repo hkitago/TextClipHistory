@@ -1,6 +1,6 @@
 {
     "extension_name": {
-        "message": "История Текстовых Фрагментов",
+        "message": "ТекстФрагментыИст",
         "description": "The display name for the extension."
     },
     "extension_description": {

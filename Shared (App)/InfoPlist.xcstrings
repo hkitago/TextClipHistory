@@ -4,467 +4,467 @@
     "CFBundleDisplayName" : {
       "extractionState" : "manual",
       "localizations" : {
-  "ar": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "سجل قصاصات النص"
-    }
-  },
-  "ca": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historial de Retalls de Text"
-    }
-  },
-  "cs": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historie Textových Výstřižků"
-    }
-  },
-  "da": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstkliphistorik"
-    }
-  },
-  "de": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Textverlauf"
-    }
-  },
-  "el": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Ιστορικό Αποκομμάτων Κειμένου"
-    }
-  },
-  "en-AU": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "TextClipHistory"
-    }
-  },
-  "en-CA": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "TextClipHistory"
-    }
-  },
-  "en-GB": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "TextClipHistory"
-    }
-  },
-  "es": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historial de Clips de Texto"
-    }
-  },
-  "es-MX": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historial de Clips de Texto"
-    }
-  },
-  "fi": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstileikkeiden Historia"
-    }
-  },
-  "fr": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historique des Extraits"
-    }
-  },
-  "fr-CA": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historique des Extraits"
-    }
-  },
-  "he": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "היסטוריית קטעי טקסט"
-    }
-  },
-  "hi": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "टेक्स्ट क्लिप इतिहास"
-    }
-  },
-  "hr": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Povijest Tekstualnih Isječaka"
-    }
-  },
-  "hu": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Szövegvágólap Előzmények"
-    }
-  },
-  "id": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Riwayat Potongan Teks"
-    }
-  },
-  "it": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Cronologia Appunti di Testo"
-    }
-  },
-  "ja": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "テキストクリップ履歴"
-    }
-  },
-  "ko": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "텍스트 클립 기록"
-    }
-  },
-  "ms": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Sejarah Klip Teks"
-    }
-  },
-  "nb": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstutklippshistorikk"
-    }
-  },
-  "nl": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstfragmenten Geschiedenis"
-    }
-  },
-  "pl": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historia Wycinków Tekstu"
-    }
-  },
-  "pt-BR": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Histórico de Recortes de Texto"
-    }
-  },
-  "pt-PT": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Histórico de Recortes de Texto"
-    }
-  },
-  "ro": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Istoric Fragmente Text"
-    }
-  },
-  "ru": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "История Текстовых Фрагментов"
-    }
-  },
-  "sk": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "História Textových Výstrižkov"
-    }
-  },
-  "sv": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Textklippshistorik"
-    }
-  },
-  "th": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "ประวัติคลิปข้อความ"
-    }
-  },
-  "tr": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Metin Klip Geçmişi"
-    }
-  },
-  "uk": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Історія Текстових Фрагментів"
-    }
-  },
-  "vi": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Lịch Sử Đoạn Văn Bản"
-    }
-  },
-  "zh-Hans": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "文本剪贴历史"
-    }
-  },
-  "zh-Hant": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "文字剪貼歷史"
-    }
-  }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سجل نسخ النص"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextoClipHistòria"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKlipHistorie"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstKlipHistorik"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipVerlauf"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ΙστορικόΚλιπΤεκστ"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipHistory"
+          }
+        },
+        "en-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipHistory"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipHistory"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextoClipHist"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextoClipHist"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstiKlipitHist"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TexteClipHistorie"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TexteClipHistorie"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "היסטוריית טקסט קליפ"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्लिप रिकॉर्ड"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PovijestKlipova"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SzövegKlipTörténet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TeksClipRiwayat"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TestoClipCrono"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "テキストクリップ履歴"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "텍스트클립기록"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KlipTeksSejarah"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstKlipphistorikk"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstKlipHist"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HistoriaKlipów"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipTextHist"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipTextHist"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextFragIstoric"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ТекстФрагментыИст"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKlipHistória"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKlippsHistorik"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ประวัติคลิป"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MetinKlipGeçmişi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історія Кліпів"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LịchSửVănBản"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本剪贴历史"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文字剪貼歷史"
+          }
+        }
       }
     },
     "CFBundleName" : {
       "extractionState" : "manual",
       "localizations" : {
-  "ar": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "سجل قصاصات النص"
-    }
-  },
-  "ca": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historial de Retalls de Text"
-    }
-  },
-  "cs": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historie Textových Výstřižků"
-    }
-  },
-  "da": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstkliphistorik"
-    }
-  },
-  "de": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Textverlauf"
-    }
-  },
-  "el": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Ιστορικό Αποκομμάτων Κειμένου"
-    }
-  },
-  "en-AU": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "TextClipHistory"
-    }
-  },
-  "en-CA": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "TextClipHistory"
-    }
-  },
-  "en-GB": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "TextClipHistory"
-    }
-  },
-  "es": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historial de Clips de Texto"
-    }
-  },
-  "es-MX": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historial de Clips de Texto"
-    }
-  },
-  "fi": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstileikkeiden Historia"
-    }
-  },
-  "fr": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historique des Extraits"
-    }
-  },
-  "fr-CA": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historique des Extraits"
-    }
-  },
-  "he": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "היסטוריית קטעי טקסט"
-    }
-  },
-  "hi": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "टेक्स्ट क्लिप इतिहास"
-    }
-  },
-  "hr": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Povijest Tekstualnih Isječaka"
-    }
-  },
-  "hu": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Szövegvágólap Előzmények"
-    }
-  },
-  "id": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Riwayat Potongan Teks"
-    }
-  },
-  "it": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Cronologia Appunti di Testo"
-    }
-  },
-  "ja": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "テキストクリップ履歴"
-    }
-  },
-  "ko": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "텍스트 클립 기록"
-    }
-  },
-  "ms": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Sejarah Klip Teks"
-    }
-  },
-  "nb": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstutklippshistorikk"
-    }
-  },
-  "nl": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Tekstfragmenten Geschiedenis"
-    }
-  },
-  "pl": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Historia Wycinków Tekstu"
-    }
-  },
-  "pt-BR": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Histórico de Recortes de Texto"
-    }
-  },
-  "pt-PT": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Histórico de Recortes de Texto"
-    }
-  },
-  "ro": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Istoric Fragmente Text"
-    }
-  },
-  "ru": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "История Текстовых Фрагментов"
-    }
-  },
-  "sk": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "História Textových Výstrižkov"
-    }
-  },
-  "sv": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Textklippshistorik"
-    }
-  },
-  "th": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "ประวัติคลิปข้อความ"
-    }
-  },
-  "tr": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Metin Klip Geçmişi"
-    }
-  },
-  "uk": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Історія Текстових Фрагментів"
-    }
-  },
-  "vi": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "Lịch Sử Đoạn Văn Bản"
-    }
-  },
-  "zh-Hans": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "文本剪贴历史"
-    }
-  },
-  "zh-Hant": {
-    "stringUnit": {
-      "state": "translated",
-      "value": "文字剪貼歷史"
-    }
-  }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سجل نسخ النص"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextoClipHistòria"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKlipHistorie"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstKlipHistorik"
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipVerlauf"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ΙστορικόΚλιπΤεκστ"
+          }
+        },
+        "en-AU" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipHistory"
+          }
+        },
+        "en-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipHistory"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextClipHistory"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextoClipHist"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextoClipHist"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstiKlipitHist"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TexteClipHistorie"
+          }
+        },
+        "fr-CA" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TexteClipHistorie"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "היסטוריית טקסט קליפ"
+          }
+        },
+        "hi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "क्लिप रिकॉर्ड"
+          }
+        },
+        "hr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PovijestKlipova"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SzövegKlipTörténet"
+          }
+        },
+        "id" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TeksClipRiwayat"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TestoClipCrono"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "テキストクリップ履歴"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "텍스트클립기록"
+          }
+        },
+        "ms" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KlipTeksSejarah"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstKlipphistorikk"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TekstKlipHist"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HistoriaKlipów"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipTextHist"
+          }
+        },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ClipTextHist"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextFragIstoric"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ТекстФрагментыИст"
+          }
+        },
+        "sk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKlipHistória"
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TextKlippsHistorik"
+          }
+        },
+        "th" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ประวัติคลิป"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MetinKlipGeçmişi"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Історія Кліпів"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LịchSửVănBản"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本剪贴历史"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文字剪貼歷史"
+          }
+        }
       }
     }
   },

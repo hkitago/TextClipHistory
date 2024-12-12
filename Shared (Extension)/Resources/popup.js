@@ -197,77 +197,93 @@ document.addEventListener('DOMContentLoaded', async () => {
         id: itemId
       });
 
-      if (li.dataset.pinned === 'false') { /* Pinned */
-        const pinnedItems = Array.from(
-          document.querySelectorAll(".history-item[data-pinned='true']")
-        );
+      // Moving LI-Item with Fade-Animation
+      li.classList.add('fade-out');
 
-        const currentPinnedIndexes = pinnedItems.map((el) =>
-          history.findIndex((h) => h.id === el.dataset.id)
-        );
-        const currentItemIndex = history.findIndex((h) => h.id === item.id);
+      li.addEventListener('transitionend', (event) => {
+        if (event.propertyName === 'opacity') {
+          const target = event.target;
 
-        const insertIndex = currentPinnedIndexes.findIndex(
-          (index) => index > currentItemIndex
-        );
+          if (target.classList.contains('fade-out')) {
+            target.classList.remove('fade-out');
+            
+            if (li.dataset.pinned === 'false') { /* Pinned */
+              const pinnedItems = Array.from(
+                document.querySelectorAll(".history-item[data-pinned='true']")
+              );
 
-        if (insertIndex === -1) {
-          const lastPinnedItem = pinnedItems[pinnedItems.length - 1];
-          if (lastPinnedItem) {
-            lastPinnedItem.after(li);
-          } else {
-            const ul = document.getElementById('historyList');
-            ul.prepend(li);
+              const currentPinnedIndexes = pinnedItems.map((el) =>
+                history.findIndex((h) => h.id === el.dataset.id)
+              );
+              const currentItemIndex = history.findIndex((h) => h.id === item.id);
+
+              const insertIndex = currentPinnedIndexes.findIndex(
+                (index) => index > currentItemIndex
+              );
+
+              if (insertIndex === -1) {
+                const lastPinnedItem = pinnedItems[pinnedItems.length - 1];
+                if (lastPinnedItem) {
+                  lastPinnedItem.after(li);
+                } else {
+                  const ul = document.getElementById('historyList');
+                  ul.prepend(li);
+                }
+              } else {
+                const targetItem = pinnedItems[insertIndex];
+                targetItem.before(li);
+              }
+
+              li.dataset.pinned = 'true';
+              icon.src = pinIcons.on;
+            } else { /* Un-Pinned */
+              const targetHistoryItem = history.find(h => h.id === item.id);
+              if (targetHistoryItem) {
+                targetHistoryItem.pinned = false;
+              }
+
+              const pinnedItems = history.filter((h) => h.pinned);
+              const unpinnedItems = history.filter((h) => !h.pinned);
+
+              const sortedHistory = [
+                ...pinnedItems.slice(0, DISPLAY_LIMIT),
+                ...unpinnedItems.slice(0, Math.max(0, DISPLAY_LIMIT - pinnedItems.length)),
+              ];
+
+              const willBeVisible = sortedHistory.some(h => h.id === item.id);
+
+              if (!willBeVisible) {
+                li.remove();
+                const nextVisibleItem = unpinnedItems[DISPLAY_LIMIT - pinnedItems.length - 1];
+                if (nextVisibleItem) {
+                  createListItem(nextVisibleItem);
+                }
+              } else {
+                const unpinnedItems = Array.from(
+                  document.querySelectorAll(".history-item[data-pinned='false']")
+                );
+                
+                const referenceItem = unpinnedItems.find(child => {
+                  const childId = child.dataset.id;
+                  const childIndex = history.findIndex(h => h.id === childId);
+                  const itemIndex = history.findIndex(h => h.id === item.id);
+                  return childIndex > itemIndex && child.dataset.id !== item.id;
+                });
+
+                if (referenceItem) {
+                  referenceItem.before(li);
+                } else {
+                  ul.appendChild(li);
+                }
+              }
+
+              li.dataset.pinned = 'false';
+              icon.src = pinIcons.off;
+            }
           }
-        } else {
-          const targetItem = pinnedItems[insertIndex];
-          targetItem.before(li);
         }
+      });
 
-        li.dataset.pinned = 'true';
-        icon.src = pinIcons.on;
-      } else { /* Un-Pinned */
-        const targetHistoryItem = history.find(h => h.id === item.id);
-        if (targetHistoryItem) {
-          targetHistoryItem.pinned = false;
-        }
-
-        const pinnedItems = history.filter((h) => h.pinned);
-        const unpinnedItems = history.filter((h) => !h.pinned);
-
-        const sortedHistory = [
-          ...pinnedItems.slice(0, DISPLAY_LIMIT),
-          ...unpinnedItems.slice(0, Math.max(0, DISPLAY_LIMIT - pinnedItems.length)),
-        ];
-
-        const willBeVisible = sortedHistory.some(h => h.id === item.id);
-
-        if (!willBeVisible) {
-          li.remove();
-          const nextVisibleItem = unpinnedItems[DISPLAY_LIMIT - pinnedItems.length - 1];
-          if (nextVisibleItem) {
-            createListItem(nextVisibleItem);
-          }
-        } else {
-          const ul = document.getElementById('historyList');
-
-          const referenceItem = Array.from(ul.children).find(child => {
-            const childId = child.dataset.id;
-            const childIndex = history.findIndex(h => h.id === childId);
-            const itemIndex = history.findIndex(h => h.id === item.id);
-            return childIndex > itemIndex && child.dataset.id !== item.id;
-          });
-
-          if (referenceItem) {
-            referenceItem.before(li);
-          } else {
-            ul.appendChild(li);
-          }
-        }
-
-        li.dataset.pinned = 'false';
-        icon.src = pinIcons.off;
-      }
     });
 
     li.appendChild(div);
@@ -315,7 +331,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       event.stopPropagation();
       event.target.closest('li').classList.remove('selected');
     });
-
+    
     ul.appendChild(li);
   };
   
