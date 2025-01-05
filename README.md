@@ -29,12 +29,19 @@ Notes:
 
 ### 1.2
 
-#### **macOS** - 2024-12-09
+#### **Common**
 
-- Improved how spaces are handled when entering text into input fields, ensuring better word separation.
-- Fixed a bug with the pinning order and improved performance.
-- Added animation effects to the pinning process for smoother interactions.
-- Updated app names in multiple languages for better localization.
+- Fixed a bug with the pinning order and improved performance
+- Improved how spaces are handled when entering text into input fields, ensuring better word separation
+- Updated app names in multiple languages for better localization
+- Added animation effects to the pinning process for smoother interactions
+
+#### **iOS/iPadOS** - 2024-12-31
+
+- Changed minimum version requirement to 16
+- Added support for all languages in the App Store
+
+#### **macOS** - 2024-12-09
 
 ### 1.1.1
 
@@ -63,7 +70,7 @@ Notes:
 
 ## Compatibility
 
-- iOS/iPadOS 15+
+- iOS/iPadOS 16+
 - macOS 10.14+
 
 ## License
