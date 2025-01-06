@@ -40,7 +40,7 @@ const closeWindow = () => {
   
   if (getiOSVersion() < 18) {
     setTimeout(() => {
-      browser.runtime.reload();
+      //browser.runtime.reload();
     }, 100);
   }
 };
