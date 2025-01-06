@@ -58,11 +58,11 @@ const togglePin = async (id) => {
 const updateIcon = (iconState) => {
   let iconPath;
   switch (iconState) {
-    case "extension-on":
-      iconPath = "images/toolbar-icon-on.svg";
+    case 'extension-on':
+      iconPath = 'images/toolbar-icon-on.svg';
       break;
     default:
-      iconPath = "images/toolbar-icon.svg";
+      iconPath = 'images/toolbar-icon.svg';
       break;
   }
   //console.log('updateIcon:', iconState);
@@ -78,28 +78,28 @@ const isHistoryStorage = async () => {
 // Clicking Icon on Toolbar
 browser.action.onClicked.addListener(async (tab) => {
   const hasHistory = await isHistoryStorage();
-  browser.tabs.sendMessage(tab.id, { request: "checkStorage", hasHistory });
+  browser.tabs.sendMessage(tab.id, { request: 'checkStorage', hasHistory });
 });
 
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   //console.log('background:', message.request);
   
-  if (message.request === "checkStorage") {
+  if (message.request === 'checkStorage') {
     const hasHistory = await isHistoryStorage();
     sendResponse({ hasHistory });
     return true;
   }
 
-  if (message.request === "updateIcon") {
+  if (message.request === 'updateIcon') {
     updateIcon(message.iconState);
   }
 
-  if (message.request === "saveClipboard") {
+  if (message.request === 'saveClipboard') {
     saveToHistory(message.text);
   }
 
-  if (message.request === "togglePin") {
+  if (message.request === 'togglePin') {
     togglePin(message.id);
   }
 
