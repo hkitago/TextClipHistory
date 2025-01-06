@@ -70,6 +70,11 @@ button {
     overflow: hidden;
 }
 
+button:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 body.platform-ios button {
   min-width: 50vw;
 }
