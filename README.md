@@ -1,6 +1,6 @@
-# TextClipHistory for Safari Extension
+# <img src="https://raw.githubusercontent.com/hkitago/TextClipHistory/refs/heads/main/Shared%20(App)/Resources/Icon.png" height="36" valign="bottom"/> TextClipHistory for Safari Extension
 
-This browser extension automatically stores copied text as history. Up to 10 entries can be saved and reused when needed.
+This Safari extension saves time by letting you copy and paste text efficiently. Display up to 10 snippets in the list and pin frequently used ones for quick access. If an input field (including textareas) is focused, the selected text will be inserted automatically. Otherwise, your selected item is copied to the clipboard, ready for seamless reuse anywhere, including other applications. Perfect for web searches, shopping, social media posts, blog writing, and administrators managing single-page or web applications.
 
 ## Installation & Uninstallation
 
@@ -67,6 +67,10 @@ Notes:
 #### **macOS**
 
 - Initial release
+
+## Known Issues
+
+- Copying text extracted from images using OCR is not supported. Looking into possible solutions
 
 ## Compatibility
 
