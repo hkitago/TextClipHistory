@@ -70,12 +70,12 @@ Notes:
 
 ## Known Issues
 
-- Copying text extracted from images using OCR is not supported. Looking into possible solutions
+- Copying text extracted from images using OCR, Safari's Reader mode, or certain web-based rich text editors may not work as expected. Looking into possible solutions.
 
 ## Compatibility
 
-- iOS/iPadOS 16+
-- macOS 10.14+
+- iOS/iPadOS 16.6+
+- macOS 12.4+
 
 ## License
 
