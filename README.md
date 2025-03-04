@@ -27,6 +27,13 @@ Notes:
 
 ## Version History
 
+### 1.2.1 - 2025-02-25
+
+#### **iOS/iPadOS**
+
+- Added support for dark mode icons
+- Improved localization by adjusting phrases in certain languages
+
 ### 1.2
 
 #### **Common**
