@@ -139,9 +139,9 @@ export const labelStrings = {
     "editDone": "Fatto"
   },
   "ja": {
-    "onError": "テキストクリッピングはありません。",
+    "onError": "文字コピー履歴はありません。",
     "clearAllHistory": "履歴をすべて消去",
-    "editActions": "テキストクリッピングを編集...",
+    "editActions": "文字コピー履歴を編集...",
     "editDone": "完了"
   },
   "ko-KR": {

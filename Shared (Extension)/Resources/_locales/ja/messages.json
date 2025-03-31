@@ -1,6 +1,6 @@
 {
     "extension_name": {
-        "message": "テキストクリップ履歴",
+        "message": "文字コピー履歴",
         "description": "The display name for the extension."
     },
     "extension_description": {

@@ -127,7 +127,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "テキストクリップ履歴"
+            "value" : "文字コピー履歴"
           }
         },
         "ko" : {
@@ -360,7 +360,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "テキストクリップ履歴"
+            "value" : "文字コピー履歴"
           }
         },
         "ko" : {
