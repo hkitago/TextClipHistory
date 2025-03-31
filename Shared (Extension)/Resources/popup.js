@@ -14,11 +14,11 @@ const appState = {
 
 const getState = (key) => {
   return appState[key];
-}
+};
 
 const setState = (key, value) => {
   appState[key] = value;
-}
+};
 
 /* Environmental detection */
 const isMacOS = () => {
@@ -72,7 +72,7 @@ const initPage = () => {
 if (document.readyState !== 'loading') {
   initPage();
 } else {
-  document.addEventListener('DOMContentLoaded', initPage);
+  document.addEventListener('DOMContentLoaded', initPage, { once: true });
 }
 
 const toggleEditMode = () => {
@@ -383,4 +383,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   editDone.addEventListener('touchend', (event) => {
     event.target.classList.remove('selected');
   });
-});
+}, { once: true });
