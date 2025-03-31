@@ -75,9 +75,9 @@
   
   // Init with tricky part https://developer.apple.com/forums/thread/651215
   if (document.readyState !== 'loading') {
-   updateToolbarIcon();
+    updateToolbarIcon();
   } else {
-   document.addEventListener('DOMContentLoaded', updateToolbarIcon);
+    document.addEventListener('DOMContentLoaded', updateToolbarIcon, { once: true });
   }
   
   /* Handling Input Element to Paste Text */
