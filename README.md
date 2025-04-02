@@ -102,5 +102,5 @@ You can reach me via [email](mailto:hkitago@icloud.com?subject=Support%20for%20T
 - App Store: [TextClipHistory on the App Store](https://apps.apple.com/app/textcliphistory-for-safari/id6737747660)
 - [Get extensions to customize Safari on iPhone - Apple Support](https://support.apple.com/guide/iphone/iphab0432bf6/18.0/ios/18.0)
 - [Get extensions to customize Safari on Mac - Apple Support](https://support.apple.com/guide/safari/get-extensions-sfri32508/mac)
-- Privacy Policy Page: [Privacy Policy – hkitago software dev](https://hkitago.com/wpautoterms/privacy-policy/)
+- Privacy Policy Page: [Privacy Policy – hkitago software dev](https://hkitago.com/privacy-policy/)
 - Support Page: [hkitago/TextClipHistory](https://github.com/hkitago/TextClipHistory/)
