@@ -24,9 +24,9 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 3. Tap the icon next to the address bar and choose the extension.
 4. A window will slide up from the bottom on iPhone, or a pop-up window will appear on iPad and Mac; select an item of text for pasting and click or tap it. If an input field (including textareas) is focused, the selected text will be inserted automatically.
 
-[!NOTE]  
-- Due to security concerns, the window will automatically close after 3 minutes of idle time while the popover is open, or immediately if the focus is lost.
-- If you enable the extension and it doesn't function correctly, please refresh the page, or close and restart Safari, and try again.
+> [!NOTE] 
+> - Due to security concerns, the window will automatically close after 3 minutes of idle time while the popover is open, or immediately if the focus is lost.
+> - If you enable the extension and it doesn't function correctly, please refresh the page, or close and restart Safari, and try again.
 
 ## Version History
 
