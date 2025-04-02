@@ -4,6 +4,16 @@
 ///
 ///  Created by Hiroyuki KITAGO on 2024/11/01.
 /*/
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
 :root {
     color-scheme: light dark;
@@ -90,6 +100,7 @@ main > ul > li > div {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   white-space: pre-wrap;
+  flex:1;
 }
 
 main > ul > li > img {
@@ -100,9 +111,23 @@ main > ul > li > img {
   display: none;
 }
 
+main > ul > li > img:hover {
+  opacity:1;
+}
+
 main > ul > li.hover > img {
   display: inline-block;
 }
+
+main > ul > li.hover > img.iconCopy {
+  opacity:1;
+}
+
+main > ul > li.hover > img.iconCopy.fadeIn {
+  opacity:0;
+  animation: popIn 0.3s ease-out forwards;
+}
+
 
 body.rtl main > ul > li > img {
   margin-right: 0px;
@@ -113,7 +138,7 @@ main > ul > li > img.hover {
   opacity:1;
 }
 
-main > ul > li.history-item[data-pinned="true"] > img,
+main > ul > li.history-item[data-pinned="true"] > img.iconPin,
 main > ul.isEditMode > li.history-item[data-pinned="false"] > img {
   display: initial;
   opacity:1;

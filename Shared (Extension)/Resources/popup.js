@@ -174,18 +174,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   /* rendering Main List */
   const ul = document.createElement('ul');
   ul.id = 'historyList';
+  const copyIcons = { 'on': './images/icon-copy-on.svg', 'off': './images/icon-copy-off.svg'};
   const pinIcons = { 'on': './images/icon-pin-on.svg', 'off': './images/icon-pin-off.svg'};
-  
+
   const createListItem = (item) => {
     const li = document.createElement('li');
     const div = document.createElement('div');
     
     div.textContent = item.text;
 
-    const icon = document.createElement('img');
-    icon.src = item.pinned ? pinIcons.on : pinIcons.off;
+    const iconCopy = document.createElement('img');
+    iconCopy.src = copyIcons.off;
+    iconCopy.classList.add('iconCopy');
 
-    icon.addEventListener('click', async (event) => {
+    const iconPin = document.createElement('img');
+    iconPin.src = item.pinned ? pinIcons.on : pinIcons.off;
+    iconPin.classList.add('iconPin');
+
+    iconPin.addEventListener('click', async (event) => {
       if (!getState('isEditMode') && !isMacOS()) return false;
 
       event.stopPropagation();
@@ -235,7 +241,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               }
 
               li.dataset.pinned = 'true';
-              icon.src = pinIcons.on;
+              iconPin.src = pinIcons.on;
             } else { /* Un-Pinned */
               const targetHistoryItem = history.find(h => h.id === item.id);
               if (targetHistoryItem) {
@@ -278,7 +284,7 @@ document.addEventListener('DOMContentLoaded', async () => {
               }
 
               li.dataset.pinned = 'false';
-              icon.src = pinIcons.off;
+              iconPin.src = pinIcons.off;
             }
           }
         }
@@ -287,7 +293,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     li.appendChild(div);
-    li.appendChild(icon);
+    li.appendChild(iconCopy);
+    li.appendChild(iconPin);
     li.classList.add('history-item');
     li.dataset.id = item.id;
     li.dataset.pinned = item.pinned;
@@ -307,7 +314,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
       });
       
-      closeWindow();
+      // animation for seeing done to copy
+      event.stopPropagation();
+      iconCopy.src = copyIcons.on;
+      iconCopy.classList.add('fadeIn');
+      setTimeout(() => {
+        closeWindow();
+      }, 500);
     });
 
     if (isMacOS()) {
