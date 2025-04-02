@@ -1,6 +1,10 @@
 # <img src="https://raw.githubusercontent.com/hkitago/TextClipHistory/refs/heads/main/Shared%20(App)/Resources/Icon.png" height="36" valign="bottom"/> TextClipHistory for Safari Extension
 
-This Safari extension saves time by letting you copy and paste text efficiently. Display up to 10 snippets in the list and pin frequently used ones for quick access. If an input field (including textareas) is focused, the selected text will be inserted automatically. Otherwise, your selected item is copied to the clipboard, ready for seamless reuse anywhere, including other applications. Perfect for web searches, shopping, social media posts, blog writing, and administrators managing single-page or web applications.
+This Safari extension empowers you to manage text snippets with ease. Save up to 10 phrases, pin your favorites, and insert them instantly into any input field—or copy to your clipboard when no field is active. It works seamlessly across your browsing, streamlining repetitive tasks wherever you are.
+
+Perfect for AI prompt engineers, customer support teams, sales pros, and anyone tackling web forms or messages daily. Whether you're filling forms, crafting prompts, replying to inquiries, or managing web apps, this tool saves time and boosts efficiency.
+
+Store once, use anywhere in Safari. Elevate your productivity with this smart, versatile companion on any device.
 
 ## Installation & Uninstallation
 
@@ -15,13 +19,12 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Usage
 
-1. Load the web page.
+1. Load a web page.
 2. Select the text within the web page and copy it. The extension also supports the 'Cut' and 'Copy link' command from the context menu.
 3. Tap the icon next to the address bar and choose the extension.
 4. A window will slide up from the bottom on iPhone, or a pop-up window will appear on iPad and Mac; select an item of text for pasting and click or tap it. If an input field (including textareas) is focused, the selected text will be inserted automatically.
 
-Notes:
-
+[!NOTE]  
 - Due to security concerns, the window will automatically close after 3 minutes of idle time while the popover is open, or immediately if the focus is lost.
 - If you enable the extension and it doesn't function correctly, please refresh the page, or close and restart Safari, and try again.
 
