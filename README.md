@@ -30,12 +30,19 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Version History
 
-### 1.2.1 - 2025-02-25
+### 1.2.1
 
-#### **iOS/iPadOS**
+#### **Common**
+
+- Improved localization by adjusting phrases in certain languages
+
+#### **iOS/iPadOS** - 2025-02-25
 
 - Added support for dark mode icons
-- Improved localization by adjusting phrases in certain languages
+
+#### **macOS** - 2025-04-04
+
+- Added a new visual effect for clipboard copy animation for better user experience
 
 ### 1.2
 
