@@ -68,20 +68,13 @@ const initPage = () => {
   });
 };
 
-// Init with tricky part https://developer.apple.com/forums/thread/651215
-if (document.readyState !== 'loading') {
-  initPage();
-} else {
-  document.addEventListener('DOMContentLoaded', initPage, { once: true });
-}
-
 const toggleEditMode = () => {
   setState('isEditMode', !getState('isEditMode'));
   const header = document.querySelector('header');
   const ul = document.getElementById('historyList');
 
   if (getState('isEditMode')) {
-    header.style.display = 'block';
+    header.style.display = 'flex';
     ul.classList.add('isEditMode');
     editActions.style.display = 'none';
     editDone.style.display = 'block';
@@ -101,8 +94,7 @@ const onMouseOut = (event) => {
   event.target.closest('li').classList.remove('hover');
 }
 
-/* Rendering */
-document.addEventListener('DOMContentLoaded', async () => {
+const buildPopup = async (url, color, sortedIds) => {
   if (navigator.userAgent.indexOf('iPhone') > -1) {
     document.body.style.width = 'initial';
   }
@@ -186,6 +178,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const iconCopy = document.createElement('img');
     iconCopy.src = copyIcons.off;
     iconCopy.classList.add('iconCopy');
+    if (!isMacOS) {
+      iconCopy.style.display = 'initial';
+    }
 
     const iconPin = document.createElement('img');
     iconPin.src = item.pinned ? pinIcons.on : pinIcons.off;
@@ -293,8 +288,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     li.appendChild(div);
-    li.appendChild(iconCopy);
     li.appendChild(iconPin);
+    li.appendChild(iconCopy);
     li.classList.add('history-item');
     li.dataset.id = item.id;
     li.dataset.pinned = item.pinned;
@@ -374,6 +369,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
+  if (isMacOS()) {
+    clearAllHistory.addEventListener('mouseover', (event) => {
+      event.target.classList.add('hover');
+    });
+    clearAllHistory.addEventListener('mouseout', (event) => {
+      event.target.classList.remove('hover');
+    });
+  }
+
   /* rendering footer */
   if (isMacOS()) {
     footer.style.display = 'none';
@@ -396,4 +400,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   editDone.addEventListener('touchend', (event) => {
     event.target.classList.remove('selected');
   });
-}, { once: true });
+};
+
+let isInitialized = false;
+
+const initializePopup = async () => {
+  if (isInitialized) return;
+  isInitialized = true;
+
+  try {
+    initPage();
+    await buildPopup();
+  } catch (error) {
+    console.error('Fail to initialize to build the popup:', error);
+    isInitialized = false;
+  }
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializePopup, { once: true });
+} else {
+  initializePopup();
+}
