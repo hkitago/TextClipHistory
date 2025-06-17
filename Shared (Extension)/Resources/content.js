@@ -1,18 +1,19 @@
 (() => {
-   /* Global state variables */
-   let copyText = '';
-   let selectedText = '';
+  /* Global state variables */
+  let copyText = '';
+  let selectedText = '';
+  let lastFocusedElement = null;
+  
+  let iconState = 'default';
 
-   let iconState = 'default';
+  const updateToolbarIcon = async () => {
+    const { history = [] } = await browser.storage.local.get('history');
 
-   const updateToolbarIcon = async () => {
-     const { history = [] } = await browser.storage.local.get('history');
-     
-     if (history.length > 0) {
-       iconState = 'extension-on';
-       browser.runtime.sendMessage({ request: 'updateIcon', iconState: iconState });
-     }
-   };
+    if (history.length > 0) {
+      iconState = 'extension-on';
+      browser.runtime.sendMessage({ request: 'updateIcon', iconState: iconState });
+    }
+  };
 
   document.addEventListener('contextmenu', (event) => {
     if (event.target.tagName === 'A' || event.target.closest('a')) {
@@ -33,47 +34,59 @@
   });
 
   const handleClipboardEvent = (event) => {
+    let selectedText = '';
+    
+    const activeElement = document.activeElement;
+    
+    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+      const start = activeElement.selectionStart;
+      const end = activeElement.selectionEnd;
+      
+      if (start !== null && end !== null && start !== end) {
+        selectedText = activeElement.value.substring(start, end);
+      }
+    } else {
       const selection = window.getSelection();
-
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0);
-        const fragment = range.cloneContents();
-        const div = document.createElement('div');
-        div.appendChild(fragment);
-
-        let selectedText = '';
-        div.childNodes.forEach(node => {
-          if (node.nodeType === Node.TEXT_NODE) {
-            selectedText += node.textContent;
-          } else if (node.nodeType === Node.ELEMENT_NODE) {
-            if (node.nodeName === 'BR') {
-              selectedText += '\n';
-            } else {
+        
+        if (!range.collapsed) {
+          const fragment = range.cloneContents();
+          const div = document.createElement('div');
+          div.appendChild(fragment);
+          
+          div.childNodes.forEach(node => {
+            if (node.nodeType === Node.TEXT_NODE) {
               selectedText += node.textContent;
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+              if (node.nodeName === 'BR') {
+                selectedText += '\n';
+              } else {
+                selectedText += node.textContent;
+              }
             }
-          }
-          if (node.nodeName === 'DIV' || node.nodeName === 'P') {
-            selectedText += '\n';
-          }
-        });
-
-        selectedText = selectedText.trim();
-
-        if (selectedText !== '') {
-          browser.runtime.sendMessage({
-            request: 'saveClipboard',
-            text: selectedText
+            if (node.nodeName === 'DIV' || node.nodeName === 'P') {
+              selectedText += '\n';
+            }
           });
-
-          updateToolbarIcon();
         }
       }
+    }
+    
+    selectedText = selectedText.trim();
+    
+    if (selectedText !== '') {
+      browser.runtime.sendMessage({
+        request: 'saveClipboard',
+        text: selectedText
+      });
+      updateToolbarIcon();
+    }
   };
 
   document.addEventListener('copy', handleClipboardEvent);
   document.addEventListener('cut', handleClipboardEvent);
-  
-  // Init with tricky part https://developer.apple.com/forums/thread/651215
+
   if (document.readyState !== 'loading') {
     updateToolbarIcon();
   } else {
@@ -197,22 +210,30 @@
     return false;
   };
 
+  document.addEventListener('focusin', (event) => {
+    if (isEditableElement(event.target)) {
+      lastFocusedElement = event.target;
+    }
+  });
+  
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.request === 'pasteText') {
-      const activeElement = document.activeElement;
-      
-      if (isEditableElement(activeElement)) {
-        if (activeElement.isContentEditable) {
-          handleContentEditableInput(activeElement, message.langcode, message.text);
+      const targetElement = lastFocusedElement;
+
+      if (isEditableElement(targetElement)) {
+        if (targetElement.isContentEditable) {
+          handleContentEditableInput(targetElement, message.langcode, message.text);
         } else {
-          handleInputElementText(activeElement, message.langcode, message.text);
+          handleInputElementText(targetElement, message.langcode, message.text);
         }
 
         setTimeout(() => {
-          activeElement.focus();
+          targetElement.focus();
         }, 100);
+      } else {
+        console.warn('No valid editable element found.');
       }
     }
   });
 
- })();
+})();
