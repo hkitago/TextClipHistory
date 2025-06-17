@@ -75,12 +75,6 @@ const isHistoryStorage = async () => {
   return history.length > 0;
 };
 
-// Clicking Icon on Toolbar
-browser.action.onClicked.addListener(async (tab) => {
-  const hasHistory = await isHistoryStorage();
-  browser.tabs.sendMessage(tab.id, { request: 'checkStorage', hasHistory });
-});
-
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   //console.log('background:', message.request);
