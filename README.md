@@ -30,6 +30,14 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Version History
 
+### 1.2.2
+
+#### **Common**
+
+- Improved support for detecting copied text from forms with frames or input fields
+- Fixed an issue where selected text from popovers was not correctly inserted into input fields
+- Improved icon display in popovers for a better user experience
+
 ### 1.2.1
 
 #### **Common**
@@ -87,7 +95,7 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Known Issues
 
-- Copying text extracted from images using OCR, Safari's Reader mode, or certain web-based rich text editors may not work as expected. Looking into possible solutions.
+- Copying text extracted from images using OCR, Safari's Reader mode, PDF, or certain web-based rich text editors may not work as expected. Looking into possible solutions.
 
 ## Compatibility
 
