@@ -242,4 +242,16 @@
     }
   });
 
+  /* INIT for Toolbar Icon */
+  const initializeContent = async () => {
+    await browser.runtime.sendMessage({ request: 'initToolbarIcon' }).catch ((error) => {
+      console.error('Failed to update toolbar-icon:', error);
+    });
+  };
+  
+  if (document.readyState !== 'loading') {
+    initializeContent();
+  } else {
+    document.addEventListener('DOMContentLoaded', initializeContent, { once: true });
+  }
 })();

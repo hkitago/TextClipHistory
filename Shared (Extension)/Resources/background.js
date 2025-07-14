@@ -17,6 +17,20 @@ const generateUUID = () => {
   });
 };
 
+// Update icon logic
+const updateIcon = (iconState) => {
+  let iconPath;
+  switch (iconState) {
+    case 'extension-on':
+      iconPath = 'images/toolbar-icon-on.svg';
+      break;
+    default:
+      iconPath = 'images/toolbar-icon.svg';
+      break;
+  }
+  browser.action.setIcon({ path: iconPath });
+};
+
 const saveToHistory = async (text) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
@@ -34,7 +48,6 @@ const saveToHistory = async (text) => {
     ];
 
     await browser.storage.local.set({ history: updatedHistory });
-    updateIcon('extension-on');
   } catch (error) {
     console.error('Failed to save to history:', error);
   }
@@ -54,40 +67,24 @@ const togglePin = async (id) => {
   }
 };
 
-// Update icon logic
-const updateIcon = (iconState) => {
-  let iconPath;
-  switch (iconState) {
-    case 'extension-on':
-      iconPath = 'images/toolbar-icon-on.svg';
-      break;
-    default:
-      iconPath = 'images/toolbar-icon.svg';
-      break;
-  }
-  browser.action.setIcon({ path: iconPath });
-};
-
 // Checking Storage
-const isHistoryStorage = async () => {
+const hasHistoryStorage = async () => {
   const { history = [] } = await browser.storage.local.get('history');
   return history.length > 0;
 };
 
+const initToolbarIcon = async () =>{
+  const hasHistory = await hasHistoryStorage();
+
+  if (hasHistory) {
+    updateIcon('extension-on');
+  } else {
+    updateIcon('default');
+  }
+};
+
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
-  //console.log('background:', message.request);
-  
-  if (message.request === 'checkStorage') {
-    const hasHistory = await isHistoryStorage();
-    sendResponse({ hasHistory });
-    return true;
-  }
-
-  if (message.request === 'updateIcon') {
-    updateIcon(message.iconState);
-  }
-
   if (message.request === 'saveClipboard') {
     saveToHistory(message.text);
   }
@@ -96,5 +93,22 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     togglePin(message.id);
   }
 
+  if (message.request === 'checkStorage') {
+    const hasHistory = await hasHistoryStorage();
+    sendResponse({ hasHistory });
+    
+    return true;
+  }
+
+  if (message.request === 'initToolbarIcon') {
+    initToolbarIcon();
+  }
+
   return false;
+});
+
+browser.storage.onChanged.addListener(async (changes, areaName) => {
+  if (areaName === 'local' && changes.history) {
+    initToolbarIcon();
+  }
 });
