@@ -37,10 +37,16 @@ const getiOSVersion = () => {
 
 const closeWindow = () => {
   window.close();
-  
+
+  // In older iOS versions (<18), reloading the extension helped with some popup issues
+  // Might no longer be necessary — safe to remove if no issues found
   if (getiOSVersion() < 18) {
     setTimeout(() => {
-      //browser.runtime.reload();
+      try {
+        browser.runtime.reload();
+      } catch (error) {
+        console.warn('browser.runtime.reload failed:', error);
+      }
     }, 100);
   }
 };
@@ -55,8 +61,22 @@ const idleWindowTime = 3 * 60 * 1000;
 let idleTimeout;
 let lastMousePosition = { x: 0, y: 0 };
 
+const DEFAULT_SETTINGS = {
+  clearOption: 'all'
+};
+
+const getSettings = async () => {
+  try {
+    const { settings } = await browser.storage.local.get('settings');
+    return { ...DEFAULT_SETTINGS, ...settings };
+  } catch (error) {
+    console.error('Failed to load settings:', error);
+    return DEFAULT_SETTINGS;
+  }
+};
+
 /* Init for auto-close */
-const initPage = () => {
+const autoClosePage = () => {
   browser.runtime.sendMessage({ request: 'checkStorage' }).then((response) => {
     if (!response.hasHistory) {
       setTimeout(() => {
@@ -138,11 +158,14 @@ const buildPopup = async (url, color, sortedIds) => {
   const main = document.querySelector('main');
   const footer = document.querySelector('footer');
 
+  const historyOptions = document.getElementById('history-options');
+  const allHistory = document.getElementById('allHistory');
+  const keepPinned = document.getElementById('keepPinned');
   const clearAllHistory = document.getElementById('clearAllHistory');
   const editActions = document.getElementById('editActions');
   const editDone = document.getElementById('editDone');
 
-  const initializePopupPage = () => {
+  const initializePopupPage = async () => {
     header.style.display = 'none';
     main.innerHTML = `<div><p>${labelStrings[langCode].onError}</p></div>`;
     footer.style.display = 'none';
@@ -162,7 +185,7 @@ const buildPopup = async (url, color, sortedIds) => {
     ...pinnedItems.slice(0, DISPLAY_LIMIT),
     ...unpinnedItems.slice(0, Math.max(0, DISPLAY_LIMIT - pinnedItems.length))
   ];
-  
+
   /* rendering Main List */
   const ul = document.createElement('ul');
   ul.id = 'historyList';
@@ -281,10 +304,11 @@ const buildPopup = async (url, color, sortedIds) => {
               li.dataset.pinned = 'false';
               iconPin.src = pinIcons.off;
             }
+            li.classList.remove('hover');
+            updateClearOptionsVisibility();
           }
         }
       });
-
     });
 
     li.appendChild(div);
@@ -354,16 +378,82 @@ const buildPopup = async (url, color, sortedIds) => {
     header.style.display = 'none';
   }
   
-  clearAllHistory.textContent = labelStrings[langCode].clearAllHistory;
+  allHistory.textContent = labelStrings[langCode].clearHistoryAll;
+  keepPinned.textContent = labelStrings[langCode].clearHistoryOption;
+
+  const showClearOptions = () => {
+    const items = document.querySelectorAll('#historyList .history-item');
+    const totalCount = items.length;
+
+    const pinnedCount = Array.from(items).filter(
+      el => el.getAttribute('data-pinned') === 'true'
+    ).length;
+
+    return pinnedCount > 0 && pinnedCount < totalCount;
+  };
+
+  const settings = await getSettings();
+  let clearOption = settings.clearOption;
+
+  const clearOptionHandlers = (option) => {
+    allHistory.classList.toggle('selected', option === 'all');
+    keepPinned.classList.toggle('selected', option === 'keep');
+
+    const updatedSettings = {
+      clearOption: option  /* 'all' | 'keep' */
+    };
+
+    browser.storage.local.set({ settings: updatedSettings }).catch((error) => {
+      console.error('Failed to save settings:', error);
+    });
+    
+    clearOption = option;
+  };
+
+  allHistory.addEventListener('click', () => clearOptionHandlers('all'));
+  keepPinned.addEventListener('click', () => clearOptionHandlers('keep'));
+  
+  allHistory.classList.toggle('selected', clearOption === 'all');
+  keepPinned.classList.toggle('selected', clearOption === 'keep');
+
+  const updateClearOptionsVisibility = () => {
+    historyOptions.style.display = showClearOptions() ? '' : 'none';
+    clearAllHistory.textContent = showClearOptions() ? labelStrings[langCode].clearButton : labelStrings[langCode].clearAllHistory;
+  };
+  
+  updateClearOptionsVisibility();
+  
   clearAllHistory.addEventListener('click', async () => {
     try {
-      await browser.storage.local.clear();
-      initializePopupPage();
-      browser.runtime.sendMessage({ request: 'updateIcon', iconState: 'default' });
-      setTimeout(() => {
-        closeWindow();
-      }, closeWindowTime);
+      if (showClearOptions() && clearOption === 'keep') {
+        const { history = [] } = await browser.storage.local.get('history');
+        const pinnedOnly = history.filter(item => item.pinned === true);
+        
+        if (history.length === pinnedOnly.length) return false;
+        
+        await browser.storage.local.remove('history');
 
+        await browser.storage.local.set({ history: pinnedOnly });
+        
+        const allItems = document.querySelectorAll('ul#historyList li');
+        allItems.forEach(li => {
+          const isPinned = li.getAttribute('data-pinned') === 'true';
+          if (!isPinned) li.remove();
+        });
+        
+        if (pinnedOnly.length === 0) {
+          initializePopupPage();
+        }
+      } else {
+        await browser.storage.local.remove('history');
+        initializePopupPage();
+
+        setTimeout(() => {
+          closeWindow();
+        }, closeWindowTime);
+      }
+
+      updateClearOptionsVisibility();
     } catch (error) {
       console.error('Failed to clear text clippings:', error);
     }
@@ -409,7 +499,7 @@ const initializePopup = async () => {
   isInitialized = true;
 
   try {
-    initPage();
+    autoClosePage();
     await buildPopup();
   } catch (error) {
     console.error('Fail to initialize to build the popup:', error);
