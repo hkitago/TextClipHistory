@@ -215,7 +215,13 @@
       lastFocusedElement = event.target;
     }
   });
-  
+
+  document.addEventListener('pointerdown', (event) => {
+    if (!isEditableElement(event.target)) {
+      lastFocusedElement = null;
+    }
+  });
+
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.request === 'pasteText') {
       const targetElement = lastFocusedElement;
