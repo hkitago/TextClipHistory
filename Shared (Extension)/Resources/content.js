@@ -1,21 +1,10 @@
 (() => {
   /* Global state variables */
-  let copyText = '';
-  let selectedText = '';
   let lastFocusedElement = null;
   
-  let iconState = 'default';
-
-  const updateToolbarIcon = async () => {
-    const { history = [] } = await browser.storage.local.get('history');
-
-    if (history.length > 0) {
-      iconState = 'extension-on';
-      browser.runtime.sendMessage({ request: 'updateIcon', iconState: iconState });
-    }
-  };
-
   document.addEventListener('contextmenu', (event) => {
+    let copyText = '';
+
     if (event.target.tagName === 'A' || event.target.closest('a')) {
       const targetUrl = event.target.href || event.target.closest('a').href;
       
@@ -27,8 +16,6 @@
           request: 'saveClipboard',
           text: copyText
         });
-        
-        updateToolbarIcon();
       }
     }
   });
@@ -80,18 +67,11 @@
         request: 'saveClipboard',
         text: selectedText
       });
-      updateToolbarIcon();
     }
   };
 
   document.addEventListener('copy', handleClipboardEvent);
   document.addEventListener('cut', handleClipboardEvent);
-
-  if (document.readyState !== 'loading') {
-    updateToolbarIcon();
-  } else {
-    document.addEventListener('DOMContentLoaded', updateToolbarIcon, { once: true });
-  }
   
   /* Handling Input Element to Paste Text */
   const noSpaceLangs = ['ja', 'zh', 'ko', 'th'];
