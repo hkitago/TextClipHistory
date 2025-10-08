@@ -15,6 +15,11 @@ html {
   height: 100%;
 }
 
+.rtl, .rtl p {
+  direction: rtl;
+  text-align: right;
+}
+
 body {
   display: flex;
   align-items: center;
@@ -103,4 +108,18 @@ body.platform-ios p {
 
 body.platform-mac p {
   margin: 0 auto;
+}
+
+#app-icon {
+  width: 128px;
+  height: 128px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(icon-default.png);
+}
+
+@media (prefers-color-scheme: dark) {
+  #app-icon {
+    background-image: url(icon-dark.png);
+  }
 }

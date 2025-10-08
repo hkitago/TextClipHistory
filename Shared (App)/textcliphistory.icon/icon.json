@@ -7,9 +7,11 @@
       "layers" : [
         {
           "blend-mode" : "normal",
+          "fill" : "automatic",
           "glass" : true,
-          "image-name" : "icon-file 2.svg",
-          "name" : "icon-file 2"
+          "hidden" : false,
+          "image-name" : "icon-file.svg",
+          "name" : "icon-file"
         }
       ],
       "shadow" : {
