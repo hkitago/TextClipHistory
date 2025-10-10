@@ -30,9 +30,23 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Version History
 
+### 1.2.4
+
+#### **Common** - 2025-10-10
+
+- Updated for the latest OS with new user interface and theme-optimized icons
+
+### 1.2.3
+
+#### **Common** - 2025-07-14
+
+- Enabled selective deletion of pinned and unpinned items in copy history management
+- Improved the auto-fill function to prevent unintended text insertion
+- Adjusted toolbar icon updates to be more reliable
+
 ### 1.2.2
 
-#### **Common**
+#### **Common** - 2025-06-17
 
 - Improved support for detecting copied text from forms with frames or input fields
 - Fixed an issue where selected text from popovers was not correctly inserted into input fields
