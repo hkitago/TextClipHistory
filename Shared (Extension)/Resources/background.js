@@ -17,20 +17,6 @@ const generateUUID = () => {
   });
 };
 
-// Update icon logic
-const updateIcon = (iconState) => {
-  let iconPath;
-  switch (iconState) {
-    case 'extension-on':
-      iconPath = 'images/toolbar-icon-on.svg';
-      break;
-    default:
-      iconPath = 'images/toolbar-icon.svg';
-      break;
-  }
-  browser.action.setIcon({ path: iconPath });
-};
-
 const saveToHistory = async (text) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
@@ -73,15 +59,85 @@ const hasHistoryStorage = async () => {
   return history.length > 0;
 };
 
-const initToolbarIcon = async () =>{
+// Icon Handlings
+const activeTabs = new Set();
+
+const getAllTabIds = async () => {
+  try {
+    const tabs = await browser.tabs.query({});
+    tabs.forEach(tab => activeTabs.add(tab.id));
+  } catch (error) {
+    console.error('Failed to initialize tabs:', error);
+  }
+};
+
+const setIconForAllTabs = async (iconPath) => {
+  if (activeTabs.size === 0) {
+    await getAllTabIds();
+  }
+  
+  const promises = Array.from(activeTabs).map(async (tabId) => {
+    try {
+      await browser.action.setIcon({
+        path: iconPath,
+        tabId: tabId
+      });
+    } catch (error) {
+      console.warn(`Failed to set icon for tab ${tabId}:`, error);
+      activeTabs.delete(tabId);
+    }
+  });
+  
+  await Promise.all(promises);
+};
+
+const updateIcon = (iconState, tabId = null) => {
+  const iconPath = iconState === 'extension-on'
+    ? 'images/toolbar-icon-on.svg'
+    : 'images/toolbar-icon.svg';
+
+  if (tabId === null) {
+    setIconForAllTabs(iconPath);
+  } else {
+    browser.action.setIcon({ path: iconPath, tabId: tabId });
+  }
+};
+
+const initToolbarIcon = async (tabId = null) => {
   const hasHistory = await hasHistoryStorage();
 
   if (hasHistory) {
-    updateIcon('extension-on');
+    updateIcon('extension-on', tabId);
   } else {
-    updateIcon('default');
+    updateIcon('default', tabId);
   }
 };
+
+browser.storage.onChanged.addListener(async (changes, areaName) => {
+  if (areaName === 'local' && changes.history) {
+    initToolbarIcon();
+  }
+});
+
+browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  activeTabs.add(tab.id);
+
+  if (changeInfo.status === 'complete') {
+    initToolbarIcon(tabId);
+  }
+});
+
+browser.tabs.onCreated.addListener(async (tab) => {
+  // Prevent duplicate event handling
+  if (tab.index === 0) return; // for itself
+  if (Number.isNaN(tab.index)) return; // for iOS/iPadOS
+
+  initToolbarIcon(tab.id);
+});
+
+browser.tabs.onRemoved.addListener((tabId) => {
+  activeTabs.delete(tabId);
+});
 
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
@@ -100,15 +156,5 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     return true;
   }
 
-  if (message.request === 'initToolbarIcon') {
-    initToolbarIcon();
-  }
-
   return false;
-});
-
-browser.storage.onChanged.addListener(async (changes, areaName) => {
-  if (areaName === 'local' && changes.history) {
-    initToolbarIcon();
-  }
 });
