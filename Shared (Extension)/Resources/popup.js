@@ -4,9 +4,7 @@
 //
 //  Created by Hiroyuki KITAGO on 2024/11/01.
 //
-
-import { labelStrings, getCurrentLangCode } from './localization.js';
-const langCode = getCurrentLangCode();
+import { getCurrentLangLabelString, applyRTLSupport } from './localization.js';
 
 const appState = {
   isEditMode: false,
@@ -119,11 +117,7 @@ const buildPopup = async (url, color, sortedIds) => {
     document.body.style.width = 'initial';
   }
 
-  if (langCode.substring(0, 2) === 'ar' || langCode.substring(0, 2) === 'he') {
-    document.body.classList.add('rtl');
-    document.documentElement.setAttribute('lang', langCode.substring(0, 2));
-    document.documentElement.setAttribute('dir', 'rtl');
-  }
+  applyRTLSupport();
 
   document.body.addEventListener('mouseleave', () => {
     closeTimeout = setTimeout(() => {
@@ -167,7 +161,7 @@ const buildPopup = async (url, color, sortedIds) => {
 
   const initializePopupPage = async () => {
     header.style.display = 'none';
-    main.innerHTML = `<div><p>${labelStrings[langCode].onError}</p></div>`;
+    main.innerHTML = `<div><p>${getCurrentLangLabelString('onError')}</p></div>`;
     footer.style.display = 'none';
   };
 
@@ -378,8 +372,8 @@ const buildPopup = async (url, color, sortedIds) => {
     header.style.display = 'none';
   }
   
-  allHistory.textContent = labelStrings[langCode].clearHistoryAll;
-  keepPinned.textContent = labelStrings[langCode].clearHistoryOption;
+  allHistory.textContent = `${getCurrentLangLabelString('clearHistoryAll')}`;
+  keepPinned.textContent = `${getCurrentLangLabelString('clearHistoryOption')}`;
 
   const showClearOptions = () => {
     const items = document.querySelectorAll('#historyList .history-item');
@@ -418,7 +412,7 @@ const buildPopup = async (url, color, sortedIds) => {
 
   const updateClearOptionsVisibility = () => {
     historyOptions.style.display = showClearOptions() ? '' : 'none';
-    clearAllHistory.textContent = showClearOptions() ? labelStrings[langCode].clearButton : labelStrings[langCode].clearAllHistory;
+    clearAllHistory.textContent = showClearOptions() ? `${getCurrentLangLabelString('clearButton')}` : `${getCurrentLangLabelString('clearAllHistory')}`;
   };
   
   updateClearOptionsVisibility();
@@ -473,7 +467,7 @@ const buildPopup = async (url, color, sortedIds) => {
     footer.style.display = 'none';
   }
 
-  editActions.textContent = labelStrings[langCode].editActions;
+  editActions.textContent = `${getCurrentLangLabelString('editActions')}`;
   editActions.addEventListener('click', toggleEditMode);
   editActions.addEventListener('touchstart', (event) => {
     event.target.classList.add('selected');
@@ -482,7 +476,7 @@ const buildPopup = async (url, color, sortedIds) => {
     event.target.classList.remove('selected');
   });
 
-  editDone.textContent = labelStrings[langCode].editDone;
+  editDone.textContent = `${getCurrentLangLabelString('editDone')}`;
   editDone.addEventListener('click', toggleEditMode);
   editDone.addEventListener('touchstart', (event) => {
     event.target.classList.add('selected');
