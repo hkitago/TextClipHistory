@@ -20,9 +20,10 @@
 }
 
 * {
-  -webkit-tap-highlight-color:rgb(0 0 0/0);
-  -webkit-user-select:none;
-  -webkit-touch-callout:none;
+  -webkit-tap-highlight-color: rgb(0 0 0/0);
+  -webkit-user-select: none;
+  -webkit-touch-callout :none;
+  -webkit-user-drag: none;
 }
 
 html {
@@ -30,12 +31,17 @@ html {
 }
 
 body {
-  width: 400px; /* for iPad Popover */
-  margin: 0;
-  padding: 15px 0;
-  font-size: 94%;
+  width: 452px;
+  margin: 15px 0;
+  padding: 0;
+}
+
+body.os-ios {
+  width: 100%;
+}
+
+body.os-ios, body.os-ipados {
   background-color: rgb(240 242 242);
-  font-family: system-ui;
 }
 
 .rtl {
@@ -126,7 +132,7 @@ main > ul {
   padding: 0;
   margin: 0 15px 15px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 main > ul > li {
@@ -261,8 +267,8 @@ footer > div {
 }
 
 @media (prefers-color-scheme: dark) {
-  body {
-    background-color: rgb(35 35 33);
+  body.os-ios, body.os-ipados {
+    background-color: rgb(30 30 30);
   }
 
   main > ul > li {
@@ -282,5 +288,15 @@ footer > div {
   main > ul > li > img {
     filter: invert(1);
   }
+
+  @supports (-apple-visual-effect: -apple-system-glass-material) {
+    html {
+      background: transparent;
+      -apple-visual-effect: -apple-system-glass-material;
+    }
+    
+    body {
+      background: transparent;
+    }
 
 }
