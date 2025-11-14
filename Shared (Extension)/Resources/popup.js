@@ -5,6 +5,7 @@
 //  Created by Hiroyuki KITAGO on 2024/11/01.
 //
 import { getCurrentLangLabelString, applyRTLSupport } from './localization.js';
+import { isIOS, isIPadOS, isMacOS, getIOSMajorVersion, applyPlatformClass } from './utils.js';
 
 const appState = {
   isEditMode: false,
@@ -18,32 +19,17 @@ const setState = (key, value) => {
   appState[key] = value;
 };
 
-/* Environmental detection */
-const isMacOS = () => {
-  const isPlatformMac = navigator.platform.toLowerCase().indexOf('mac') !== -1;
-
-  const isUserAgentMac = /Mac/.test(navigator.userAgent) &&
-                         !/iPhone/.test(navigator.userAgent) &&
-                         !/iPad/.test(navigator.userAgent);
-  
-  return (isPlatformMac || isUserAgentMac) && !('ontouchend' in document);
-};
-
-const getiOSVersion = () => {
-  return parseInt((navigator.userAgent.match(/OS (\d+)_/) || [])[1] || 0);
-};
-
 const closeWindow = () => {
   window.close();
 
   // In older iOS versions (<18), reloading the extension helped with some popup issues
   // Might no longer be necessary — safe to remove if no issues found
-  if (getiOSVersion() < 18) {
+  if (getIOSMajorVersion() > 0 && getIOSMajorVersion() < 18) {
     setTimeout(() => {
       try {
         browser.runtime.reload();
       } catch (error) {
-        console.warn('browser.runtime.reload failed:', error);
+        console.warn('[QuoteLinkExtension] browser.runtime.reload failed:', error);
       }
     }, 100);
   }
@@ -113,10 +99,7 @@ const onMouseOut = (event) => {
 }
 
 const buildPopup = async (url, color, sortedIds) => {
-  if (navigator.userAgent.indexOf('iPhone') > -1) {
-    document.body.style.width = 'initial';
-  }
-
+  applyPlatformClass();
   applyRTLSupport();
 
   document.body.addEventListener('mouseleave', () => {
