@@ -303,6 +303,7 @@ const buildPopup = async (url, color, sortedIds) => {
       
       // send msg to content.js
       browser.tabs.query({active: true, currentWindow: true}, async (tabs) => {
+        const langCode = window.navigator.language || 'en';
         await browser.tabs.sendMessage(tabs[0].id, {
           request: 'pasteText',
           langcode: langCode.substring(0, 2),
