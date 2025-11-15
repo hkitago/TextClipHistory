@@ -20,20 +20,23 @@ const generateUUID = () => {
 const saveToHistory = async (text) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
+
+    const existing = history.find(item => item.text === text);
+    if (existing) return;
+
     const newEntry = {
       id: generateUUID(),
-      text: text,
+      text,
       pinned: false
     };
 
-    const filteredHistory = history.filter(item => item.text !== text);
-    
     const updatedHistory = [
       newEntry,
-      ...filteredHistory
+      ...history
     ];
 
     await browser.storage.local.set({ history: updatedHistory });
+
   } catch (error) {
     console.error('Failed to save to history:', error);
   }
@@ -42,7 +45,7 @@ const saveToHistory = async (text) => {
 const togglePin = async (id) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
-    
+
     const updatedHistory = history.map(item =>
       item.id === id ? { ...item, pinned: !item.pinned } : item
     );
