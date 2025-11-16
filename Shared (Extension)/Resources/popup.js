@@ -75,16 +75,19 @@ const autoClosePage = () => {
 const toggleEditMode = () => {
   setState('isEditMode', !getState('isEditMode'));
   const header = document.querySelector('header');
-  const ul = document.getElementById('historyList');
+  const pinnedUl = document.getElementById('pinnedHistoryList');
+  const unpinnedUl = document.getElementById('unpinnedHistoryList');
 
   if (getState('isEditMode')) {
     header.style.display = 'flex';
-    ul.classList.add('isEditMode');
+    pinnedUl?.classList.add('isEditMode');
+    unpinnedUl?.classList.add('isEditMode');
     editActions.style.display = 'none';
     editDone.style.display = 'block';
   } else {
     header.style.display = 'none';
-    ul.classList.remove('isEditMode');
+    pinnedUl?.classList.remove('isEditMode');
+    unpinnedUl?.classList.remove('isEditMode');
     editActions.style.display = 'block';
     editDone.style.display = 'none';
   }
@@ -164,12 +167,23 @@ const buildPopup = async (url, color, sortedIds) => {
   ];
 
   /* rendering Main List */
-  const ul = document.createElement('ul');
-  ul.id = 'historyList';
+  const pinnedUl = document.createElement('ul');
+  pinnedUl.id = 'pinnedHistoryList';
+  pinnedUl.classList.add('history-list');
+
+  const unpinnedUl = document.createElement('ul');
+  unpinnedUl.id = 'unpinnedHistoryList';
+  unpinnedUl.classList.add('history-list');
+
+  const pinnedLabel = document.createElement('h2');
+  pinnedLabel.id = 'pinnedLabel';
+  pinnedLabel.textContent = `${getCurrentLangLabelString('pinnedLabel')}`;
+  pinnedLabel.classList.add('pinned-heading');
+
   const copyIcons = { 'on': './images/icon-copy-on.svg', 'off': './images/icon-copy-off.svg'};
   const pinIcons = { 'on': './images/icon-pin-on.svg', 'off': './images/icon-pin-off.svg'};
 
-  const createListItem = (item) => {
+  const createListItem = (item, targetUl) => {
     const li = document.createElement('li');
     const div = document.createElement('div');
     
@@ -208,9 +222,20 @@ const buildPopup = async (url, color, sortedIds) => {
           if (target.classList.contains('fade-out')) {
             target.classList.remove('fade-out');
             
+            // Get the source UL before moving the item
+            const sourceUl = li.closest('ul');
+            
             if (li.dataset.pinned === 'false') { /* Pinned */
+              if (!document.querySelector('#pinnedHistoryList')) {
+                main.prepend(pinnedUl); // Prepend to ensure pinned list is above unpinned
+                if (getState('isEditMode') && !isMacOS()) {
+                  pinnedUl.classList.add('isEditMode');
+                }
+                pinnedUl.parentNode.insertBefore(pinnedLabel, pinnedUl);
+              }
+
               const pinnedItems = Array.from(
-                document.querySelectorAll(".history-item[data-pinned='true']")
+                pinnedUl.querySelectorAll(".history-item[data-pinned='true']") || []
               );
 
               const currentPinnedIndexes = pinnedItems.map((el) =>
@@ -227,8 +252,7 @@ const buildPopup = async (url, color, sortedIds) => {
                 if (lastPinnedItem) {
                   lastPinnedItem.after(li);
                 } else {
-                  const ul = document.getElementById('historyList');
-                  ul.prepend(li);
+                  pinnedUl.prepend(li);
                 }
               } else {
                 const targetItem = pinnedItems[insertIndex];
@@ -257,11 +281,18 @@ const buildPopup = async (url, color, sortedIds) => {
                 li.remove();
                 const nextVisibleItem = unpinnedItems[DISPLAY_LIMIT - pinnedItems.length - 1];
                 if (nextVisibleItem) {
-                  createListItem(nextVisibleItem);
+                  if (!document.querySelector('#unpinnedHistoryList')) {
+                    main.appendChild(unpinnedUl); // Append after pinned list
+                  }
+                  createListItem(nextVisibleItem, unpinnedUl);
                 }
               } else {
+                if (!document.querySelector('#unpinnedHistoryList')) {
+                  main.appendChild(unpinnedUl); // Append after pinned list
+                }
+
                 const unpinnedItems = Array.from(
-                  document.querySelectorAll(".history-item[data-pinned='false']")
+                  unpinnedUl.querySelectorAll(".history-item[data-pinned='false']") || []
                 );
                 
                 const referenceItem = unpinnedItems.find(child => {
@@ -274,13 +305,23 @@ const buildPopup = async (url, color, sortedIds) => {
                 if (referenceItem) {
                   referenceItem.before(li);
                 } else {
-                  ul.appendChild(li);
+                  unpinnedUl.appendChild(li);
                 }
               }
 
               li.dataset.pinned = 'false';
               iconPin.src = pinIcons.off;
             }
+
+            // Remove source UL if it has no children
+            if (sourceUl && sourceUl.children.length === 0) {
+              sourceUl.remove();
+  
+              if (sourceUl.id === 'pinnedHistoryList') {
+                pinnedLabel.remove();
+              }
+            }
+
             li.classList.remove('hover');
             updateClearOptionsVisibility();
           }
@@ -342,14 +383,25 @@ const buildPopup = async (url, color, sortedIds) => {
       event.target.closest('li').classList.remove('selected');
     });
     
-    ul.appendChild(li);
+    targetUl.appendChild(li);
   };
-  
-  sortedHistory.forEach(item => {
-    createListItem(item);
+
+  // Populate pinned and unpinned lists
+  pinnedItems.slice(0, DISPLAY_LIMIT).forEach(item => {
+    createListItem(item, pinnedUl);
+  });
+  unpinnedItems.slice(0, Math.max(0, DISPLAY_LIMIT - pinnedItems.length)).forEach(item => {
+    createListItem(item, unpinnedUl);
   });
 
-  main.appendChild(ul);
+  // Append both lists to main
+  if (pinnedUl.children.length > 0) {
+    main.appendChild(pinnedUl);
+    pinnedUl.parentNode.insertBefore(pinnedLabel, pinnedUl);
+  }
+  if (unpinnedUl.children.length > 0) {
+    main.appendChild(unpinnedUl);
+  }
 
   /* rendering header */
   if (!isMacOS()) {
@@ -360,7 +412,7 @@ const buildPopup = async (url, color, sortedIds) => {
   keepPinned.textContent = `${getCurrentLangLabelString('clearHistoryOption')}`;
 
   const showClearOptions = () => {
-    const items = document.querySelectorAll('#historyList .history-item');
+    const items = document.querySelectorAll('.history-list .history-item');
     const totalCount = items.length;
 
     const pinnedCount = Array.from(items).filter(
@@ -413,11 +465,10 @@ const buildPopup = async (url, color, sortedIds) => {
 
         await browser.storage.local.set({ history: pinnedOnly });
         
-        const allItems = document.querySelectorAll('ul#historyList li');
-        allItems.forEach(li => {
-          const isPinned = li.getAttribute('data-pinned') === 'true';
-          if (!isPinned) li.remove();
-        });
+        // Remove unpinned items
+        if (document.querySelector('#unpinnedHistoryList')) {
+          unpinnedUl.remove();
+        }
         
         if (pinnedOnly.length === 0) {
           initializePopupPage();
