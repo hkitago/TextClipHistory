@@ -12,6 +12,7 @@ export const labelStrings = {
     "clearHistoryAll": "All History",
     "clearHistoryOption": "Keep Pinned",
     "clearButton": "Clear",
+    "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done"
   },
@@ -21,6 +22,7 @@ export const labelStrings = {
     "clearHistoryAll": "كل السجل",
     "clearHistoryOption": "الاحتفاظ بالمثبت",
     "clearButton": "مسح",
+    "pinnedLabel": "مثبّت",
     "editActions": "تحرير قصاصات النص...",
     "editDone": "تم"
   },
@@ -30,6 +32,7 @@ export const labelStrings = {
     "clearHistoryAll": "كل السجل",
     "clearHistoryOption": "الاحتفاظ بالمثبّت",
     "clearButton": "مسح",
+    "pinnedLabel": "مثبّت",
     "editActions": "تحرير قصاصات النص...",
     "editDone": "تم"
   },
@@ -39,6 +42,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tot l'historial",
     "clearHistoryOption": "Mantén els fixats",
     "clearButton": "Esborra",
+    "pinnedLabel": "Fixat",
     "editActions": "Editar retalls de text...",
     "editDone": "Fet"
   },
@@ -48,6 +52,7 @@ export const labelStrings = {
     "clearHistoryAll": "Celou historii",
     "clearHistoryOption": "Zachovat připnuté",
     "clearButton": "Smazat",
+    "pinnedLabel": "Připnuto",
     "editActions": "Upravit textové výstřižky...",
     "editDone": "Hotovo"
   },
@@ -57,6 +62,7 @@ export const labelStrings = {
     "clearHistoryAll": "Al historik",
     "clearHistoryOption": "Behold fastgjorte",
     "clearButton": "Ryd",
+    "pinnedLabel": "Připnuto",
     "editActions": "Rediger tekstudklip...",
     "editDone": "Færdig"
   },
@@ -66,6 +72,7 @@ export const labelStrings = {
     "clearHistoryAll": "Gesamter Verlauf",
     "clearHistoryOption": "Angeheftete behalten",
     "clearButton": "Löschen",
+    "pinnedLabel": "Angeheftet",
     "editActions": "Textausschnitte bearbeiten...",
     "editDone": "Fertig"
   },
@@ -75,6 +82,7 @@ export const labelStrings = {
     "clearHistoryAll": "Όλο το ιστορικό",
     "clearHistoryOption": "Διατήρηση καρφιτσωμένων",
     "clearButton": "Εκκαθάριση",
+    "pinnedLabel": "Καρφιτσωμένο",
     "editActions": "Επεξεργασία αποκομμάτων κειμένου...",
     "editDone": "Έγινε"
   },
@@ -84,6 +92,7 @@ export const labelStrings = {
     "clearHistoryAll": "All History",
     "clearHistoryOption": "Keep Pinned",
     "clearButton": "Clear",
+    "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done"
   },
@@ -93,6 +102,7 @@ export const labelStrings = {
     "clearHistoryAll": "All History",
     "clearHistoryOption": "Keep Pinned",
     "clearButton": "Clear",
+    "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done"
   },
@@ -102,6 +112,7 @@ export const labelStrings = {
     "clearHistoryAll": "All History",
     "clearHistoryOption": "Keep Pinned",
     "clearButton": "Clear",
+    "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done"
   },
@@ -111,6 +122,7 @@ export const labelStrings = {
     "clearHistoryAll": "Todo el historial",
     "clearHistoryOption": "Conservar los fijados",
     "clearButton": "Borrar",
+    "pinnedLabel": "Fijado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Hecho"
   },
@@ -120,6 +132,7 @@ export const labelStrings = {
     "clearHistoryAll": "Todo el historial",
     "clearHistoryOption": "Mantener fijados",
     "clearButton": "Borrar",
+    "pinnedLabel": "Fijado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Hecho"
   },
@@ -129,6 +142,7 @@ export const labelStrings = {
     "clearHistoryAll": "Koko historia",
     "clearHistoryOption": "Säilytä kiinnitetyt",
     "clearButton": "Tyhjennä",
+    "pinnedLabel": "Kiinnitetty",
     "editActions": "Muokkaa tekstileikkeitä...",
     "editDone": "Valmis"
   },
@@ -138,6 +152,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tout l'historique",
     "clearHistoryOption": "Conserver les éléments épinglés",
     "clearButton": "Effacer",
+    "pinnedLabel": "Épinglé",
     "editActions": "Modifier les extraits de texte...",
     "editDone": "Terminé"
   },
@@ -147,6 +162,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tout l'historique",
     "clearHistoryOption": "Garder les éléments épinglés",
     "clearButton": "Effacer",
+    "pinnedLabel": "Épinglé",
     "editActions": "Modifier les extraits de texte...",
     "editDone": "Terminé"
   },
@@ -156,6 +172,7 @@ export const labelStrings = {
     "clearHistoryAll": "כל ההיסטוריה",
     "clearHistoryOption": "השאר מוצמדים",
     "clearButton": "נקה",
+    "pinnedLabel": "מוצמד",
     "editActions": "ערוך קטעי טקסט...",
     "editDone": "סיים"
   },
@@ -165,6 +182,7 @@ export const labelStrings = {
     "clearHistoryAll": "संपूर्ण इतिहास",
     "clearHistoryOption": "पिन किए गए रखें",
     "clearButton": "साफ़ करें",
+    "pinnedLabel": "पिन किया गया",
     "editActions": "टेक्स्ट क्लिपिंग संपादित करें...",
     "editDone": "पूर्ण"
   },
@@ -174,6 +192,7 @@ export const labelStrings = {
     "clearHistoryAll": "Cijela povijest",
     "clearHistoryOption": "Zadrži pričvršćene",
     "clearButton": "Očisti",
+    "pinnedLabel": "Prikvačeno",
     "editActions": "Uredi isječke teksta...",
     "editDone": "Gotovo"
   },
@@ -183,6 +202,7 @@ export const labelStrings = {
     "clearHistoryAll": "Teljes előzmény",
     "clearHistoryOption": "Rögzítettek megtartása",
     "clearButton": "Törlés",
+    "pinnedLabel": "Rögzítve",
     "editActions": "Szövegkivágások szerkesztése...",
     "editDone": "Kész"
   },
@@ -192,6 +212,7 @@ export const labelStrings = {
     "clearHistoryAll": "Semua Riwayat",
     "clearHistoryOption": "Pertahankan yang Disematkan",
     "clearButton": "Bersihkan",
+    "pinnedLabel": "Disematkan",
     "editActions": "Edit Potongan Teks...",
     "editDone": "Selesai"
   },
@@ -201,6 +222,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tutta la cronologia",
     "clearHistoryOption": "Mantieni gli elementi bloccati",
     "clearButton": "Cancella",
+    "pinnedLabel": "Fissato",
     "editActions": "Modifica ritagli di testo...",
     "editDone": "Fatto"
   },
@@ -210,6 +232,7 @@ export const labelStrings = {
     "clearHistoryAll": "すべての履歴",
     "clearHistoryOption": "ピン留めを残す",
     "clearButton": "消去",
+    "pinnedLabel": "ピン留め",
     "editActions": "文字コピー履歴を編集...",
     "editDone": "完了"
   },
@@ -219,6 +242,7 @@ export const labelStrings = {
     "clearHistoryAll": "전체 기록",
     "clearHistoryOption": "고정 항목 유지",
     "clearButton": "지우기",
+    "pinnedLabel": "고정됨",
     "editActions": "텍스트 클리핑 편집...",
     "editDone": "완료"
   },
@@ -228,6 +252,7 @@ export const labelStrings = {
     "clearHistoryAll": "Semua Sejarah",
     "clearHistoryOption": "Simpan yang Disematkan",
     "clearButton": "Kosongkan",
+    "pinnedLabel": "Disematkan",
     "editActions": "Edit Potongan Teks...",
     "editDone": "Selesai"
   },
@@ -237,6 +262,7 @@ export const labelStrings = {
     "clearHistoryAll": "All historikk",
     "clearHistoryOption": "Behold festede",
     "clearButton": "Tøm",
+    "pinnedLabel": "Festet",
     "editActions": "Rediger tekstutklipp...",
     "editDone": "Ferdig"
   },
@@ -246,6 +272,7 @@ export const labelStrings = {
     "clearHistoryAll": "Volledige geschiedenis",
     "clearHistoryOption": "Gepinde behouden",
     "clearButton": "Wis",
+    "pinnedLabel": "Vastgezet",
     "editActions": "Tekstknipsels bewerken...",
     "editDone": "Klaar"
   },
@@ -255,6 +282,7 @@ export const labelStrings = {
     "clearHistoryAll": "Cała historia",
     "clearHistoryOption": "Zachowaj przypięte",
     "clearButton": "Wymaż",
+    "pinnedLabel": "Przypięte",
     "editActions": "Edytuj wycinki tekstu...",
     "editDone": "Gotowe"
   },
@@ -264,6 +292,7 @@ export const labelStrings = {
     "clearHistoryAll": "Todo o histórico",
     "clearHistoryOption": "Manter fixados",
     "clearButton": "Limpar",
+    "pinnedLabel": "Fixado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Concluído"
   },
@@ -273,6 +302,7 @@ export const labelStrings = {
     "clearHistoryAll": "Todo o histórico",
     "clearHistoryOption": "Manter itens fixos",
     "clearButton": "Limpar",
+    "pinnedLabel": "Afixado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Concluído"
   },
@@ -282,6 +312,7 @@ export const labelStrings = {
     "clearHistoryAll": "Todo o histórico",
     "clearHistoryOption": "Manter fixados",
     "clearButton": "Limpar",
+    "pinnedLabel": "Fixado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Concluído"
   },
@@ -291,6 +322,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tot istoricul",
     "clearHistoryOption": "Păstrează elementele fixate",
     "clearButton": "Șterge",
+    "pinnedLabel": "Fixat",
     "editActions": "Editează decupaje text...",
     "editDone": "Finalizat"
   },
@@ -300,6 +332,7 @@ export const labelStrings = {
     "clearHistoryAll": "Вся история",
     "clearHistoryOption": "Сохранить закреплённые",
     "clearButton": "Очистить",
+    "pinnedLabel": "Закреплено",
     "editActions": "Редактировать текстовые вырезки...",
     "editDone": "Готово"
   },
@@ -309,6 +342,7 @@ export const labelStrings = {
     "clearHistoryAll": "All historik",
     "clearHistoryOption": "Behåll fästa",
     "clearButton": "Rensa",
+    "pinnedLabel": "Fäst",
     "editActions": "Redigera textklipp...",
     "editDone": "Klar"
   },
@@ -318,6 +352,7 @@ export const labelStrings = {
     "clearHistoryAll": "Celá história",
     "clearHistoryOption": "Ponechať pripnuté",
     "clearButton": "Vymazať",
+    "pinnedLabel": "Pripnuté",
     "editActions": "Upraviť textové výstrižky...",
     "editDone": "Hotovo"
   },
@@ -327,6 +362,7 @@ export const labelStrings = {
     "clearHistoryAll": "ประวัติทั้งหมด",
     "clearHistoryOption": "เก็บที่ปักหมุดไว้",
     "clearButton": "ล้าง",
+    "pinnedLabel": "ปักหมุด",
     "editActions": "แก้ไขข้อความที่คัดลอก...",
     "editDone": "เสร็จสิ้น"
   },
@@ -336,6 +372,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tüm geçmiş",
     "clearHistoryOption": "Sabitlenenleri koru",
     "clearButton": "Temizle",
+    "pinnedLabel": "Sabitlendi",
     "editActions": "Metin Kırpmaları Düzenle...",
     "editDone": "Tamam"
   },
@@ -345,6 +382,7 @@ export const labelStrings = {
     "clearHistoryAll": "Вся історія",
     "clearHistoryOption": "Зберегти закріплені",
     "clearButton": "Очистити",
+    "pinnedLabel": "Закріплено",
     "editActions": "Редагувати текстові вирізки...",
     "editDone": "Готово"
   },
@@ -354,6 +392,7 @@ export const labelStrings = {
     "clearHistoryAll": "Tất cả lịch sử",
     "clearHistoryOption": "Giữ lại đã ghim",
     "clearButton": "Xóa",
+    "pinnedLabel": "Được ghim",
     "editActions": "Chỉnh sửa các đoạn văn bản...",
     "editDone": "Xong"
   },
@@ -363,6 +402,7 @@ export const labelStrings = {
     "clearHistoryAll": "所有历史记录",
     "clearHistoryOption": "保留已固定项",
     "clearButton": "清除",
+    "pinnedLabel": "已固定",
     "editActions": "编辑文本剪辑...",
     "editDone": "完成"
   },
@@ -372,6 +412,7 @@ export const labelStrings = {
     "clearHistoryAll": "所有历史记录",
     "clearHistoryOption": "保留已固定项",
     "clearButton": "清除",
+    "pinnedLabel": "已固定",
     "editActions": "编辑文本剪辑...",
     "editDone": "完成"
   },
@@ -381,6 +422,7 @@ export const labelStrings = {
     "clearHistoryAll": "所有歷史記錄",
     "clearHistoryOption": "保留已固定項目",
     "clearButton": "清除",
+    "pinnedLabel": "已釘選",
     "editActions": "編輯文字剪輯...",
     "editDone": "完成"
   },
@@ -390,6 +432,7 @@ export const labelStrings = {
     "clearHistoryAll": "所有歷史記錄",
     "clearHistoryOption": "保留已釘選項目",
     "clearButton": "清除",
+    "pinnedLabel": "已釘選",
     "editActions": "編輯文字剪輯...",
     "editDone": "完成"
   }
