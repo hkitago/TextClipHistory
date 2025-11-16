@@ -70,7 +70,7 @@ header {
   padding: 0;
   cursor: pointer;
   margin: 0;
-  font-size: 1em;
+  font-size: 1rem;
 }
 
 #history-options {
@@ -127,6 +127,11 @@ main {
   min-height: 38px;
 }
 
+main > h2#pinnedLabel {
+  margin: 0 30px 10px;
+  font-size: 1rem;
+}
+
 main > ul {
   list-style: none;
   padding: 0;
@@ -179,8 +184,7 @@ body.rtl main > ul > li > img {
   margin-left: 20px;
 }
 
-main > ul > li.history-item[data-pinned="true"] > img.iconPin,
-main > ul.isEditMode > li.history-item[data-pinned="false"] > img.iconPin {
+main > ul.isEditMode > li.history-item > img.iconPin {
   display: initial;
   opacity:1;
 }
@@ -289,14 +293,16 @@ footer > div {
     filter: invert(1);
   }
 
-  @supports (-apple-visual-effect: -apple-system-glass-material) {
-    html {
-      background: transparent;
-      -apple-visual-effect: -apple-system-glass-material;
-    }
-    
-    body {
-      background: transparent;
-    }
+}
 
+@supports (-apple-visual-effect: -apple-system-glass-material) {
+  html {
+    background: transparent;
+    -apple-visual-effect: -apple-system-glass-material;
+  }
+  
+  body {
+    background: transparent;
+  }
+  
 }
