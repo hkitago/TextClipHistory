@@ -38,7 +38,7 @@ const saveToHistory = async (text) => {
     await browser.storage.local.set({ history: updatedHistory });
 
   } catch (error) {
-    console.error('Failed to save to history:', error);
+    console.error('[TextClipHistoryExtension] Failed to save to history:', error);
   }
 };
 
@@ -52,7 +52,7 @@ const togglePin = async (id) => {
 
     await browser.storage.local.set({ history: updatedHistory });
   } catch (error) {
-    console.error('Failed to toggle pin:', error);
+    console.error('[TextClipHistoryExtension] Failed to toggle pin:', error);
   }
 };
 
@@ -70,7 +70,7 @@ const getAllTabIds = async () => {
     const tabs = await browser.tabs.query({});
     tabs.forEach(tab => activeTabs.add(tab.id));
   } catch (error) {
-    console.error('Failed to initialize tabs:', error);
+    console.error('[TextClipHistoryExtension] Failed to initialize tabs:', error);
   }
 };
 
@@ -86,7 +86,7 @@ const setIconForAllTabs = async (iconPath) => {
         tabId: tabId
       });
     } catch (error) {
-      console.warn(`Failed to set icon for tab ${tabId}:`, error);
+      console.warn(`[TextClipHistoryExtension] Failed to set icon for tab ${tabId}:`, error);
       activeTabs.delete(tabId);
     }
   });

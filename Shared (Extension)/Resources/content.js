@@ -199,7 +199,7 @@
           targetElement.focus();
         });
       } else {
-        console.warn('No valid editable element found.');
+        console.warn('[TextClipHistoryExtension] No valid editable element found.');
       }
     }
   });

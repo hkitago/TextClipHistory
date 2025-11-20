@@ -29,7 +29,7 @@ const closeWindow = () => {
       try {
         browser.runtime.reload();
       } catch (error) {
-        console.warn('[QuoteLinkExtension] browser.runtime.reload failed:', error);
+        console.warn('[TextClipHistoryExtension] browser.runtime.reload failed:', error);
       }
     }, 100);
   }
@@ -54,7 +54,7 @@ const getSettings = async () => {
     const { settings } = await browser.storage.local.get('settings');
     return { ...DEFAULT_SETTINGS, ...settings };
   } catch (error) {
-    console.error('Failed to load settings:', error);
+    console.error('[TextClipHistoryExtension] Failed to load settings:', error);
     return DEFAULT_SETTINGS;
   }
 };
@@ -68,29 +68,35 @@ const autoClosePage = () => {
       }, closeWindowTime);
     }
   }).catch(error => {
-    console.error('Failed to check storage:', error);
+    console.error('[TextClipHistoryExtension] Failed to check storage:', error);
   });
 };
 
 const toggleEditMode = () => {
   setState('isEditMode', !getState('isEditMode'));
-  const header = document.querySelector('header');
+  const nav = document.querySelector('nav');
   const pinnedUl = document.getElementById('pinnedHistoryList');
   const unpinnedUl = document.getElementById('unpinnedHistoryList');
-
+  
   if (getState('isEditMode')) {
-    header.style.display = 'flex';
+    nav.style.display = 'flex';
     pinnedUl?.classList.add('isEditMode');
     unpinnedUl?.classList.add('isEditMode');
     editActions.style.display = 'none';
     editDone.style.display = 'block';
   } else {
-    header.style.display = 'none';
+    nav.style.display = 'none';
     pinnedUl?.classList.remove('isEditMode');
     unpinnedUl?.classList.remove('isEditMode');
     editActions.style.display = 'block';
     editDone.style.display = 'none';
   }
+
+  const html = document.documentElement;
+  html.scrollTo({
+    top: html.scrollHeight,
+    behavior: 'smooth'
+  });
 };
 
 const onMouseOver = (event) => {
@@ -134,7 +140,7 @@ const buildPopup = async (url, color, sortedIds) => {
     }
   });
 
-  const header = document.querySelector('header');
+  const nav = document.querySelector('nav');
   const main = document.querySelector('main');
   const footer = document.querySelector('footer');
 
@@ -145,8 +151,15 @@ const buildPopup = async (url, color, sortedIds) => {
   const editActions = document.getElementById('editActions');
   const editDone = document.getElementById('editDone');
 
+  const wrapIconWithSpan = (imgElement, wrapperClass) => {
+    const span = document.createElement('span');
+    span.classList.add(wrapperClass);
+    span.appendChild(imgElement);
+    return span;
+  };
+
   const initializePopupPage = async () => {
-    header.style.display = 'none';
+    nav.style.display = 'none';
     main.innerHTML = `<div><p>${getCurrentLangLabelString('onError')}</p></div>`;
     footer.style.display = 'none';
   };
@@ -180,7 +193,7 @@ const buildPopup = async (url, color, sortedIds) => {
   pinnedLabel.textContent = `${getCurrentLangLabelString('pinnedLabel')}`;
   pinnedLabel.classList.add('pinned-heading');
 
-  const copyIcons = { 'on': './images/icon-copy-on.svg', 'off': './images/icon-copy-off.svg'};
+  const copyIcons = { 'on': './images/icon-check.svg', 'off': './images/icon-copy.svg'};
   const pinIcons = { 'on': './images/icon-pin-on.svg', 'off': './images/icon-pin-off.svg'};
 
   const createListItem = (item, targetUl) => {
@@ -189,12 +202,25 @@ const buildPopup = async (url, color, sortedIds) => {
     
     div.textContent = item.text;
 
+//    // --- COPY WRAPPER（SPAN）を追加 ---
+//    const iconCopyWrapper = document.createElement('span');
+//    iconCopyWrapper.classList.add('iconCopyWrapper');
+//
+    // iconCopy
     const iconCopy = document.createElement('img');
     iconCopy.src = copyIcons.off;
     iconCopy.classList.add('iconCopy');
+
     if (!isMacOS) {
       iconCopy.style.display = 'initial';
     }
+
+//    const iconCopy = document.createElement('img');
+//    iconCopy.src = copyIcons.off;
+//    iconCopy.classList.add('iconCopy');
+//    if (!isMacOS) {
+//      iconCopy.style.display = 'initial';
+//    }
 
     const iconPin = document.createElement('img');
     iconPin.src = item.pinned ? pinIcons.on : pinIcons.off;
@@ -329,9 +355,14 @@ const buildPopup = async (url, color, sortedIds) => {
       });
     });
 
+    // wrapper に入れる
+    const iconPinWrapper = wrapIconWithSpan(iconPin, 'iconPinWrapper');
+    const iconCopyWrapper = wrapIconWithSpan(iconCopy, 'iconCopyWrapper');
+
+    li.appendChild(iconPinWrapper);
     li.appendChild(div);
-    li.appendChild(iconPin);
-    li.appendChild(iconCopy);
+    li.appendChild(iconCopyWrapper);
+
     li.classList.add('history-item');
     li.dataset.id = item.id;
     li.dataset.pinned = item.pinned;
@@ -403,10 +434,10 @@ const buildPopup = async (url, color, sortedIds) => {
     main.appendChild(unpinnedUl);
   }
 
-  /* rendering header */
-  if (!isMacOS()) {
-    header.style.display = 'none';
-  }
+  /* rendering nav */
+//  if (!isMacOS()) {
+//    nav.style.display = 'none';
+//  }
   
   allHistory.textContent = `${getCurrentLangLabelString('clearHistoryAll')}`;
   keepPinned.textContent = `${getCurrentLangLabelString('clearHistoryOption')}`;
@@ -434,7 +465,7 @@ const buildPopup = async (url, color, sortedIds) => {
     };
 
     browser.storage.local.set({ settings: updatedSettings }).catch((error) => {
-      console.error('Failed to save settings:', error);
+      console.error('[TextClipHistoryExtension] Failed to save settings:', error);
     });
     
     clearOption = option;
@@ -484,7 +515,7 @@ const buildPopup = async (url, color, sortedIds) => {
 
       updateClearOptionsVisibility();
     } catch (error) {
-      console.error('Failed to clear text clippings:', error);
+      console.error('[TextClipHistoryExtension] Failed to clear text clippings:', error);
     }
   });
 
@@ -499,7 +530,7 @@ const buildPopup = async (url, color, sortedIds) => {
 
   /* rendering footer */
   if (isMacOS()) {
-    footer.style.display = 'none';
+//    footer.style.display = 'none';
   }
 
   editActions.textContent = `${getCurrentLangLabelString('editActions')}`;
@@ -531,7 +562,7 @@ const initializePopup = async () => {
     autoClosePage();
     await buildPopup();
   } catch (error) {
-    console.error('Fail to initialize to build the popup:', error);
+    console.error('[TextClipHistoryExtension] Fail to initialize to build the popup:', error);
     isInitialized = false;
   }
 };
