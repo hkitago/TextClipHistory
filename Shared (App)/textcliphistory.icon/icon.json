@@ -6,12 +6,31 @@
       "hidden" : false,
       "layers" : [
         {
+          "glass" : true,
+          "image-name" : "icon-safari.svg",
+          "name" : "icon-safari",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -37.508448623058484,
+              -2.610609554965208
+            ]
+          }
+        },
+        {
           "blend-mode" : "normal",
           "fill" : "automatic",
-          "glass" : true,
+          "glass" : false,
           "hidden" : false,
-          "image-name" : "icon-file.svg",
-          "name" : "icon-file"
+          "image-name" : "icon-board.svg",
+          "name" : "icon-board",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              -92.82466345438525,
+              -3.21167773428715
+            ]
+          }
         }
       ],
       "shadow" : {
