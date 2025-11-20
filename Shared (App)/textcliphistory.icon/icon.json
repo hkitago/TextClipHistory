@@ -6,7 +6,7 @@
       "hidden" : false,
       "layers" : [
         {
-          "glass" : true,
+          "glass" : false,
           "image-name" : "icon-safari.svg",
           "name" : "icon-safari",
           "position" : {
