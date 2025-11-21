@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/hkitago/TextClipHistory/refs/heads/main/Shared%20(App)/Resources/Icon.png" height="36" valign="bottom"/> TextClipHistory for Safari Extension
+# <img src="https://raw.githubusercontent.com/hkitago/TextClipHistory/refs/heads/main/Shared%20(Extension)/Resources/images/icon.svg" height="36" valign="bottom"/> TextClipHistory for Safari Extension
 
 This Safari extension empowers you to manage text snippets with ease. Save up to 10 phrases, pin your favorites, and insert them instantly into any input field—or copy to your clipboard when no field is active. It works seamlessly across your browsing, streamlining repetitive tasks wherever you are.
 
@@ -30,23 +30,17 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Version History
 
-### 1.2.4
-
-#### **Common** - 2025-10-10
+### 1.2.4 - 2025-10-10
 
 - Updated for the latest OS with new user interface and theme-optimized icons
 
-### 1.2.3
-
-#### **Common** - 2025-07-14
+### 1.2.3 - 2025-07-14
 
 - Enabled selective deletion of pinned and unpinned items in copy history management
 - Improved the auto-fill function to prevent unintended text insertion
 - Adjusted toolbar icon updates to be more reliable
 
-### 1.2.2
-
-#### **Common** - 2025-06-17
+### 1.2.2 - 2025-06-17
 
 - Improved support for detecting copied text from forms with frames or input fields
 - Fixed an issue where selected text from popovers was not correctly inserted into input fields
