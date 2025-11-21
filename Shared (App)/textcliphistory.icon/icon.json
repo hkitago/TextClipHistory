@@ -9,8 +9,8 @@
           "blend-mode" : "normal",
           "fill" : "automatic",
           "glass" : false,
-          "image-name" : "icon-file 2.svg",
-          "name" : "icon-file 2"
+          "image-name" : "icon-textcliphistory.svg",
+          "name" : "icon-textcliphistory"
         }
       ],
       "shadow" : {
