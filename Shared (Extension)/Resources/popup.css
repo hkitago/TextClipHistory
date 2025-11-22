@@ -38,6 +38,7 @@ body {
 
 body.os-ios {
   width: 100%;
+  margin: 0;
 }
 
 body.os-ios, body.os-ipados {
@@ -49,44 +50,73 @@ body.os-ios, body.os-ipados {
   text-align: right;
 }
 
-header {
+nav {
   margin: 0 15px 15px;
+  display: none;
+  border-radius: 15px;
+  background-color: rgb(254 255 255);
 }
 
 #history-toolbar {
   display: flex;
-  justify-content: space-between;
+  -webkit-flex-direction: column;
+
+  justify-content: space-around;
   align-items: center;
-  margin: 0 15px;
-  width: calc(100% - 2 * 15px);
+  margin: 10px 0;
+  width: 100%;
   overflow: hidden;
+  gap: 5px;
 }
 
 #history-toolbar button {
   -webkit-appearance: none;
   appearance: none;
   background: none;
-  border: none;
-  padding: 0;
+  padding: 7px 0px;
   cursor: pointer;
   margin: 0;
   font-size: 1rem;
+  width: calc(100% - 2 * 15px);
+  border-width: 0;
+  border-radius: 25px;
 }
+
+button#clearAllHistory {
+  color: white;
+  background-color: rgb(0 136 254);
+}
+
+button#clearAllHistory:active {
+  background-color: rgb(209 209 213);
+}
+
+.os-macos button#clearAllHistory:active,
+.os-macos button#clearAllHistory:focus {
+  background-color: rgb(47 108 222);
+}
+
 
 #history-options {
   display: flex;
+  justify-content: space-between;
+  width: calc(100% - 2 * 15px);
 }
 
 #history-options button {
-  margin: 0 0 0 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
 }
 
 .rtl #history-options button {
-  margin: 0 5px 0 0;
+  margin: 0px;
 }
 
 #history-options button.selected {
   color: rgb(70 146 254);
+  background-color: rgb(240 242 242);
 }
 
 #history-options button:not(.selected) {
@@ -130,6 +160,7 @@ main {
 main > h2#pinnedLabel {
   margin: 0 30px 10px;
   font-size: 1rem;
+  color: rgb(33 33 33/.7);
 }
 
 main > ul {
@@ -147,6 +178,8 @@ main > ul > li {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 10px;
+  padding: 0px 15px;
 }
 
 main > ul > li:not(:last-child) {
@@ -158,7 +191,7 @@ main > ul > li.selected {
 }
 
 main > ul > li > div {
-  margin: 10px 15px;
+  margin: 10px 0px;
   overflow-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -166,30 +199,44 @@ main > ul > li > div {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   white-space: pre-wrap;
-  flex:1;
+  flex: 1;
 }
 
-main > ul > li > img {
-  margin-right: 15px;
-  width: auto;
-  height: 18px;
-}
-
-main > ul > li > img.iconPin {
+main > ul > li > span.iconPinWrapper {
   display: none;
 }
 
-body.rtl main > ul > li > img {
-  margin-right: 0px;
-  margin-left: 20px;
+main > ul.isEditMode > li > span.iconPinWrapper {
+  display: inline-flex;
 }
 
-main > ul.isEditMode > li.history-item > img.iconPin {
-  display: initial;
-  opacity:1;
+.iconPinWrapper,
+.iconCopyWrapper {
+  background-color: rgb(255 255 255/.8);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  cursor: pointer;
 }
 
-main > ul.isEditMode > li > img.iconCopy {
+.iconPinWrapper > img,
+.iconCopyWrapper > img {
+  width: 55%;
+  height: auto;
+  margin: 0px;
+}
+
+main > ul.isEditMode > li > span.iconPinWrapper {
+  background-color: rgb(255 255 255/.8);
+/*  display: initial;*/
+/*  opacity:1;*/
+}
+
+main > ul.isEditMode > li > span.iconCopyWrapper {
   display: none;
 }
 
@@ -232,36 +279,37 @@ footer > div {
 @media (hover: hover) and (pointer: fine) {
   #history-options button:hover:not(.selected) {
     opacity: 1;
-    color: rgb(70 146 254);
+/*    color: rgb(70 146 254);*/
   }
   
   .delete-button:hover {
-    opacity: 0.5;
+/*    opacity: 0.5;*/
   }
   
-  main > ul > li.hover {
+  /*  main > ul > li.hover {*/
+  main > ul:not(.isEditMode) > li.hover {
     background-color: rgb(210 209 215);
     cursor: pointer;
   }
   
-  main > ul > li > img:hover {
+  main > ul > li > span > img:hover {
     opacity: 1;
   }
   
-  main > ul > li.hover > img {
+  main > ul > li.hover > span > img {
     display: inline-block;
   }
   
-  main > ul > li.hover > img.iconCopy {
+  main > ul > li.hover > span > img.iconCopy {
     opacity: 1;
   }
   
-  main > ul > li.hover > img.iconCopy.fadeIn {
+  main > ul > li.hover > span > img.iconCopy.fadeIn {
     opacity: 0;
     animation: popIn 0.3s ease-out forwards;
   }
 
-  main > ul > li > img.hover {
+  main > ul > li > span > img.hover {
     opacity: 1;
   }
 
@@ -275,12 +323,29 @@ footer > div {
     background-color: rgb(30 30 30);
   }
 
+  main > h2#pinnedLabel {
+    color: rgb(255 255 255/.7);
+  }
+
+  nav {
+    background-color: rgb(44 43 45);
+  }
+
   main > ul > li {
     background-color: rgb(44 43 45);
   }
 
+  #history-options button.selected {
+    background-color: rgb(53 53 53);
+  }
+
+/*  @media (hover: hover) and (pointer: fine) {*/
+/*    main > ul > li.hover {*/
+/*      background-color: rgb(58 57 59);*/
+/*    }*/
+/*  }*/
   @media (hover: hover) and (pointer: fine) {
-    main > ul > li.hover {
+    main > ul:not(.isEditMode) > li.hover {
       background-color: rgb(58 57 59);
     }
   }
@@ -289,8 +354,12 @@ footer > div {
     background-color: rgb(58 57 59);
   }
 
-  main > ul > li > img {
-    filter: invert(1);
+  .iconCopyWrapper {
+    background-color: rgb(53 53 53/.8);
+  }
+
+  main > ul.isEditMode > li > span.iconPinWrapper {
+/*    background-color: rgb(53 53 53/.7);*/
   }
 
 }
