@@ -66,14 +66,14 @@ nav {
   margin: 10px 0;
   width: 100%;
   overflow: hidden;
-  gap: 5px;
+  gap: 9px;
 }
 
 #history-toolbar button {
   -webkit-appearance: none;
   appearance: none;
   background: none;
-  padding: 7px 0px;
+  padding: 9px 0px;
   cursor: pointer;
   margin: 0;
   font-size: 1rem;
@@ -327,6 +327,10 @@ footer > div {
     color: rgb(255 255 255/.7);
   }
 
+  main > ul.isEditMode > li > span.iconPinWrapper {
+    background-color: rgb(255 255 255/.15);
+  }
+
   nav {
     background-color: rgb(44 43 45);
   }
@@ -339,11 +343,6 @@ footer > div {
     background-color: rgb(53 53 53);
   }
 
-/*  @media (hover: hover) and (pointer: fine) {*/
-/*    main > ul > li.hover {*/
-/*      background-color: rgb(58 57 59);*/
-/*    }*/
-/*  }*/
   @media (hover: hover) and (pointer: fine) {
     main > ul:not(.isEditMode) > li.hover {
       background-color: rgb(58 57 59);
