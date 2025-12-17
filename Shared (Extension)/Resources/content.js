@@ -2,7 +2,7 @@
   /* Global state variables */
   let lastFocusedElement = null;
   
-  const popupIntval = 2000;
+  const popupIntval = 1500;
   let popupHost = null;
   let popupEl = null;
   let hideTimer = null;
@@ -11,56 +11,50 @@
   const createPopup = () => {
     const host = document.createElement('div');
     host.id = 'textcliphistory-ext-popup-host';
-    host.style.cssText = `
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      z-index: 2147483647;
-      pointer-events: none;
-    `;
+    
+    Object.assign(host.style, {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      width: '0',
+      height: '0',
+      zIndex: '2147483647',
+      pointerEvents: 'none'
+    });
 
     const shadow = host.attachShadow({ mode: 'open' });
-
-    const style = document.createElement('style');
-    style.textContent = `
-      .textcliphistory-ext-popup {
-        position: absolute;
-        background: rgb(255 255 255/.8);
-        color: black;
-        padding: 4px 10px;
-        border-radius: 7px;
-        font-size: 12px;
-        font-family: -apple-system, sans-serif;
-        pointer-events: none;
-        display: none;
-        white-space: nowrap;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        line-height: normal;
-        box-sizing: border-box;
-      }
-      @media (prefers-color-scheme: dark) {
-        .textcliphistory-ext-popup {
-          background: rgb(0 0 0/.8);
-          color: white;
-        }
-      }
-      @supports (-apple-visual-effect: -apple-system-glass-material) {
-        .textcliphistory-ext-popup {
-          background: transparent;
-          -apple-visual-effect: -apple-system-glass-material;
-        }
-      }
-    `;
 
     const div = document.createElement('div');
     div.className = 'textcliphistory-ext-popup';
     div.dir = 'auto';
 
-    shadow.appendChild(style);
-    shadow.appendChild(div);
+    Object.assign(div.style, {
+      position: 'absolute',
+      background: 'rgb(255 255 255/.8)',
+      color: 'black',
+      padding: '4px 10px',
+      borderRadius: '7px',
+      fontSize: '12px',
+      fontFamily: '-apple-system, sans-serif',
+      pointerEvents: 'none',
+      display: 'none',
+      whiteSpace: 'nowrap',
+      boxShadow: '0 2px 8px rgb(0 0 0/.3)',
+      lineHeight: 'normal',
+      boxSizing: 'border-box',
+      border: '1px solid rgb(0 0 0/.1)'
+    });
+    
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (isDarkMode) {
+       Object.assign(div.style, {
+         background: 'rgb(0 0 0/.8)',
+         color: 'white',
+         border: '1px solid rgb(255 255 255/.1)'
+       });
+    }
 
+    shadow.appendChild(div);
     document.body.appendChild(host);
 
     return { host, div };
@@ -81,36 +75,48 @@
       popupHost = created.host;
       popupEl = created.div;
     }
-    
+
+    hidePopup();
+
     const rect = element.getBoundingClientRect();
     const isRTL = window.getComputedStyle(element).direction === 'rtl';
-    
+
     popupEl.textContent = inputSourceName;
     popupEl.style.display = 'block';
 
     const popupHeight = popupEl.offsetHeight;
     const gap = 5;
 
-    let topPosition = rect.top + window.scrollY - popupHeight - gap;
+    let topPosition = rect.top - popupHeight - gap;
 
-    if (rect.top - popupHeight - gap < 0) {
-      topPosition = rect.bottom + window.scrollY + gap;
+    if (topPosition < 0) {
+      topPosition = rect.bottom + gap;
     }
 
     popupEl.style.top = `${topPosition}px`;
-    
+
     if (isRTL) {
       popupEl.style.right = 'auto';
-      popupEl.style.left = `${rect.right + window.scrollX - popupEl.offsetWidth}px`;
+      popupEl.style.left = `${rect.right - popupEl.offsetWidth}px`;
     } else {
-      popupEl.style.left = `${rect.left + window.scrollX}px`;
+      popupEl.style.left = `${rect.left}px`;
       popupEl.style.right = 'auto';
     }
-    
+
     clearTimeout(hideTimer);
     hideTimer = setTimeout(() => {
       hidePopup();
     }, popupIntval);
+  };
+
+  const requestInputSourcePopup = (target) => {
+    if (!isEditableElement(target)) return;
+
+    lastFocusedElement = target;
+
+    browser.runtime.sendMessage({
+      request: 'inputFocused',
+    });
   };
 
   document.addEventListener('contextmenu', (event) => {
@@ -289,23 +295,22 @@
   };
 
   document.addEventListener('focusin', (event) => {
-    if (isEditableElement(event.target)) lastFocusedElement = event.target;
-
-    if (event.target.matches('input, textarea, [contenteditable]')) {
-      browser.runtime.sendMessage({
-        request: 'inputFocused',
-      });
-    }
+    if (!isEditableElement(event.target)) return;
+    requestInputSourcePopup(event.target);
   });
 
   document.addEventListener('focusout', (event) => {
-    if (event.target.matches('input, textarea, [contenteditable]')) {
-      hidePopup();
-    }
+    if (!isEditableElement(event.target)) return;
+    hidePopup();
   });
 
   document.addEventListener('pointerdown', (event) => {
-    if (!isEditableElement(event.target)) lastFocusedElement = null;
+    if (!isEditableElement(event.target)) {
+      lastFocusedElement = null;
+      return;
+    }
+
+    requestInputSourcePopup(event.target);
   });
 
   // Listen for keyboard input while popup is visible
@@ -335,7 +340,7 @@
 
     if (message.action === 'showInputSource' && message.inputSource) {
       const activeElement = document.activeElement;
-      if (activeElement && activeElement.matches('input, textarea, [contenteditable]')) {
+      if (activeElement && isEditableElement(activeElement)) {
         showPopup(activeElement, message.inputSource.name);
       }
     }
