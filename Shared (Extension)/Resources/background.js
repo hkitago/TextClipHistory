@@ -1,3 +1,5 @@
+import { isMacOS } from './utils.js';
+
 // When enabled with tabs already open, just tricky part for Safari
 browser.runtime.onInstalled.addListener(async () => {
   const tabs = await browser.tabs.query({});
@@ -142,6 +144,26 @@ browser.tabs.onRemoved.addListener((tabId) => {
   activeTabs.delete(tabId);
 });
 
+// Get input source from native app (macOS only)
+const getInputSource = async () => {
+  if (!isMacOS()) return;
+  
+  return new Promise((resolve, reject) => {
+    browser.runtime.sendNativeMessage(
+      'application.id',
+      { message: "getInputSource" },
+      (response) => {
+        if (response && response.status === 'success') {
+          resolve(response.inputSource);
+        } else {
+          console.error('[TextClipHistoryExtension] Failed to retrieve input source:', response);
+          reject(new Error(response?.error || 'Unknown error'));
+        }
+      }
+    );
+  });
+};
+
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.request === 'saveClipboard') {
@@ -157,6 +179,27 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     sendResponse({ hasHistory });
     
     return true;
+  }
+
+  if (message.request === 'inputFocused') {
+    if (!isMacOS()) return;
+
+    try {
+      const inputSource = await getInputSource();
+      
+      if (!inputSource) return;
+      if (inputSource.enabledCount <= 1) return;
+      
+      // Send input source to the content script
+      if (sender.tab && sender.tab.id) {
+        browser.tabs.sendMessage(sender.tab.id, {
+          action: 'showInputSource',
+          inputSource: inputSource
+        });
+      }
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Error retrieving input source:', error);
+    }
   }
 
   return false;

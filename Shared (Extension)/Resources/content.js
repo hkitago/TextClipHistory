@@ -2,6 +2,117 @@
   /* Global state variables */
   let lastFocusedElement = null;
   
+  const popupIntval = 2000;
+  let popupHost = null;
+  let popupEl = null;
+  let hideTimer = null;
+
+  // Create popup element with Shadow DOM
+  const createPopup = () => {
+    const host = document.createElement('div');
+    host.id = 'textcliphistory-ext-popup-host';
+    host.style.cssText = `
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      z-index: 2147483647;
+      pointer-events: none;
+    `;
+
+    const shadow = host.attachShadow({ mode: 'open' });
+
+    const style = document.createElement('style');
+    style.textContent = `
+      .textcliphistory-ext-popup {
+        position: absolute;
+        background: rgb(255 255 255/.8);
+        color: black;
+        padding: 4px 10px;
+        border-radius: 7px;
+        font-size: 12px;
+        font-family: -apple-system, sans-serif;
+        pointer-events: none;
+        display: none;
+        white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        line-height: normal;
+        box-sizing: border-box;
+      }
+      @media (prefers-color-scheme: dark) {
+        .textcliphistory-ext-popup {
+          background: rgb(0 0 0/.8);
+          color: white;
+        }
+      }
+      @supports (-apple-visual-effect: -apple-system-glass-material) {
+        .textcliphistory-ext-popup {
+          background: transparent;
+          -apple-visual-effect: -apple-system-glass-material;
+        }
+      }
+    `;
+
+    const div = document.createElement('div');
+    div.className = 'textcliphistory-ext-popup';
+    div.dir = 'auto';
+
+    shadow.appendChild(style);
+    shadow.appendChild(div);
+
+    document.body.appendChild(host);
+
+    return { host, div };
+  };
+
+  // Hide popup immediately
+  const hidePopup = () => {
+    if (popupEl) {
+      popupEl.style.display = 'none';
+      clearTimeout(hideTimer);
+    }
+  };
+
+  // Show popup near the input element with RTL support
+  const showPopup = (element, inputSourceName) => {
+    if (!popupEl) {
+      const created = createPopup();
+      popupHost = created.host;
+      popupEl = created.div;
+    }
+    
+    const rect = element.getBoundingClientRect();
+    const isRTL = window.getComputedStyle(element).direction === 'rtl';
+    
+    popupEl.textContent = inputSourceName;
+    popupEl.style.display = 'block';
+
+    const popupHeight = popupEl.offsetHeight;
+    const gap = 5;
+
+    let topPosition = rect.top + window.scrollY - popupHeight - gap;
+
+    if (rect.top - popupHeight - gap < 0) {
+      topPosition = rect.bottom + window.scrollY + gap;
+    }
+
+    popupEl.style.top = `${topPosition}px`;
+    
+    if (isRTL) {
+      popupEl.style.right = 'auto';
+      popupEl.style.left = `${rect.right + window.scrollX - popupEl.offsetWidth}px`;
+    } else {
+      popupEl.style.left = `${rect.left + window.scrollX}px`;
+      popupEl.style.right = 'auto';
+    }
+    
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      hidePopup();
+    }, popupIntval);
+  };
+
   document.addEventListener('contextmenu', (event) => {
     let copyText = '';
 
@@ -179,10 +290,29 @@
 
   document.addEventListener('focusin', (event) => {
     if (isEditableElement(event.target)) lastFocusedElement = event.target;
+
+    if (event.target.matches('input, textarea, [contenteditable]')) {
+      browser.runtime.sendMessage({
+        request: 'inputFocused',
+      });
+    }
+  });
+
+  document.addEventListener('focusout', (event) => {
+    if (event.target.matches('input, textarea, [contenteditable]')) {
+      hidePopup();
+    }
   });
 
   document.addEventListener('pointerdown', (event) => {
     if (!isEditableElement(event.target)) lastFocusedElement = null;
+  });
+
+  // Listen for keyboard input while popup is visible
+  document.addEventListener('keydown', (event) => {
+    if (popupEl && popupEl.style.display === 'block') {
+      hidePopup();
+    }
   });
 
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -200,6 +330,13 @@
         });
       } else {
         console.warn('[TextClipHistoryExtension] No valid editable element found.');
+      }
+    }
+
+    if (message.action === 'showInputSource' && message.inputSource) {
+      const activeElement = document.activeElement;
+      if (activeElement && activeElement.matches('input, textarea, [contenteditable]')) {
+        showPopup(activeElement, message.inputSource.name);
       }
     }
   });
