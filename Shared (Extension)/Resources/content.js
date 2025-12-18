@@ -7,11 +7,105 @@
   let popupEl = null;
   let hideTimer = null;
 
+  const applyTheme = (el) => {
+    if (!el) return;
+
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    const lightStyles = {
+      background: 'rgb(255 255 255 / 60%)',
+      color: 'black',
+      backdropFilter: 'blur(5px)',
+      WebkitBackdropFilter: 'blur(5px)'
+    };
+
+    const darkStyles = {
+      background: 'rgb(0 0 0 / 60%)',
+      color: 'white',
+      backdropFilter: 'blur(5px)',
+      WebkitBackdropFilter: 'blur(5px)'
+    };
+
+    Object.assign(el.style, isDarkMode ? darkStyles : lightStyles);
+  };
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (popupEl) {
+      applyTheme(popupEl);
+    }
+  });
+
+  const getCaretCoordinates = (element) => {
+    const isInput = element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
+
+    if (!isInput && element.isContentEditable) {
+      // for ContentEditable
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        const range = selection.getRangeAt(0).cloneRange();
+        let rects = range.getClientRects();
+
+        if (rects.length === 0) {
+          const tempSpan = document.createElement('span');
+          tempSpan.appendChild(document.createTextNode('\u200b'));
+          range.insertNode(tempSpan);
+          const rect = tempSpan.getBoundingClientRect();
+          tempSpan.parentNode.removeChild(tempSpan);
+          return { top: rect.top, left: rect.left, width: 0, height: rect.height, bottom: rect.bottom };
+        }
+
+        const r = rects[0];
+        return { top: r.top, left: r.left, width: 0, height: r.height, bottom: r.bottom };
+      }
+      return element.getBoundingClientRect();
+    } else {
+      // --- for Input / Textarea
+      const { selectionStart, value } = element;
+      const style = window.getComputedStyle(element);
+
+      const div = document.createElement('div');
+      const propertiesToCopy = [
+        'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing',
+        'lineHeight', 'textTransform', 'wordSpacing', 'textIndent',
+        'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
+        'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth',
+        'boxSizing', 'whiteSpace', 'wordBreak'
+      ];
+
+      propertiesToCopy.forEach(prop => div.style[prop] = style[prop]);
+
+      div.style.position = 'fixed';
+      div.style.visibility = 'hidden';
+      div.style.top = '0';
+      div.style.left = '0';
+
+      div.style.width = element.offsetWidth + 'px';
+
+      div.textContent = value.substring(0, selectionStart);
+
+      const span = document.createElement('span');
+      span.textContent = value.substring(selectionStart, selectionStart + 1) || '.';
+      div.appendChild(span);
+
+      document.body.appendChild(div);
+
+      const elementRect = element.getBoundingClientRect();
+
+      const top = elementRect.top + span.offsetTop - element.scrollTop;
+      const left = elementRect.left + span.offsetLeft - element.scrollLeft;
+      const height = span.offsetHeight;
+
+      document.body.removeChild(div);
+
+      return { top, left, width: 0, height, bottom: top + height };
+    }
+  };
+
   // Create popup element with Shadow DOM
   const createPopup = () => {
     const host = document.createElement('div');
     host.id = 'textcliphistory-ext-popup-host';
-    
+
     Object.assign(host.style, {
       position: 'fixed',
       top: '0',
@@ -30,29 +124,21 @@
 
     Object.assign(div.style, {
       position: 'absolute',
-      background: 'rgb(255 255 255/.8)',
-      color: 'black',
       padding: '4px 10px',
-      borderRadius: '7px',
+      border: '1px solid rgb(0 0 0 / 30%)',
+      borderRadius: '9px',
       fontSize: '12px',
-      fontFamily: '-apple-system, sans-serif',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
       pointerEvents: 'none',
       display: 'none',
       whiteSpace: 'nowrap',
-      boxShadow: '0 2px 8px rgb(0 0 0/.3)',
+      boxShadow: '0 2px 8px rgb(0 0 0 / 30%)',
       lineHeight: 'normal',
-      boxSizing: 'border-box',
-      border: '1px solid rgb(0 0 0/.1)'
+      boxSizing: 'border-box'
     });
-    
-    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (isDarkMode) {
-       Object.assign(div.style, {
-         background: 'rgb(0 0 0/.8)',
-         color: 'white',
-         border: '1px solid rgb(255 255 255/.1)'
-       });
-    }
+
+    // 初回テーマ適用
+    applyTheme(div);
 
     shadow.appendChild(div);
     document.body.appendChild(host);
@@ -60,7 +146,6 @@
     return { host, div };
   };
 
-  // Hide popup immediately
   const hidePopup = () => {
     if (popupEl) {
       popupEl.style.display = 'none';
@@ -68,7 +153,6 @@
     }
   };
 
-  // Show popup near the input element with RTL support
   const showPopup = (element, inputSourceName) => {
     if (!popupEl) {
       const created = createPopup();
@@ -78,35 +162,35 @@
 
     hidePopup();
 
-    const rect = element.getBoundingClientRect();
-    const isRTL = window.getComputedStyle(element).direction === 'rtl';
+    const caretRect = getCaretCoordinates(element);
 
     popupEl.textContent = inputSourceName;
     popupEl.style.display = 'block';
 
+    const popupWidth = popupEl.offsetWidth;
     const popupHeight = popupEl.offsetHeight;
-    const gap = 5;
+    const gap = 8;
+    const screenPadding = 12;
 
-    let topPosition = rect.top - popupHeight - gap;
-
-    if (topPosition < 0) {
-      topPosition = rect.bottom + gap;
+    // Cal for Y
+    let topPosition = caretRect.top - popupHeight - gap;
+    if (topPosition < screenPadding) {
+      topPosition = caretRect.bottom + gap;
     }
+
+    // Cal for X
+    let leftPosition = caretRect.left - (popupWidth / 2);
+
+    const maxLeft = window.innerWidth - popupWidth - screenPadding;
+    const minLeft = screenPadding;
+
+    leftPosition = Math.max(minLeft, Math.min(leftPosition, maxLeft));
 
     popupEl.style.top = `${topPosition}px`;
-
-    if (isRTL) {
-      popupEl.style.right = 'auto';
-      popupEl.style.left = `${rect.right - popupEl.offsetWidth}px`;
-    } else {
-      popupEl.style.left = `${rect.left}px`;
-      popupEl.style.right = 'auto';
-    }
+    popupEl.style.left = `${leftPosition}px`;
 
     clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => {
-      hidePopup();
-    }, popupIntval);
+    hideTimer = setTimeout(() => hidePopup(), popupIntval);
   };
 
   const requestInputSourcePopup = (target) => {
