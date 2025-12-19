@@ -6,7 +6,6 @@
 //
 
 import SafariServices
-import os.log
 
 #if os(macOS)
 import Carbon
@@ -14,23 +13,20 @@ import Carbon
 
 class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
     
-    private let logger = Logger(subsystem: "com.example.safari-extension", category: "InputSource")
-    
     func beginRequest(with context: NSExtensionContext) {
         let request = context.inputItems.first as? NSExtensionItem
         
         guard let message = request?.userInfo?[SFExtensionMessageKey] else {
-            logger.error("Failed to retrieve message from extension")
             context.completeRequest(returningItems: [], completionHandler: nil)
             return
         }
         
-        logger.info("Received message from extension: \(String(describing: message))")
+        _ = message
         
         #if os(macOS)
         handleInputSourceRequest(context: context)
         #else
-        // iOS does not support input source detection
+        // Input source detection is macOS-only.
         let response = NSExtensionItem()
         response.userInfo = [
             SFExtensionMessageKey: [
@@ -44,9 +40,7 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
     
     #if os(macOS)
     private func handleInputSourceRequest(context: NSExtensionContext) {
-        // Get current input source
         guard let inputSource = TISCopyCurrentKeyboardInputSource()?.takeRetainedValue() else {
-            logger.error("Failed to get current input source")
             let response = NSExtensionItem()
             response.userInfo = [
                 SFExtensionMessageKey: [
@@ -58,16 +52,6 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             return
         }
         
-        // Get input source ID
-        var sourceID: String = "unknown"
-        if let raw = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID) {
-            let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
-            if CFGetTypeID(value) == CFStringGetTypeID() {
-                sourceID = value as! String
-            }
-        }
-        
-        // Get localized name
         var sourceName: String = "unknown"
         if let raw = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName) {
             let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
@@ -76,31 +60,16 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             }
         }
         
-        // Get input source category
-        var sourceCategory: String = "unknown"
-        if let raw = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceCategory) {
-            let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
-            if CFGetTypeID(value) == CFStringGetTypeID() {
-                sourceCategory = value as! String
-            }
-        }
+        // Determine whether only one user-visible input source exists (matches what users can switch in the menu).
+        let isSingle = isSingleInputSource()
         
-        // Get count of enabled input sources
-        let enabledCount = getEnabledInputSourceCount()
-        
-        logger.info("Current input source: \(sourceName) (\(sourceID)), enabled count: \(enabledCount)")
-        
-        // Create response and return to extension
         let response = NSExtensionItem()
         response.userInfo = [
             SFExtensionMessageKey: [
                 "status": "success",
                 "inputSource": [
-                    "id": sourceID,
                     "name": sourceName,
-                    "category": sourceCategory,
-                    "timestamp": Date().timeIntervalSince1970,
-                    "enabledCount": enabledCount
+                    "isSingleInputSource": isSingle
                 ]
             ]
         ]
@@ -108,31 +77,85 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
         context.completeRequest(returningItems: [response], completionHandler: nil)
     }
     
-    private func getEnabledInputSourceCount() -> Int {
-        // Safely unwrap CFString? keys and values
-        guard
-            let categoryKey = kTISPropertyInputSourceCategory as String?,
-            let selectCapableKey = kTISPropertyInputSourceIsSelectCapable as String?
-        else {
-            logger.warning("Failed to unwrap TIS property keys")
-            return 0
-        }
-        
-        // Get all selectable (enabled) input sources
+    /// Returns true if the set of user-visible keyboard input sources is exactly one.
+    /// Heuristics:
+    /// - Category: Keyboard input sources
+    /// - Enabled only
+    /// - User-facing: has languages or is ASCII-capable
+    /// - Optional ID-based blacklist hook for future adjustments
+    private func isSingleInputSource() -> Bool {
+        // Include all installed to reduce cache effects when enumerating input sources.
         let properties: [String: Any] = [
-            categoryKey: kTISCategoryKeyboardInputSource as String,
-            selectCapableKey: true
+            kTISPropertyInputSourceCategory as String: kTISCategoryKeyboardInputSource as String
         ]
         
-        guard let sourceList = TISCreateInputSourceList(properties as CFDictionary, false)?.takeRetainedValue() else {
-            logger.warning("Failed to get input source list")
-            return 0
+        guard let sourceList = TISCreateInputSourceList(properties as CFDictionary, true)?
+            .takeRetainedValue() as? [TISInputSource] else {
+            // Fail-safe: treat as single to avoid showing UI when retrieval fails.
+            return true
         }
         
-        let count = CFArrayGetCount(sourceList)
-        logger.info("Found \(count) enabled input sources")
+        // Placeholder for future expansion: exclude known non-menu/functional/internal items by ID substring.
+        // Start empty and add entries based on real-world logs as needed.
+        let excludedIDSubstrings: [String] = [
+            // e.g. "UnicodeHexInput", ".EmojiFunctionRowItem", ".KanaFunctionRowItem",
+            //      "TrackpadHandwriting", ".Handwriting", ".Pinyin-HW", ".Wubi-HW"
+        ]
         
-        return count
+        var visibleCount = 0
+        
+        for source in sourceList {
+            let isEnabled: Bool = {
+                if let raw = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsEnabled) {
+                    let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
+                    return CFBooleanGetValue((value as! CFBoolean))
+                }
+                return false
+            }()
+            if !isEnabled { continue }
+            
+            // User-facing heuristic
+            let hasLanguages: Bool = {
+                if let raw = TISGetInputSourceProperty(source, kTISPropertyInputSourceLanguages) {
+                    let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
+                    if CFGetTypeID(value) == CFArrayGetTypeID(),
+                       let arr = value as? [Any] {
+                        return !arr.isEmpty
+                    }
+                }
+                return false
+            }()
+            
+            let isASCIICapable: Bool = {
+                if let raw = TISGetInputSourceProperty(source, kTISPropertyInputSourceIsASCIICapable) {
+                    let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
+                    return CFBooleanGetValue((value as! CFBoolean))
+                }
+                return false
+            }()
+            
+            if !(hasLanguages || isASCIICapable) {
+                continue
+            }
+            
+            // ID-based exclusion (blacklist to be expanded later if needed).
+            if let raw = TISGetInputSourceProperty(source, kTISPropertyInputSourceID) {
+                let value = Unmanaged<CFTypeRef>.fromOpaque(raw).takeUnretainedValue()
+                if CFGetTypeID(value) == CFStringGetTypeID(),
+                   let id = value as? String {
+                    if excludedIDSubstrings.contains(where: { id.contains($0) }) {
+                        continue
+                    }
+                }
+            }
+            
+            visibleCount += 1
+            
+            // Early exit: if more than one is found, not single.
+            if visibleCount > 1 { return false }
+        }
+        
+        return visibleCount <= 1
     }
     #endif
 }
