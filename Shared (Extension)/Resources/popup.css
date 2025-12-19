@@ -16,11 +16,16 @@
 }
 
 :root {
-    color-scheme: light dark;
+  color-scheme: light dark;
+  --toggle-x: 16px;
+}
+
+.os-macos {
+  --toggle-x: 12px;
 }
 
 * {
-  -webkit-tap-highlight-color: rgb(0 0 0/0);
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0);
   -webkit-user-select: none;
   -webkit-touch-callout :none;
   -webkit-user-drag: none;
@@ -263,7 +268,7 @@ main > div {
 }
 
 footer {
-  margin: 0 15px 5px;
+  margin: 0 15px 15px;
 }
 
 footer > div {
@@ -274,6 +279,119 @@ footer > div {
 
 #editDone {
   display: none;
+}
+
+/* settings */
+section#settings {
+  margin-top: 10px;
+}
+
+ul#settingsList {
+  list-style: none;
+  padding: 0;
+  margin: 0 15px 15px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+ul#settingsList > li {
+  background-color: rgb(254 255 255);
+  overflow: hidden;
+}
+
+ul#settingsList > li > div {
+  margin: 10px 15px;
+  display: flex;
+  align-items: center;
+}
+
+ul#settingsList > li > div > label {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* toggle btn */
+input[type='checkbox'] {
+  display: none;
+}
+
+.toggle {
+  display: inline-block;
+  width: 48px;
+  height: 22px;
+  background: rgb(197 197 197);
+  border-radius: 11px;
+  position: relative;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.os-macos .toggle {
+  background: rgb(221 221 221);
+  width: 36px;
+  height: 16px;
+}
+
+.toggle::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 18px;
+  background: #FFF;
+  border-radius: 9px;
+}
+
+.os-macos .toggle::before {
+  top: 1px;
+  left: 1px;
+  width: 22px;
+  height: 14px;
+  border-radius: 7px;
+}
+
+input[type='checkbox']:checked ~ .toggle {
+  background: rgb(53 199 89);
+}
+
+.os-macos input[type='checkbox']:checked ~ .toggle {
+  background: rgb(18 122 246);
+}
+
+input[type='checkbox']:checked ~ .toggle::before {
+  transform: translateX(var(--toggle-x));
+}
+
+.os-macos input[type='checkbox']:checked ~ .toggle::before {
+  transform: translateX(var(--toggle-x));
+}
+
+@keyframes bounce-on {
+  0%   { transform: translateX(0px) scale(2); opacity: 1; }
+  50%  { transform: translateX(var(--toggle-x)) scale(2); opacity: 0.5; }
+  100% { transform: translateX(var(--toggle-x)) scale(1); opacity: 1; }
+}
+
+@keyframes bounce-off {
+  0%   { transform: translateX(var(--toggle-x)) scale(2); opacity: 1; }
+  50%  { transform: translateX(0px) scale(2);  opacity: 0.5; }
+  100% { transform: translateX(0px) scale(1); opacity: 1; }
+}
+
+input[type='checkbox'].toggle-disabled ~ .toggle::before {
+  animation: none !important;
+}
+
+input[type='checkbox']:checked ~ .toggle::before {
+  animation: bounce-on 0.4s ease forwards;
+}
+
+input[type='checkbox']:not(:checked) ~ .toggle::before {
+  animation: bounce-off 0.4s ease forwards;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -361,6 +479,10 @@ footer > div {
 /*    background-color: rgb(53 53 53/.7);*/
   }
 
+  ul#settingsList > li {
+    background-color: rgb(37 37 37);
+  }
+
 }
 
 @supports (-apple-visual-effect: -apple-system-glass-material) {
@@ -372,5 +494,17 @@ footer > div {
   body {
     background: transparent;
   }
-  
+
+  @keyframes bounce-on {
+    0%   { transform: translateX(0px) scale(2); background: transparent; -apple-visual-effect: -apple-system-glass-material;   }
+    50%  { transform: translateX(var(--toggle-x)) scale(2); background: transparent; -apple-visual-effect: -apple-system-glass-material; }
+    100% { transform: translateX(var(--toggle-x)) scale(1); }
+  }
+
+  @keyframes bounce-off {
+    0%   { transform: translateX(var(--toggle-x)) scale(2); background: transparent; -apple-visual-effect: -apple-system-glass-material; }
+    50%  { transform: translateX(0px) scale(2); background: transparent; -apple-visual-effect: -apple-system-glass-material; }
+    100% { transform: translateX(0px) scale(1); }
+  }
+
 }
