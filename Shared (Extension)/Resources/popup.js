@@ -5,7 +5,7 @@
 //  Created by Hiroyuki KITAGO on 2024/11/01.
 //
 import { getCurrentLangLabelString, applyRTLSupport } from './localization.js';
-import { isIOS, isIPadOS, isMacOS, getIOSMajorVersion, applyPlatformClass } from './utils.js';
+import { isIOS, isIPadOS, isMacOS, getIOSMajorVersion, applyPlatformClass, settings } from './utils.js';
 
 const appState = {
   isEditMode: false,
@@ -45,33 +45,6 @@ const idleWindowTime = 3 * 60 * 1000;
 let idleTimeout;
 let lastMousePosition = { x: 0, y: 0 };
 
-const DEFAULT_SETTINGS = {
-  clearOption: 'all'
-};
-
-const getSettings = async () => {
-  try {
-    const { settings } = await browser.storage.local.get('settings');
-    return { ...DEFAULT_SETTINGS, ...settings };
-  } catch (error) {
-    console.error('[TextClipHistoryExtension] Failed to load settings:', error);
-    return DEFAULT_SETTINGS;
-  }
-};
-
-/* Init for auto-close */
-const autoClosePage = () => {
-  browser.runtime.sendMessage({ request: 'checkStorage' }).then((response) => {
-    if (!response.hasHistory) {
-      setTimeout(() => {
-        closeWindow();
-      }, closeWindowTime);
-    }
-  }).catch(error => {
-    console.error('[TextClipHistoryExtension] Failed to check storage:', error);
-  });
-};
-
 const toggleEditMode = () => {
   setState('isEditMode', !getState('isEditMode'));
   const nav = document.querySelector('nav');
@@ -107,7 +80,7 @@ const onMouseOut = (event) => {
   event.target.closest('li').classList.remove('hover');
 }
 
-const buildPopup = async (url, color, sortedIds) => {
+const buildPopup = async (settings) => {
   applyPlatformClass();
   applyRTLSupport();
 
@@ -202,10 +175,6 @@ const buildPopup = async (url, color, sortedIds) => {
     
     div.textContent = item.text;
 
-//    // --- COPY WRAPPER（SPAN）を追加 ---
-//    const iconCopyWrapper = document.createElement('span');
-//    iconCopyWrapper.classList.add('iconCopyWrapper');
-//
     // iconCopy
     const iconCopy = document.createElement('img');
     iconCopy.src = copyIcons.off;
@@ -214,13 +183,6 @@ const buildPopup = async (url, color, sortedIds) => {
     if (!isMacOS) {
       iconCopy.style.display = 'initial';
     }
-
-//    const iconCopy = document.createElement('img');
-//    iconCopy.src = copyIcons.off;
-//    iconCopy.classList.add('iconCopy');
-//    if (!isMacOS) {
-//      iconCopy.style.display = 'initial';
-//    }
 
     const iconPin = document.createElement('img');
     iconPin.src = item.pinned ? pinIcons.on : pinIcons.off;
@@ -355,7 +317,6 @@ const buildPopup = async (url, color, sortedIds) => {
       });
     });
 
-    // wrapper に入れる
     const iconPinWrapper = wrapIconWithSpan(iconPin, 'iconPinWrapper');
     const iconCopyWrapper = wrapIconWithSpan(iconCopy, 'iconCopyWrapper');
 
@@ -433,11 +394,6 @@ const buildPopup = async (url, color, sortedIds) => {
   if (unpinnedUl.children.length > 0) {
     main.appendChild(unpinnedUl);
   }
-
-  /* rendering nav */
-//  if (!isMacOS()) {
-//    nav.style.display = 'none';
-//  }
   
   allHistory.textContent = `${getCurrentLangLabelString('clearHistoryAll')}`;
   keepPinned.textContent = `${getCurrentLangLabelString('clearHistoryOption')}`;
@@ -453,30 +409,23 @@ const buildPopup = async (url, color, sortedIds) => {
     return pinnedCount > 0 && pinnedCount < totalCount;
   };
 
-  const settings = await getSettings();
-  let clearOption = settings.clearOption;
+  let clearOption = settings.get('clearOption');
 
-  const clearOptionHandlers = (option) => {
+  const clearOptionHandlers = async (option, settings) => {
     allHistory.classList.toggle('selected', option === 'all');
     keepPinned.classList.toggle('selected', option === 'keep');
-
-    const updatedSettings = {
-      clearOption: option  /* 'all' | 'keep' */
-    };
-
-    browser.storage.local.set({ settings: updatedSettings }).catch((error) => {
-      console.error('[TextClipHistoryExtension] Failed to save settings:', error);
-    });
     
+    await settings.set('clearOption', option);
+
     clearOption = option;
   };
 
-  allHistory.addEventListener('click', () => clearOptionHandlers('all'));
-  keepPinned.addEventListener('click', () => clearOptionHandlers('keep'));
+  allHistory.addEventListener('click', () => clearOptionHandlers('all', settings));
+  keepPinned.addEventListener('click', () => clearOptionHandlers('keep', settings));
   
   allHistory.classList.toggle('selected', clearOption === 'all');
   keepPinned.classList.toggle('selected', clearOption === 'keep');
-
+  
   const updateClearOptionsVisibility = () => {
     historyOptions.style.display = showClearOptions() ? '' : 'none';
     clearAllHistory.textContent = showClearOptions() ? `${getCurrentLangLabelString('clearButton')}` : `${getCurrentLangLabelString('clearAllHistory')}`;
@@ -507,10 +456,6 @@ const buildPopup = async (url, color, sortedIds) => {
       } else {
         await browser.storage.local.remove('history');
         initializePopupPage();
-
-        setTimeout(() => {
-          closeWindow();
-        }, closeWindowTime);
       }
 
       updateClearOptionsVisibility();
@@ -529,10 +474,6 @@ const buildPopup = async (url, color, sortedIds) => {
   }
 
   /* rendering footer */
-  if (isMacOS()) {
-//    footer.style.display = 'none';
-  }
-
   editActions.textContent = `${getCurrentLangLabelString('editActions')}`;
   editActions.addEventListener('click', toggleEditMode);
   editActions.addEventListener('touchstart', (event) => {
@@ -550,6 +491,58 @@ const buildPopup = async (url, color, sortedIds) => {
   editDone.addEventListener('touchend', (event) => {
     event.target.classList.remove('selected');
   });
+
+  // Settings View
+  const settingItems = [
+    { key: 'showInputSource', label: `${getCurrentLangLabelString('settingsShowInputSource')}` },
+  ];
+
+  const checkboxes = {};
+
+  const renderSettingsList = async () => {
+
+    try {
+      const data = await browser.storage.local.get('inputSourceEnabled');
+      const inputSourceEnabled = data.inputSourceEnabled !== undefined ? data.inputSourceEnabled : true;
+console.log(inputSourceEnabled);
+      if (!inputSourceEnabled) {
+        document.getElementById('settings').style.display = 'none';
+        return false;
+      }
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Failed to check input source:', error);
+      return;
+    }
+
+    settingItems.forEach(({ key, label }) => {
+      const checkbox = document.getElementById(key);
+      const labelElement = document.querySelector(`label[for="${key}"]`);
+      if (!checkbox || !labelElement) return;
+
+      checkboxes[key] = checkbox;
+
+      labelElement.textContent = label;
+      checkbox.checked = settings.get(key);
+
+      checkbox.addEventListener('click', (event) => {
+        event.target.classList.remove('toggle-disabled');
+      });
+
+      const toggleSpan = checkbox.nextElementSibling;
+      if (toggleSpan) {
+        toggleSpan.addEventListener('click', () => {
+          checkbox.click();
+        });
+      }
+
+      checkbox.addEventListener('change', async () => {
+        checkbox.classList.remove('toggle-disabled');
+        await settings.set(key, checkbox.checked);
+      });
+    });
+  };
+
+  renderSettingsList();
 };
 
 let isInitialized = false;
@@ -558,9 +551,9 @@ const initializePopup = async () => {
   if (isInitialized) return;
   isInitialized = true;
 
+  await settings.load();
   try {
-    autoClosePage();
-    await buildPopup();
+    await buildPopup(settings);
   } catch (error) {
     console.error('[TextClipHistoryExtension] Fail to initialize to build the popup:', error);
     isInitialized = false;
