@@ -14,7 +14,8 @@ export const labelStrings = {
     "clearButton": "Clear",
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
-    "editDone": "Done"
+    "editDone": "Done",
+    "settingsShowInputSource": "Show Input Source"
   },
   "ar": {
     "onError": "لا توجد قصاصات نصية.",
@@ -24,7 +25,8 @@ export const labelStrings = {
     "clearButton": "مسح",
     "pinnedLabel": "مثبّت",
     "editActions": "تحرير قصاصات النص...",
-    "editDone": "تم"
+    "editDone": "تم",
+    "settingsShowInputSource": "إظهار مصدر الإدخال"
   },
   "ar-SA": {
     "onError": "لا توجد قصاصات نصية.",
@@ -34,7 +36,8 @@ export const labelStrings = {
     "clearButton": "مسح",
     "pinnedLabel": "مثبّت",
     "editActions": "تحرير قصاصات النص...",
-    "editDone": "تم"
+    "editDone": "تم",
+    "settingsShowInputSource": "إظهار مصدر الإدخال"
   },
   "ca": {
     "onError": "No hi ha retalls de text.",
@@ -44,7 +47,8 @@ export const labelStrings = {
     "clearButton": "Esborra",
     "pinnedLabel": "Fixat",
     "editActions": "Editar retalls de text...",
-    "editDone": "Fet"
+    "editDone": "Fet",
+    "settingsShowInputSource": "Mostra la font d’entrada"
   },
   "cs": {
     "onError": "Není žádný textový výstřižek.",
@@ -54,7 +58,8 @@ export const labelStrings = {
     "clearButton": "Smazat",
     "pinnedLabel": "Připnuto",
     "editActions": "Upravit textové výstřižky...",
-    "editDone": "Hotovo"
+    "editDone": "Hotovo",
+    "settingsShowInputSource": "Zobrazit zdroj vstupu"
   },
   "da": {
     "onError": "Der er ingen tekstudklip.",
@@ -64,7 +69,8 @@ export const labelStrings = {
     "clearButton": "Ryd",
     "pinnedLabel": "Připnuto",
     "editActions": "Rediger tekstudklip...",
-    "editDone": "Færdig"
+    "editDone": "Færdig",
+    "settingsShowInputSource": "Vis inputkilde"
   },
   "de": {
     "onError": "Es gibt keine Textausschnitte.",
@@ -74,7 +80,8 @@ export const labelStrings = {
     "clearButton": "Löschen",
     "pinnedLabel": "Angeheftet",
     "editActions": "Textausschnitte bearbeiten...",
-    "editDone": "Fertig"
+    "editDone": "Fertig",
+    "settingsShowInputSource": "Eingabequelle einblenden"
   },
   "el": {
     "onError": "Δεν υπάρχουν αποκόμματα κειμένου.",
@@ -84,7 +91,8 @@ export const labelStrings = {
     "clearButton": "Εκκαθάριση",
     "pinnedLabel": "Καρφιτσωμένο",
     "editActions": "Επεξεργασία αποκομμάτων κειμένου...",
-    "editDone": "Έγινε"
+    "editDone": "Έγινε",
+    "settingsShowInputSource": "Εμφάνιση πηγής εισόδου"
   },
   "en-AU": {
     "onError": "There are no text clippings.",
@@ -94,7 +102,8 @@ export const labelStrings = {
     "clearButton": "Clear",
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
-    "editDone": "Done"
+    "editDone": "Done",
+    "settingsShowInputSource": "Show Input Source"
   },
   "en-CA": {
     "onError": "There are no text clippings.",
@@ -104,7 +113,8 @@ export const labelStrings = {
     "clearButton": "Clear",
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
-    "editDone": "Done"
+    "editDone": "Done",
+    "settingsShowInputSource": "Show Input Source"
   },
   "en-GB": {
     "onError": "There are no text clippings.",
@@ -114,7 +124,8 @@ export const labelStrings = {
     "clearButton": "Clear",
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
-    "editDone": "Done"
+    "editDone": "Done",
+    "settingsShowInputSource": "Show Input Source"
   },
   "es": {
     "onError": "No hay recortes de texto.",
@@ -124,7 +135,8 @@ export const labelStrings = {
     "clearButton": "Borrar",
     "pinnedLabel": "Fijado",
     "editActions": "Editar recortes de texto...",
-    "editDone": "Hecho"
+    "editDone": "Hecho",
+    "settingsShowInputSource": "Mostrar fuente de entrada"
   },
   "es-MX": {
     "onError": "No hay recortes de texto.",
@@ -134,7 +146,8 @@ export const labelStrings = {
     "clearButton": "Borrar",
     "pinnedLabel": "Fijado",
     "editActions": "Editar recortes de texto...",
-    "editDone": "Hecho"
+    "editDone": "Hecho",
+    "settingsShowInputSource": "Mostrar fuente de entrada"
   },
   "fi": {
     "onError": "Ei tekstiklippejä.",
@@ -144,7 +157,8 @@ export const labelStrings = {
     "clearButton": "Tyhjennä",
     "pinnedLabel": "Kiinnitetty",
     "editActions": "Muokkaa tekstileikkeitä...",
-    "editDone": "Valmis"
+    "editDone": "Valmis",
+    "settingsShowInputSource": "Näytä syöttölähde"
   },
   "fr": {
     "onError": "Il n'y a pas de fragments de texte.",
@@ -154,7 +168,8 @@ export const labelStrings = {
     "clearButton": "Effacer",
     "pinnedLabel": "Épinglé",
     "editActions": "Modifier les extraits de texte...",
-    "editDone": "Terminé"
+    "editDone": "Terminé",
+    "settingsShowInputSource": "Afficher la source de saisie"
   },
   "fr-CA": {
     "onError": "Il n'y a pas de fragments de texte.",
@@ -164,7 +179,8 @@ export const labelStrings = {
     "clearButton": "Effacer",
     "pinnedLabel": "Épinglé",
     "editActions": "Modifier les extraits de texte...",
-    "editDone": "Terminé"
+    "editDone": "Terminé",
+    "settingsShowInputSource": "Afficher la source de saisie"
   },
   "he": {
     "onError": "אין קטעי טקסט.",
@@ -174,7 +190,8 @@ export const labelStrings = {
     "clearButton": "נקה",
     "pinnedLabel": "מוצמד",
     "editActions": "ערוך קטעי טקסט...",
-    "editDone": "סיים"
+    "editDone": "סיים",
+    "settingsShowInputSource": "הצגת מקור קלט"
   },
   "hi": {
     "onError": "कोई टेक्स्ट क्लिपिंग नहीं है।",
@@ -184,7 +201,8 @@ export const labelStrings = {
     "clearButton": "साफ़ करें",
     "pinnedLabel": "पिन किया गया",
     "editActions": "टेक्स्ट क्लिपिंग संपादित करें...",
-    "editDone": "पूर्ण"
+    "editDone": "पूर्ण",
+    "settingsShowInputSource": "इनपुट स्रोत दिखाएँ"
   },
   "hr": {
     "onError": "Nema isječaka teksta.",
@@ -194,7 +212,8 @@ export const labelStrings = {
     "clearButton": "Očisti",
     "pinnedLabel": "Prikvačeno",
     "editActions": "Uredi isječke teksta...",
-    "editDone": "Gotovo"
+    "editDone": "Gotovo",
+    "settingsShowInputSource": "Prikaži izvor unosa"
   },
   "hu": {
     "onError": "Nincsenek szövegkivágások.",
@@ -204,7 +223,8 @@ export const labelStrings = {
     "clearButton": "Törlés",
     "pinnedLabel": "Rögzítve",
     "editActions": "Szövegkivágások szerkesztése...",
-    "editDone": "Kész"
+    "editDone": "Kész",
+    "settingsShowInputSource": "Beviteli forrás megjelenítése"
   },
   "id": {
     "onError": "Tidak ada potongan teks.",
@@ -214,7 +234,8 @@ export const labelStrings = {
     "clearButton": "Bersihkan",
     "pinnedLabel": "Disematkan",
     "editActions": "Edit Potongan Teks...",
-    "editDone": "Selesai"
+    "editDone": "Selesai",
+    "settingsShowInputSource": "Tampilkan sumber input"
   },
   "it": {
     "onError": "Non ci sono ritagli di testo.",
@@ -224,7 +245,8 @@ export const labelStrings = {
     "clearButton": "Cancella",
     "pinnedLabel": "Fissato",
     "editActions": "Modifica ritagli di testo...",
-    "editDone": "Fatto"
+    "editDone": "Fatto",
+    "settingsShowInputSource": "Mostra sorgente di input"
   },
   "ja": {
     "onError": "文字コピー履歴はありません。",
@@ -234,7 +256,8 @@ export const labelStrings = {
     "clearButton": "消去",
     "pinnedLabel": "ピン留め",
     "editActions": "文字コピー履歴を編集...",
-    "editDone": "完了"
+    "editDone": "完了",
+    "settingsShowInputSource": "入力ソースを表示"
   },
   "ko-KR": {
     "onError": "텍스트 클리핑이 없습니다.",
@@ -244,7 +267,8 @@ export const labelStrings = {
     "clearButton": "지우기",
     "pinnedLabel": "고정됨",
     "editActions": "텍스트 클리핑 편집...",
-    "editDone": "완료"
+    "editDone": "완료",
+    "settingsShowInputSource": "입력 소스 표시"
   },
   "ms": {
     "onError": "Tiada potongan teks.",
@@ -254,7 +278,8 @@ export const labelStrings = {
     "clearButton": "Kosongkan",
     "pinnedLabel": "Disematkan",
     "editActions": "Edit Potongan Teks...",
-    "editDone": "Selesai"
+    "editDone": "Selesai",
+    "settingsShowInputSource": "Tunjukkan sumber input"
   },
   "nb": {
     "onError": "Det er ingen tekstklipp.",
@@ -264,7 +289,8 @@ export const labelStrings = {
     "clearButton": "Tøm",
     "pinnedLabel": "Festet",
     "editActions": "Rediger tekstutklipp...",
-    "editDone": "Ferdig"
+    "editDone": "Ferdig",
+    "settingsShowInputSource": "Vis inndatakilde"
   },
   "nl": {
     "onError": "Er zijn geen tekstknipsels.",
@@ -274,7 +300,8 @@ export const labelStrings = {
     "clearButton": "Wis",
     "pinnedLabel": "Vastgezet",
     "editActions": "Tekstknipsels bewerken...",
-    "editDone": "Klaar"
+    "editDone": "Klaar",
+    "settingsShowInputSource": "Toon invoerbron"
   },
   "pl": {
     "onError": "Brak fragmentów tekstu.",
@@ -284,7 +311,8 @@ export const labelStrings = {
     "clearButton": "Wymaż",
     "pinnedLabel": "Przypięte",
     "editActions": "Edytuj wycinki tekstu...",
-    "editDone": "Gotowe"
+    "editDone": "Gotowe",
+    "settingsShowInputSource": "Pokaż źródło wprowadzania"
   },
   "pt": {
     "onError": "Não há recortes de texto.",
@@ -294,7 +322,8 @@ export const labelStrings = {
     "clearButton": "Limpar",
     "pinnedLabel": "Fixado",
     "editActions": "Editar recortes de texto...",
-    "editDone": "Concluído"
+    "editDone": "Concluído",
+    "settingsShowInputSource": "Mostrar fonte de entrada"
   },
   "pt-PT": {
     "onError": "Não há recortes de texto.",
@@ -304,7 +333,8 @@ export const labelStrings = {
     "clearButton": "Limpar",
     "pinnedLabel": "Afixado",
     "editActions": "Editar recortes de texto...",
-    "editDone": "Concluído"
+    "editDone": "Concluído",
+    "settingsShowInputSource": "Mostrar fonte de introdução"
   },
   "pt-BR": {
     "onError": "Não há recortes de texto.",
@@ -314,7 +344,8 @@ export const labelStrings = {
     "clearButton": "Limpar",
     "pinnedLabel": "Fixado",
     "editActions": "Editar recortes de texto...",
-    "editDone": "Concluído"
+    "editDone": "Concluído",
+    "settingsShowInputSource": "Mostrar fonte de entrada"
   },
   "ro": {
     "onError": "Nu există fragmente de text.",
@@ -324,7 +355,8 @@ export const labelStrings = {
     "clearButton": "Șterge",
     "pinnedLabel": "Fixat",
     "editActions": "Editează decupaje text...",
-    "editDone": "Finalizat"
+    "editDone": "Finalizat",
+    "settingsShowInputSource": "Afișează sursa de introducere"
   },
   "ru": {
     "onError": "Нет текстовых фрагментов.",
@@ -334,7 +366,8 @@ export const labelStrings = {
     "clearButton": "Очистить",
     "pinnedLabel": "Закреплено",
     "editActions": "Редактировать текстовые вырезки...",
-    "editDone": "Готово"
+    "editDone": "Готово",
+    "settingsShowInputSource": "Показать источник ввода"
   },
   "sv": {
     "onError": "Det finns inga textklipp.",
@@ -344,7 +377,8 @@ export const labelStrings = {
     "clearButton": "Rensa",
     "pinnedLabel": "Fäst",
     "editActions": "Redigera textklipp...",
-    "editDone": "Klar"
+    "editDone": "Klar",
+    "settingsShowInputSource": "Visa inmatningskälla"
   },
   "sk": {
     "onError": "Žiadne textové výstrižky.",
@@ -354,7 +388,8 @@ export const labelStrings = {
     "clearButton": "Vymazať",
     "pinnedLabel": "Pripnuté",
     "editActions": "Upraviť textové výstrižky...",
-    "editDone": "Hotovo"
+    "editDone": "Hotovo",
+    "settingsShowInputSource": "Zobraziť zdroj vstupu"
   },
   "th": {
     "onError": "ไม่มีข้อความที่คัดลอกไว้.",
@@ -364,7 +399,8 @@ export const labelStrings = {
     "clearButton": "ล้าง",
     "pinnedLabel": "ปักหมุด",
     "editActions": "แก้ไขข้อความที่คัดลอก...",
-    "editDone": "เสร็จสิ้น"
+    "editDone": "เสร็จสิ้น",
+    "settingsShowInputSource": "แสดงแหล่งป้อนข้อมูล"
   },
   "tr": {
     "onError": "Metin kopyaları yok.",
@@ -374,7 +410,8 @@ export const labelStrings = {
     "clearButton": "Temizle",
     "pinnedLabel": "Sabitlendi",
     "editActions": "Metin Kırpmaları Düzenle...",
-    "editDone": "Tamam"
+    "editDone": "Tamam",
+    "settingsShowInputSource": "Giriş kaynağını göster"
   },
   "uk": {
     "onError": "Немає текстових вирізок.",
@@ -384,7 +421,8 @@ export const labelStrings = {
     "clearButton": "Очистити",
     "pinnedLabel": "Закріплено",
     "editActions": "Редагувати текстові вирізки...",
-    "editDone": "Готово"
+    "editDone": "Готово",
+    "settingsShowInputSource": "Показати джерело введення"
   },
   "vi": {
     "onError": "Không có đoạn văn bản nào.",
@@ -394,7 +432,8 @@ export const labelStrings = {
     "clearButton": "Xóa",
     "pinnedLabel": "Được ghim",
     "editActions": "Chỉnh sửa các đoạn văn bản...",
-    "editDone": "Xong"
+    "editDone": "Xong",
+    "settingsShowInputSource": "Hiển thị nguồn nhập"
   },
   "zh": {
     "onError": "没有文本剪辑。",
@@ -404,7 +443,8 @@ export const labelStrings = {
     "clearButton": "清除",
     "pinnedLabel": "已固定",
     "editActions": "编辑文本剪辑...",
-    "editDone": "完成"
+    "editDone": "完成",
+    "settingsShowInputSource": "显示输入源"
   },
   "zh-CN": {
     "onError": "没有文本剪辑。",
@@ -414,7 +454,8 @@ export const labelStrings = {
     "clearButton": "清除",
     "pinnedLabel": "已固定",
     "editActions": "编辑文本剪辑...",
-    "editDone": "完成"
+    "editDone": "完成",
+    "settingsShowInputSource": "显示输入源"
   },
   "zh-TW": {
     "onError": "沒有文本剪輯。",
@@ -424,7 +465,8 @@ export const labelStrings = {
     "clearButton": "清除",
     "pinnedLabel": "已釘選",
     "editActions": "編輯文字剪輯...",
-    "editDone": "完成"
+    "editDone": "完成",
+    "settingsShowInputSource": "顯示輸入來源"
   },
   "zh-HK": {
     "onError": "沒有文本剪輯。",
@@ -434,7 +476,8 @@ export const labelStrings = {
     "clearButton": "清除",
     "pinnedLabel": "已釘選",
     "editActions": "編輯文字剪輯...",
-    "editDone": "完成"
+    "editDone": "完成",
+    "settingsShowInputSource": "顯示輸入來源"
   }
 };
 
