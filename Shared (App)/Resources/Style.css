@@ -127,3 +127,14 @@ body.platform-mac p {
     background-image: url(icon-dark.png);
   }
 }
+
+@supports (-apple-visual-effect: -apple-system-glass-material) {
+  html {
+    background: transparent;
+    -apple-visual-effect: -apple-system-glass-material;
+  }
+  
+  body {
+    background: transparent;
+  }
+}
