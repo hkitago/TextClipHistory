@@ -137,7 +137,6 @@
       boxSizing: 'border-box'
     });
 
-    // 初回テーマ適用
     applyTheme(div);
 
     shadow.appendChild(div);
@@ -422,7 +421,7 @@
       }
     }
 
-    if (message.action === 'showInputSource' && message.inputSource) {
+    if (message.request === 'showInputSource' && message.inputSource) {
       const activeElement = document.activeElement;
       if (activeElement && isEditableElement(activeElement)) {
         showPopup(activeElement, message.inputSource.name);
