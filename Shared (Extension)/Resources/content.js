@@ -94,7 +94,7 @@
       return { top, left, width: 0, height, bottom: top + height };
     }
   };
-
+  let isCssLoaded = false;
   // Create popup element with Shadow DOM
   const createPopup = () => {
     const host = document.createElement('div');
@@ -112,10 +112,14 @@
 
     const shadow = host.attachShadow({ mode: 'open' });
 
-    // --- 外部CSSの読み込み設定 ---
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = browser.runtime.getURL('textcliphistory-ext.css');
+
+    link.onload = () => {
+      isCssLoaded = true;
+    };
+
     shadow.appendChild(link);
 
     const div = document.createElement('div');
@@ -135,37 +139,45 @@
     }
   };
 
-  const showPopup = (element, inputSourceName, durationMs = POPUP_DISPLAY_DURATION_MS) => {
+  const showPopup = async (element, inputSourceName, durationMs = POPUP_DISPLAY_DURATION_MS) => {
     if (!popupEl) {
       const created = createPopup();
       popupHost = created.host;
       popupEl = created.div;
+
+      let attempts = 0;
+      while (!isCssLoaded && attempts < 10) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        attempts++;
+      }
     }
 
     hidePopup();
 
     const caretRect = getCaretCoordinates(element);
 
-    popupEl.textContent = inputSourceName;
     popupEl.style.display = 'block';
+    popupEl.textContent = inputSourceName;
 
-    const popupWidth = popupEl.offsetWidth;
-    const popupHeight = popupEl.offsetHeight;
-    const gap = 8;
-    const screenPadding = 12;
+    requestAnimationFrame(() => {
+      const popupWidth = popupEl.offsetWidth;
+      const popupHeight = popupEl.offsetHeight;
+      const gap = 8;
+      const screenPadding = 12;
 
-    let topPosition = caretRect.top - popupHeight - gap;
-    if (topPosition < screenPadding) {
-      topPosition = caretRect.bottom + gap;
-    }
+      let topPosition = caretRect.top - popupHeight - gap;
+      if (topPosition < screenPadding) {
+        topPosition = caretRect.bottom + gap;
+      }
 
-    let leftPosition = caretRect.left - (popupWidth / 2);
-    const maxLeft = window.innerWidth - popupWidth - screenPadding;
-    const minLeft = screenPadding;
-    leftPosition = Math.max(minLeft, Math.min(leftPosition, maxLeft));
+      let leftPosition = caretRect.left - (popupWidth / 2);
+      const maxLeft = window.innerWidth - popupWidth - screenPadding;
+      const minLeft = screenPadding;
+      leftPosition = Math.max(minLeft, Math.min(leftPosition, maxLeft));
 
-    popupEl.style.top = `${topPosition}px`;
-    popupEl.style.left = `${leftPosition}px`;
+      popupEl.style.top = `${topPosition}px`;
+      popupEl.style.left = `${leftPosition}px`;
+    });
 
     clearTimeout(hideTimer);
     hideTimer = setTimeout(() => hidePopup(), durationMs);
