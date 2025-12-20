@@ -504,7 +504,7 @@ const buildPopup = async (settings) => {
     try {
       const data = await browser.storage.local.get('inputSourceEnabled');
       const inputSourceEnabled = data.inputSourceEnabled !== undefined ? data.inputSourceEnabled : true;
-console.log(inputSourceEnabled);
+
       if (!inputSourceEnabled) {
         document.getElementById('settings').style.display = 'none';
         return false;
