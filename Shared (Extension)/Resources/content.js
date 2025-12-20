@@ -2,38 +2,10 @@
   /* Global state variables */
   let lastFocusedElement = null;
   
-  const popupIntval = 1500;
+  const popupIntval = 750;
   let popupHost = null;
   let popupEl = null;
   let hideTimer = null;
-
-  const applyTheme = (el) => {
-    if (!el) return;
-
-    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    const lightStyles = {
-      background: 'rgb(255 255 255 / 60%)',
-      color: 'black',
-      backdropFilter: 'blur(5px)',
-      WebkitBackdropFilter: 'blur(5px)'
-    };
-
-    const darkStyles = {
-      background: 'rgb(0 0 0 / 60%)',
-      color: 'white',
-      backdropFilter: 'blur(5px)',
-      WebkitBackdropFilter: 'blur(5px)'
-    };
-
-    Object.assign(el.style, isDarkMode ? darkStyles : lightStyles);
-  };
-
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (popupEl) {
-      applyTheme(popupEl);
-    }
-  });
 
   const getCaretCoordinates = (element) => {
     const isInput = element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
@@ -118,26 +90,15 @@
 
     const shadow = host.attachShadow({ mode: 'open' });
 
+    // --- 外部CSSの読み込み設定 ---
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = browser.runtime.getURL('textcliphistory-ext.css');
+    shadow.appendChild(link);
+
     const div = document.createElement('div');
     div.className = 'textcliphistory-ext-popup';
     div.dir = 'auto';
-
-    Object.assign(div.style, {
-      position: 'absolute',
-      padding: '4px 10px',
-      border: '1px solid rgb(0 0 0 / 30%)',
-      borderRadius: '9px',
-      fontSize: '12px',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif',
-      pointerEvents: 'none',
-      display: 'none',
-      whiteSpace: 'nowrap',
-      boxShadow: '0 2px 8px rgb(0 0 0 / 30%)',
-      lineHeight: 'normal',
-      boxSizing: 'border-box'
-    });
-
-    applyTheme(div);
 
     shadow.appendChild(div);
     document.body.appendChild(host);
@@ -171,18 +132,14 @@
     const gap = 8;
     const screenPadding = 12;
 
-    // Cal for Y
     let topPosition = caretRect.top - popupHeight - gap;
     if (topPosition < screenPadding) {
       topPosition = caretRect.bottom + gap;
     }
 
-    // Cal for X
     let leftPosition = caretRect.left - (popupWidth / 2);
-
     const maxLeft = window.innerWidth - popupWidth - screenPadding;
     const minLeft = screenPadding;
-
     leftPosition = Math.max(minLeft, Math.min(leftPosition, maxLeft));
 
     popupEl.style.top = `${topPosition}px`;

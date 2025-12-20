@@ -1,18 +1,10 @@
-//
-//  textclip-history-ext.css
-//  TextClipHistory
-//
-//  Created by Hiroyuki KITAGO on 2025/12/20.
-//
-
-/* popup base */
 .textcliphistory-ext-popup {
   position: absolute;
   padding: 4px 10px;
   border: 1px solid rgb(0 0 0 / 30%);
   border-radius: 9px;
   font-size: 12px;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
   pointer-events: none;
   display: none;
   white-space: nowrap;
@@ -21,17 +13,10 @@
   box-sizing: border-box;
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
+  background: rgb(255 255 255 / 60%);
+  color: black;
 }
 
-/* light mode */
-@media (prefers-color-scheme: light) {
-  .textcliphistory-ext-popup {
-    background: rgb(255 255 255 / 60%);
-    color: black;
-  }
-}
-
-/* dark mode */
 @media (prefers-color-scheme: dark) {
   .textcliphistory-ext-popup {
     background: rgb(0 0 0 / 60%);
