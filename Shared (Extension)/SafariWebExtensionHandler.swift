@@ -89,7 +89,7 @@ class SafariWebExtensionHandler: NSObject, NSExtensionRequestHandling {
             kTISPropertyInputSourceCategory as String: kTISCategoryKeyboardInputSource as String
         ]
         
-        guard let sourceList = TISCreateInputSourceList(properties as CFDictionary, true)?
+        guard let sourceList = TISCreateInputSourceList(properties as CFDictionary, false)?
             .takeRetainedValue() as? [TISInputSource] else {
             // Fail-safe: treat as single to avoid showing UI when retrieval fails.
             return true
