@@ -2,10 +2,32 @@
   /* Global state variables */
   let lastFocusedElement = null;
   
-  const popupIntval = 750;
+  const POPUP_DISPLAY_DURATION_MS = 1000;
   let popupHost = null;
   let popupEl = null;
   let hideTimer = null;
+
+  const POPUP_DISPLAY_COOLDOWN_MS = 2000;
+  let lastPopupTimestamp = 0;
+
+  let pendingPopupDurationMs = POPUP_DISPLAY_DURATION_MS;
+  const COALESCE_WINDOW_MS = 150;
+  let lastPointerDownTs = 0;
+  const shownOnceForElement = new WeakSet();
+
+  // Popup durations (ms) tuned for recognition vs. intrusiveness.
+  // pointerdown: user explicitly clicks/taps to focus -> show slightly longer on first time.
+  // focusin: includes keyboard/tab/programmatic focus -> keep slightly shorter.
+  const POPUP_DURATIONS = {
+    pointerdown: {
+      first: 1200, // First time on an element: allow more time for learning/recognition
+      repeat: 850, // Subsequent displays on the same element: shorter to reduce distraction
+    },
+    focusin: {
+      first: 1000, // First time via focusin: slightly shorter than pointerdown
+      repeat: 750, // Subsequent displays via focusin
+    },
+  };
 
   const getCaretCoordinates = (element) => {
     const isInput = element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
@@ -113,7 +135,7 @@
     }
   };
 
-  const showPopup = (element, inputSourceName) => {
+  const showPopup = (element, inputSourceName, durationMs = POPUP_DISPLAY_DURATION_MS) => {
     if (!popupEl) {
       const created = createPopup();
       popupHost = created.host;
@@ -146,7 +168,7 @@
     popupEl.style.left = `${leftPosition}px`;
 
     clearTimeout(hideTimer);
-    hideTimer = setTimeout(() => hidePopup(), popupIntval);
+    hideTimer = setTimeout(() => hidePopup(), durationMs);
   };
 
   const requestInputSourcePopup = (target) => {
@@ -231,8 +253,8 @@
   document.addEventListener('cut', handleClipboardEvent);
   
   /* Handling Input Element to Paste Text */
-  const noSpaceLangs = ['ja', 'zh', 'ko', 'th'];
-  const usesSpacesForWords = (langCode) => !noSpaceLangs.includes(langCode);
+  const NO_SPACE_LANGS = ['ja', 'zh', 'ko', 'th'];
+  const usesSpacesForWords = (langCode) => !NO_SPACE_LANGS.includes(langCode);
 
   const isSearchInput = (element) => {
     if (!element || element.tagName !== 'INPUT') return false;
@@ -336,6 +358,17 @@
 
   document.addEventListener('focusin', (event) => {
     if (!isEditableElement(event.target)) return;
+
+    const now = performance.now();
+    const isPointerCoalesced = (now - lastPointerDownTs) < COALESCE_WINDOW_MS && event.target === lastFocusedElement;
+    if (isPointerCoalesced) return;
+
+    // Decide the next popup duration for focusin
+    const isFirst = !shownOnceForElement.has(event.target);
+    pendingPopupDurationMs = isFirst
+      ? POPUP_DURATIONS.focusin.first
+      : POPUP_DURATIONS.focusin.repeat;
+
     requestInputSourcePopup(event.target);
   });
 
@@ -349,6 +382,20 @@
       lastFocusedElement = null;
       return;
     }
+
+    const now = performance.now();
+    const isSameElement = event.target === lastFocusedElement;
+    if (isSameElement && now - lastPopupTimestamp < POPUP_DISPLAY_COOLDOWN_MS) return;
+
+    lastPopupTimestamp = now;
+    lastFocusedElement = event.target;
+
+    // Decide the next popup duration for pointerdown
+    const isFirst = !shownOnceForElement.has(event.target);
+    pendingPopupDurationMs = isFirst
+      ? POPUP_DURATIONS.pointerdown.first
+      : POPUP_DURATIONS.pointerdown.repeat;
+    lastPointerDownTs = now;
 
     requestInputSourcePopup(event.target);
   });
@@ -381,7 +428,9 @@
     if (message.request === 'showInputSource' && message.inputSource) {
       const activeElement = document.activeElement;
       if (activeElement && isEditableElement(activeElement)) {
-        showPopup(activeElement, message.inputSource.name);
+        // Use the duration decided by the triggering event; mark as shown-once for this element.
+        showPopup(activeElement, message.inputSource.name, pendingPopupDurationMs);
+        shownOnceForElement.add(activeElement);
       }
     }
   });
