@@ -33,6 +33,12 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Version History
 
+### 1.2.6
+
+#### **macOS** - 2025-12-23
+
+- Added an optional feature to indicate the current input source when focusing text fields, for users who switch between multiple input sources
+
 ### 1.2.5 - 2025-11-25
 
 - Improved the overall interface with clearer lists, more reliable text handling, and refined support for global languages
