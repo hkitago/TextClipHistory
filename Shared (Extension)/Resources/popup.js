@@ -141,7 +141,6 @@ const buildPopup = async (settings) => {
 
   if (history.length === 0) {
     initializePopupPage();
-    return;
   }
 
   const pinnedItems = history.filter(item => item.pinned);
@@ -500,14 +499,13 @@ const buildPopup = async (settings) => {
   const checkboxes = {};
 
   const renderSettingsList = async () => {
-
     try {
       const data = await browser.storage.local.get('inputSourceEnabled');
       const inputSourceEnabled = data.inputSourceEnabled !== undefined ? data.inputSourceEnabled : true;
 
       if (!inputSourceEnabled) {
         document.getElementById('settings').style.display = 'none';
-        return false;
+        return;
       }
     } catch (error) {
       console.error('[TextClipHistoryExtension] Failed to check input source:', error);
