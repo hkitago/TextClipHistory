@@ -382,19 +382,13 @@ function show(platform, enabled, useSettingsInsteadOfPreferences) {
 
   };
   
-  const getLabelString = (key) => {
-    const browserLang = window.navigator.language || 'en';
-    const baseLang = browserLang.split('-')[0];
-    
-    return (
-      labelStrings[browserLang]?.[key] ??
-      labelStrings[baseLang]?.[key] ??
-      labelStrings.en[key]
-    );
-  };
+  const langCode = labelStrings[window.navigator.language]
+  ? window.navigator.language
+  : labelStrings[window.navigator.language.substring(0, 2)]
+  ? window.navigator.language.substring(0, 2)
+  : 'en';
 
-  const browserLang = window.navigator.language || 'en';
-  const baseLang = browserLang.split('-')[0];
+  const baseLang = langCode.split('-')[0];
 
   if (baseLang === 'ar' || baseLang === 'he') {
     document.body.classList.add('rtl');
@@ -405,28 +399,27 @@ function show(platform, enabled, useSettingsInsteadOfPreferences) {
     document.documentElement.removeAttribute('dir');
   }
 
-  document.getElementsByClassName('platform-ios')[0].innerText = getLabelString('iOS');
-  document.getElementsByClassName('platform-ios open-settings')[0].innerText = getLabelString('iOSSettings');
-  document.getElementsByClassName('support-button')[0].innerText = getLabelString('SupportPage');
-  
+  document.getElementsByClassName('platform-ios')[0].innerText = labelStrings[langCode].iOS;
+  document.getElementsByClassName('platform-ios open-settings')[0].innerText = labelStrings[langCode].iOSSettings;
+  document.getElementsByClassName('support-button')[0].innerText = labelStrings[langCode].SupportPage;
+
   document.body.classList.add(`platform-${platform}`);
   
   if (useSettingsInsteadOfPreferences) {
-    document.getElementsByClassName('platform-mac state-on')[0].innerText = getLabelString('macOn');
-    document.getElementsByClassName('platform-mac state-off')[0].innerText = getLabelString('macOff');
-    document.getElementsByClassName('platform-mac state-unknown')[0].innerText = getLabelString('macUnknown');
-    document.getElementsByClassName('platform-mac open-preferences')[0].innerText = getLabelString('macPreferences');
+    document.getElementsByClassName('platform-mac state-on')[0].innerText = labelStrings[langCode].macOn;
+    document.getElementsByClassName('platform-mac state-off')[0].innerText = labelStrings[langCode].macOff;
+    document.getElementsByClassName('platform-mac state-unknown')[0].innerText = labelStrings[langCode].macUnknown;
+    document.getElementsByClassName('platform-mac open-preferences')[0].innerText = labelStrings[langCode].macPreferences;
   }
 
   if (typeof enabled === "boolean") {
-    document.body.classList.toggle(`state-on`, enabled);
-    document.body.classList.toggle(`state-off`, !enabled);
+      document.body.classList.toggle(`state-on`, enabled);
+      document.body.classList.toggle(`state-off`, !enabled);
   } else {
-    document.body.classList.remove(`state-on`);
-    document.body.classList.remove(`state-off`);
+      document.body.classList.remove(`state-on`);
+      document.body.classList.remove(`state-off`);
   }
   document.body.classList.add('fadeIn');
-
 }
 
 function openPreferences() {
@@ -437,28 +430,38 @@ function openSettings() {
     webkit.messageHandlers.controller.postMessage("open-settings");
 }
 
-document.querySelector("button.open-preferences").addEventListener("click", openPreferences);
-document.querySelector("button.open-settings").addEventListener("click", openSettings);
-
 function openSupport() {
     webkit.messageHandlers.controller.postMessage("open-support");
 }
 
-const btn = document.querySelector("button.support-button");
-btn.addEventListener("click", openSupport);
+const initializeScript = async () => {
+  try {
+    document.querySelector("button.open-preferences").addEventListener("click", openPreferences);
+    document.querySelector("button.open-settings").addEventListener("click", openSettings);
+    document.querySelector("button.support-button").addEventListener("click", openSupport);
 
-document.querySelectorAll('button').forEach(btn => {
-  btn.addEventListener('touchstart', () => btn.classList.add('active'), { passive: true });
-  btn.addEventListener('touchend', () => btn.classList.remove('active'));
-  btn.addEventListener('touchcancel', () => btn.classList.remove('active'));
-  btn.addEventListener('mouseleave', () => btn.classList.remove('active'));
-  if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
-    btn.style.minWidth = '70vw';
+    document.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('touchstart', () => btn.classList.add('active'), { passive: true });
+      btn.addEventListener('touchend', () => btn.classList.remove('active'));
+      btn.addEventListener('touchcancel', () => btn.classList.remove('active'));
+      btn.addEventListener('mouseleave', () => btn.classList.remove('active'));
+      if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+        btn.style.minWidth = '70vw';
+      }
+    });
+
+    if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
+      document.querySelectorAll('p').forEach(pNode => {
+        pNode.style.width = '70vw';
+      });
+    }
+  } catch (error) {
+    console.error('[CleanURLExtension] Fail to initialize:', error);
   }
-});
+};
 
-if (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) {
-  document.querySelectorAll('p').forEach(pNode => {
-    pNode.style.width = '70vw';
-  });
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeScript, { once: true });
+} else {
+  initializeScript();
 }
