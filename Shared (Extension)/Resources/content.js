@@ -401,9 +401,15 @@
       }
 
       if (!selectedText) {
-        const selection = window.getSelection();
-        if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
-          selectedText = selection.toString();
+        if (event.clipboardData) {
+          selectedText = event.clipboardData.getData('text/plain');
+        }
+
+        if (!selectedText) {
+          const selection = window.getSelection();
+          if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
+            selectedText = selection.toString();
+          }
         }
       }
 
@@ -417,7 +423,7 @@
 
       hideClipboardPreview();
     } catch (error) {
-      console.error('[TextClipHistoryExtension] Failed to caputure clipboard:', error);
+      console.error('[TextClipHistoryExtension] Failed to capture clipboard:', error);
     }
   };
 
