@@ -1,7 +1,13 @@
 (() => {
+  const isMacOS = () =>
+    navigator.platform.includes('Mac') && !(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  
   /* Global state variables */
   let lastFocusedElement = null;
-  
+
+  // ========================================
+  // Input source popup
+  // ========================================
   const POPUP_DISPLAY_DURATION_MS = 1000;
   let popupHost = null;
   let popupEl = null;
@@ -94,8 +100,10 @@
       return { top, left, width: 0, height, bottom: top + height };
     }
   };
-  let isCssLoaded = false;
+
   // Create popup element with Shadow DOM
+  let isInputsourceCssLoaded = false;
+
   const createPopup = () => {
     const host = document.createElement('div');
     host.id = 'textcliphistory-ext-popup-host';
@@ -114,12 +122,8 @@
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = browser.runtime.getURL('textcliphistory-ext.css');
-
-    link.onload = () => {
-      isCssLoaded = true;
-    };
-
+    link.href = browser.runtime.getURL('textcliphistory-ext-inputsource.css');
+    link.onload = () => { isInputsourceCssLoaded = true; };
     shadow.appendChild(link);
 
     const div = document.createElement('div');
@@ -133,10 +137,10 @@
   };
 
   const hidePopup = () => {
-    if (popupEl) {
-      popupEl.style.display = 'none';
-      clearTimeout(hideTimer);
-    }
+    if (!popupEl || popupEl.style.display !== 'block') return;
+
+    clearTimeout(hideTimer);
+    popupEl.style.display = 'none';
   };
 
   const showPopup = async (element, inputSourceName, durationMs = POPUP_DISPLAY_DURATION_MS) => {
@@ -146,7 +150,7 @@
       popupEl = created.div;
 
       let attempts = 0;
-      while (!isCssLoaded && attempts < 10) {
+      while (!isInputsourceCssLoaded && attempts < 10) {
         await new Promise(resolve => setTimeout(resolve, 50));
         attempts++;
       }
@@ -184,15 +188,184 @@
   };
 
   const requestInputSourcePopup = (target) => {
+    if (!isMacOS()) return;
     if (!isEditableElement(target)) return;
-
-    lastFocusedElement = target;
 
     browser.runtime.sendMessage({
       request: 'inputFocused',
     });
   };
 
+  // ========================================
+  // Clipboard preview
+  // ========================================
+  const CLIP_DISPLAY_DURATION_MS = 3333;
+  
+  let clipHost = null;
+  let clipEl = null;
+  let clipHideTimer = null;
+  let isClipCssLoaded = false;
+
+  const hasIcon = (inputElement) => {
+    if (!isMacOS() && !inputElement.value) return false;
+    if (inputElement.isContentEditable) return false;
+
+    const inputType = inputElement.type.toLowerCase();
+    const validTypes = ['text', 'email', 'tel', 'search', 'url'];
+    
+    if (!validTypes.includes(inputType)) return false;
+    
+    const autocomplete = inputElement.getAttribute('autocomplete');
+    if (autocomplete === 'off') return false;
+    
+    const iconTriggerValues = [
+      'name', 'given-name', 'family-name', 'additional-name', 'email', 'tel', 'tel-national', 'address-line1', 'address-line2', 'address-line3', 'street-address', 'postal-code', 'country', 'organization', 'organization-title'
+    ];
+    
+    if (autocomplete && iconTriggerValues.includes(autocomplete)) return true;
+    
+    const name = inputElement.name?.toLowerCase() || '';
+    const id = inputElement.id?.toLowerCase() || '';
+    const combinedStr = name + ' ' + id;
+    
+    const namePatterns = [
+      'name', 'email', 'mail', 'phone', 'tel', 'address', 'zip', 'postal', 'country'
+    ];
+    
+    return namePatterns.some(pattern => combinedStr.includes(pattern));
+  };
+
+  const getLatestHistoryItem = async () => {
+    try {
+      const { history = [] } = await browser.storage.local.get('history');
+
+      if (!Array.isArray(history) || history.length === 0) return null;
+
+      return history[0];
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Failed to get latest history item:', error);
+      return null;
+    }
+  };
+
+  const createClipPopup = () => {
+    const host = document.createElement('div');
+    host.id = 'textcliphistory-ext-clip-host';
+
+    Object.assign(host.style, {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: '100%',
+      height: '0',
+      zIndex: '2147483647'
+    });
+
+    const shadow = host.attachShadow({ mode: 'open' });
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = browser.runtime.getURL('textcliphistory-ext-latestclip.css');
+    link.onload = () => { isClipCssLoaded = true; };
+    shadow.appendChild(link);
+
+    const div = document.createElement('div');
+    div.className = 'textcliphistory-ext-clipboard-popup';
+    div.dir = 'auto';
+
+    shadow.appendChild(div);
+    document.body.appendChild(host);
+
+    return { host, div };
+  };
+
+  const hideClipboardPreview = () => {
+    if (!clipEl || clipEl.style.display !== 'block') return;
+
+    clipHost.classList.remove('popup-active');
+    clearTimeout(clipHideTimer);
+    clipEl.style.display = 'none';
+  };
+
+  const showClipboardPreview = async (element) => {
+    if (!clipEl) {
+      const created = createClipPopup();
+      clipHost = created.host;
+      clipEl = created.div;
+
+      let attempts = 0;
+      while (!isClipCssLoaded && attempts < 10) {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        attempts++;
+      }
+    }
+
+    hideClipboardPreview();
+
+    const latestClip = await getLatestHistoryItem();
+    if (!latestClip) return;
+
+    clipEl.textContent = latestClip.text;
+    clipEl.title = `Paste: ${latestClip.text}`;
+    clipEl.onpointerdown = (event) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      hideClipboardPreview();
+
+      const targetElement = element;
+
+      if (element === targetElement) {
+        const langCode = window.navigator.language || 'en';
+        const text = clipEl.textContent;
+
+        if (element.isContentEditable) {
+          handleContentEditableInput(element, langCode.substring(0, 2), text);
+        } else {
+          handleInputElementText(element, langCode.substring(0, 2), text);
+        }
+      }
+
+      hideClipboardPreview();
+
+      requestAnimationFrame(() => {
+        targetElement.focus();
+      });
+    };
+
+    clipEl.style.display = 'block';
+
+    requestAnimationFrame(() => {
+      const rect = element.getBoundingClientRect();
+      const popupWidth = clipEl.offsetWidth;
+      const popupHeight = clipEl.offsetHeight;
+      
+      const innerPaddingRight = hasIcon(element) ? 40 : 5;
+
+      const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+      let topPosition = (rect.top + scrollY) + (rect.height / 2) - (popupHeight / 2);
+      let leftPosition = (rect.right + scrollX) - popupWidth - innerPaddingRight;
+
+      const elementAbsoluteLeft = rect.left + scrollX;
+      if (leftPosition < elementAbsoluteLeft + 5) {
+        leftPosition = elementAbsoluteLeft + 5;
+      }
+
+      clipEl.style.top = `${topPosition}px`;
+      clipEl.style.left = `${leftPosition}px`;
+    });
+
+    clearTimeout(clipHideTimer);
+    clipHideTimer = setTimeout(() => hideClipboardPreview(), CLIP_DISPLAY_DURATION_MS);
+    
+    clipHost.classList.add('popup-active');
+  };
+
+  // ========================================
+  // Getting clipboard by contextmenu
+  // ========================================
   document.addEventListener('contextmenu', (event) => {
     let copyText = '';
 
@@ -211,6 +384,9 @@
     }
   });
 
+  // ========================================
+  // Handling for copy and cut command
+  // ========================================
   const handleClipboardEvent = (event) => {
     let selectedText = '';
 
@@ -259,12 +435,16 @@
         text: selectedText
       });
     }
+    
+    hideClipboardPreview();
   };
 
   document.addEventListener('copy', handleClipboardEvent);
   document.addEventListener('cut', handleClipboardEvent);
   
-  /* Handling Input Element to Paste Text */
+  // ========================================
+  // Handling input element to paste text
+  // ========================================
   const NO_SPACE_LANGS = ['ja', 'zh', 'ko', 'th'];
   const usesSpacesForWords = (langCode) => !NO_SPACE_LANGS.includes(langCode);
 
@@ -319,7 +499,7 @@
     target.dispatchEvent(new Event('input', { bubbles: true }));
   };
 
-  const handleContentEditableInput = (element, langCode, text) => {
+  const handleContentEditableInput = (element, langCode = 'en', text) => {
     const editorType = detectEditorType(element);
     const addSpaces = usesSpacesForWords(langCode);
 
@@ -333,7 +513,7 @@
     dispatchEditorEvents(element, modifiedText, editorType);
   };
 
-  const handleInputElementText = (element, langCode, text) => {
+  const handleInputElementText = (element, langCode = 'en', text) => {
     const addSpaces = usesSpacesForWords(langCode);
     const start = element.selectionStart;
     const end = element.selectionEnd;
@@ -364,24 +544,46 @@
   const isEditableElement = (element) => {
     if (!element) return false;
     if (element.isContentEditable) return true;
-    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') return !element.readOnly;
+
+    const tagName = element.tagName.toUpperCase();
+
+    if (tagName === 'TEXTAREA') {
+      return !element.readOnly && !element.disabled;
+    }
+
+    if (tagName === 'INPUT') {
+      const editableTypes = ['text', 'password', 'email', 'number', 'search', 'tel', 'url'];
+      const type = element.type.toLowerCase();
+      return editableTypes.includes(type) && !element.readOnly && !element.disabled;
+    }
+
     return false;
   };
 
+  // ========================================
+  // Event listeners
+  // ========================================
   document.addEventListener('focusin', (event) => {
     if (!isEditableElement(event.target)) return;
+    if (clipEl && clipEl.style.display === 'block') return;
+    
+    lastFocusedElement = event.target;
 
-    const now = performance.now();
-    const isPointerCoalesced = (now - lastPointerDownTs) < COALESCE_WINDOW_MS && event.target === lastFocusedElement;
-    if (isPointerCoalesced) return;
+    if (isMacOS()) {
+      const now = performance.now();
+      const isPointerCoalesced = (now - lastPointerDownTs) < COALESCE_WINDOW_MS && event.target === lastFocusedElement;
+      if (isPointerCoalesced) return;
 
-    // Decide the next popup duration for focusin
-    const isFirst = !shownOnceForElement.has(event.target);
-    pendingPopupDurationMs = isFirst
-      ? POPUP_DURATIONS.focusin.first
-      : POPUP_DURATIONS.focusin.repeat;
+      // Decide the next popup duration for focusin
+      const isFirst = !shownOnceForElement.has(event.target);
+      pendingPopupDurationMs = isFirst
+        ? POPUP_DURATIONS.focusin.first
+        : POPUP_DURATIONS.focusin.repeat;
 
-    requestInputSourcePopup(event.target);
+      requestInputSourcePopup(event.target);
+    }
+
+    showClipboardPreview(event.target);
   });
 
   document.addEventListener('focusout', (event) => {
@@ -390,35 +592,47 @@
   });
 
   document.addEventListener('pointerdown', (event) => {
-    if (!isEditableElement(event.target)) {
-      lastFocusedElement = null;
-      return;
+    if (!isMacOS()) return;
+    if (!isEditableElement(event.target)) return;
+    if (clipEl && clipEl.style.display === 'block') return;
+
+    if (isMacOS()) {
+      const now = performance.now();
+      if (event.target === lastFocusedElement && now - lastPopupTimestamp < POPUP_DISPLAY_COOLDOWN_MS) return;
+
+      lastPopupTimestamp = now;
+
+      // Decide the next popup duration for pointerdown
+      const isFirst = !shownOnceForElement.has(event.target);
+      pendingPopupDurationMs = isFirst
+        ? POPUP_DURATIONS.pointerdown.first
+        : POPUP_DURATIONS.pointerdown.repeat;
+      lastPointerDownTs = now;
+
+      requestInputSourcePopup(event.target);
     }
 
-    const now = performance.now();
-    const isSameElement = event.target === lastFocusedElement;
-    if (isSameElement && now - lastPopupTimestamp < POPUP_DISPLAY_COOLDOWN_MS) return;
-
-    lastPopupTimestamp = now;
-    lastFocusedElement = event.target;
-
-    // Decide the next popup duration for pointerdown
-    const isFirst = !shownOnceForElement.has(event.target);
-    pendingPopupDurationMs = isFirst
-      ? POPUP_DURATIONS.pointerdown.first
-      : POPUP_DURATIONS.pointerdown.repeat;
-    lastPointerDownTs = now;
-
-    requestInputSourcePopup(event.target);
+    showClipboardPreview(event.target);
   });
 
-  // Listen for keyboard input while popup is visible
+  document.addEventListener('touchstart', (event) => {
+    if (!isEditableElement(event.target)) return;
+    
+    showClipboardPreview(event.target);
+  });
+
   document.addEventListener('keydown', (event) => {
-    if (popupEl && popupEl.style.display === 'block') {
-      hidePopup();
-    }
+    hidePopup();
+    hideClipboardPreview();
   });
 
+  window.addEventListener('scroll', (event) => {
+    hidePopup();
+  }, { capture: true, passive: true });
+
+  // ========================================
+  // onMessage
+  // ========================================
   browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.request === 'pasteText') {
       const targetElement = lastFocusedElement;
@@ -432,8 +646,6 @@
         requestAnimationFrame(() => {
           targetElement.focus();
         });
-      } else {
-        console.warn('[TextClipHistoryExtension] No valid editable element found.');
       }
     }
 
