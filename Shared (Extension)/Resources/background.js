@@ -68,9 +68,6 @@ const saveToHistory = async (text) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
 
-    const existing = history.find(item => item.text === text);
-    if (existing) return;
-
     const newEntry = {
       id: generateUUID(),
       text,
