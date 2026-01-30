@@ -388,55 +388,37 @@
   // Handling for copy and cut command
   // ========================================
   const handleClipboardEvent = (event) => {
-    let selectedText = '';
+    try {
+      let selectedText = '';
+      const activeElement = document.activeElement;
 
-    const activeElement = document.activeElement;
-
-    if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-      const start = activeElement.selectionStart;
-      const end = activeElement.selectionEnd;
-
-      if (start !== null && end !== null && start !== end) {
-        selectedText = activeElement.value.substring(start, end);
-      }
-    } else {
-      const selection = window.getSelection();
-      if (selection.rangeCount > 0) {
-        const range = selection.getRangeAt(0);
-
-        if (!range.collapsed) {
-          const fragment = range.cloneContents();
-          const div = document.createElement('div');
-          div.appendChild(fragment);
-
-          div.childNodes.forEach(node => {
-            if (node.nodeType === Node.TEXT_NODE) {
-              selectedText += node.textContent;
-            } else if (node.nodeType === Node.ELEMENT_NODE) {
-              if (node.nodeName === 'BR') {
-                selectedText += '\n';
-              } else {
-                selectedText += node.textContent;
-              }
-            }
-            if (node.nodeName === 'DIV' || node.nodeName === 'P') {
-              selectedText += '\n';
-            }
-          });
+      if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+        const start = activeElement.selectionStart;
+        const end = activeElement.selectionEnd;
+        if (start !== null && end !== null && start !== end) {
+          selectedText = activeElement.value.substring(start, end);
         }
       }
-    }
 
-    selectedText = selectedText.trim();
+      if (!selectedText) {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0 && !selection.isCollapsed) {
+          selectedText = selection.toString();
+        }
+      }
 
-    if (selectedText !== '') {
+      selectedText = selectedText.trim();
+      if (!selectedText) return;
+
       browser.runtime.sendMessage({
         request: 'saveClipboard',
         text: selectedText
       });
+
+      hideClipboardPreview();
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Failed to caputure clipboard:', error);
     }
-    
-    hideClipboardPreview();
   };
 
   document.addEventListener('copy', handleClipboardEvent);
