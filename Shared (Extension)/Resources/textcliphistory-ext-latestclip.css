@@ -1,0 +1,32 @@
+.textcliphistory-ext-clipboard-popup {
+  position: absolute;
+  padding: 3px 13px;
+  border: 1px solid rgb(0 0 0 / 30%);
+  border-radius: 25px;
+  font-size: 11px;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  display: none;
+  white-space: nowrap;
+  line-height: normal;
+  box-sizing: border-box;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgb(255 255 255 / 60%);
+  color: black;
+  text-overflow: ellipsis;
+  max-width: 10em;
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+#textcliphistory-ext-clip-host.popup-active {
+  pointer-events: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  .textcliphistory-ext-clipboard-popup {
+    background: rgb(0 0 0 / 60%);
+    color: white;
+  }
+}
