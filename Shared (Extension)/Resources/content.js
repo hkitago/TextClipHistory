@@ -577,6 +577,7 @@
   document.addEventListener('focusout', (event) => {
     if (!isEditableElement(event.target)) return;
     hidePopup();
+    hideClipboardPreview();
   });
 
   document.addEventListener('pointerdown', (event) => {
