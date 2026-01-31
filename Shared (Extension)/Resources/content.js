@@ -220,40 +220,86 @@
   // ========================================
   // Clipboard preview
   // ========================================
-  const CLIP_DISPLAY_DURATION_MS = 3333;
-  
-  let clipHost = null;
-  let clipEl = null;
-  let clipHideTimer = null;
-  let isClipCssLoaded = false;
+  const minInset = 5;
+  const clamp = (min, val, max) => Math.max(min, Math.min(val, max));
 
-  const hasIcon = (inputElement) => {
-    if (!isMacOS() && !inputElement.value) return false;
-    if (inputElement.isContentEditable) return false;
+  const isLikelyContactField = (el) => {
+    if (!el || el.tagName !== 'INPUT') return false;
 
-    const inputType = inputElement.type.toLowerCase();
-    const validTypes = ['text', 'email', 'tel', 'search', 'url'];
-    
-    if (!validTypes.includes(inputType)) return false;
-    
-    const autocomplete = inputElement.getAttribute('autocomplete');
-    if (autocomplete === 'off') return false;
-    
-    const iconTriggerValues = [
-      'name', 'given-name', 'family-name', 'additional-name', 'email', 'tel', 'tel-national', 'address-line1', 'address-line2', 'address-line3', 'street-address', 'postal-code', 'country', 'organization', 'organization-title'
-    ];
-    
+    const type = (el.type || '').toLowerCase();
+    const validTypes = ['text', 'email', 'tel', 'url'];
+    if (!validTypes.includes(type)) return false;
+
+    const autocomplete = (el.getAttribute('autocomplete') || '').toLowerCase();
+    const iconTriggerValues = [ 'name', 'given-name', 'family-name', 'additional-name', 'email', 'tel', 'tel-national', 'address-line1', 'address-line2', 'address-line3', 'street-address', 'postal-code', 'country', 'organization', 'organization-title' ];
     if (autocomplete && iconTriggerValues.includes(autocomplete)) return true;
-    
-    const name = inputElement.name?.toLowerCase() || '';
-    const id = inputElement.id?.toLowerCase() || '';
-    const combinedStr = name + ' ' + id;
-    
-    const namePatterns = [
-      'name', 'email', 'mail', 'phone', 'tel', 'address', 'zip', 'postal', 'country'
-    ];
-    
-    return namePatterns.some(pattern => combinedStr.includes(pattern));
+
+    const combined = ((el.name || '') + ' ' + (el.id || '')).toLowerCase();
+    const namePatterns = ['name', 'email', 'mail', 'phone', 'tel', 'address', 'zip', 'postal', 'country'];
+    return namePatterns.some(p => combined.includes(p));
+  };
+
+  const hasWebKitContactsButton = (el) => {
+    try {
+      const style = getComputedStyle(el, '::-webkit-contacts-auto-fill-button');
+      if (!style) return false;
+
+      const w = parseFloat(style.width) || 0;
+      const h = parseFloat(style.height) || 0;
+      const disp = (style.display || '').toLowerCase();
+      const vis = (style.visibility || '').toLowerCase();
+
+      return (w > 0 || h > 0) && disp !== 'none' && vis !== 'hidden';
+    } catch {
+      return false;
+    }
+  };
+
+  const getOverlayInsetForInput = (el) => {
+    if (!el || el.tagName !== 'INPUT') return { side: 'right', inset: minInset };
+
+    const cs = getComputedStyle(el);
+    const dir = (cs.direction || 'ltr').toLowerCase();
+    const isRTL = dir === 'rtl';
+
+    const pr = parseFloat(cs.paddingRight) || 0;
+    const pl = parseFloat(cs.paddingLeft) || 0;
+    const type = (el.type || '').toLowerCase();
+    const hasValue = !!el.value;
+
+    // Site-provided icon space via padding on the side of text start/end
+    const sidePadding = isRTL ? pl : pr;
+    if (sidePadding >= 28) {
+      const gap = hasValue ? 10 : 0;
+
+      return { side: isRTL ? 'left' : 'right', inset: sidePadding + gap };
+    }
+
+    // Native search clear button (value present and native appearance enabled)
+    const appearance = (cs.webkitAppearance || cs.appearance || '').toString().toLowerCase();
+    const hasNativeSearchUI = type === 'search' && hasValue && appearance !== 'none';
+    if (hasNativeSearchUI) {
+      const h = el.clientHeight || parseFloat(cs.height) || 32;
+      const icon = clamp(16, h * 0.6, 28);
+      const gap = clamp(6, h * 0.15, 10);
+
+      return { side: isRTL ? 'left' : 'right', inset: icon + gap };
+    }
+
+    if (isMacOS()) {
+      if (hasWebKitContactsButton(el) || isLikelyContactField(el)) {
+        const h = el.clientHeight || parseFloat(cs.height) || 32;
+        const icon = clamp(26, h * 0.7, 34);
+        const gap = clamp(12, h * 0.3, 20);
+        const inset = Math.max(sidePadding, icon + gap, 44);
+
+        return { side: isRTL ? 'left' : 'right', inset};
+      }
+    }
+
+    // Fallback to ensure minimal padding on the relevant side
+    const fallbackInset = Math.max(minInset, sidePadding);
+    return { side: isRTL ? 'left' : 'right', inset: fallbackInset };
   };
 
   const getLatestHistoryItem = async () => {
@@ -268,6 +314,13 @@
       return null;
     }
   };
+
+  const CLIP_DISPLAY_DURATION_MS = 3333;
+  
+  let clipHost = null;
+  let clipEl = null;
+  let clipHideTimer = null;
+  let isClipCssLoaded = false;
 
   const createClipPopup = () => {
     const host = document.createElement('div');
@@ -363,17 +416,27 @@
       const popupWidth = clipEl.offsetWidth;
       const popupHeight = clipEl.offsetHeight;
       
-      const innerPaddingRight = hasIcon(element) ? 40 : 5;
-
       const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
       let topPosition = (rect.top + scrollY) + (rect.height / 2) - (popupHeight / 2);
-      let leftPosition = (rect.right + scrollX) - popupWidth - innerPaddingRight;
 
-      const elementAbsoluteLeft = rect.left + scrollX;
-      if (leftPosition < elementAbsoluteLeft + 5) {
-        leftPosition = elementAbsoluteLeft + 5;
+      const { side, inset } = getOverlayInsetForInput(element);
+      let leftPosition;
+
+      if (side === 'right') {
+        leftPosition = (rect.right + scrollX) - popupWidth - inset;
+        const elementAbsoluteLeft = rect.left + scrollX;
+        if (leftPosition < elementAbsoluteLeft + minInset) {
+          leftPosition = elementAbsoluteLeft + minInset;
+        }
+      } else {
+        // RTL: place relative to left edge plus inset
+        leftPosition = (rect.left + scrollX) + inset;
+        const elementAbsoluteRight = rect.right + scrollX;
+        if (leftPosition + popupWidth > elementAbsoluteRight - minInset) {
+          leftPosition = elementAbsoluteRight - minInset - popupWidth;
+        }
       }
 
       clipEl.style.top = `${topPosition}px`;
@@ -761,3 +824,5 @@
     }
   })();
 })();
+
+
