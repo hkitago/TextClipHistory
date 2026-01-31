@@ -462,22 +462,76 @@
   const isSearchInput = (element) => {
     if (!element || element.tagName !== 'INPUT') return false;
 
+    const type = (element.type || '').toLowerCase();
+    if (type === 'search') return true;
+
     const validInputTypes = ['text', 'search'];
-    if (!validInputTypes.includes(element.type)) return false;
+    if (!validInputTypes.includes(type)) return false;
 
-    const searchKeywords = ['search', 'query', 'keyword', 'find'];
-    const attributesToCheck = ['placeholder', 'aria-label', 'name', 'id', 'role', 'enterkeyhint'];
+    let confidence = 0;
 
-    for (const attr of attributesToCheck) {
-      const value = element.getAttribute(attr) || '';
-      if (searchKeywords.some(keyword => value.toLowerCase().includes(keyword))) return true;
+    const role = (element.getAttribute('role') || '').toLowerCase();
+    if (role === 'searchbox' || role === 'search') confidence += 30;
+
+    const enterkeyhint = (element.getAttribute('enterkeyhint') || '').toLowerCase();
+    if (enterkeyhint === 'search') confidence += 30;
+
+    const inputmode = (element.getAttribute('inputmode') || '').toLowerCase();
+    if (inputmode === 'search') confidence += 25;
+
+    const structuralKeywords = ['search', 'searchbox', 'query'];
+    const structuralAttrs = ['name', 'id'];
+    
+    for (const attr of structuralAttrs) {
+      const value = (element.getAttribute(attr) || '').toLowerCase();
+      if (structuralKeywords.some(kw => value.includes(kw))) {
+        confidence += 20;
+        break; // Avoid double scoring
+      }
     }
 
-    for (const attr of element.attributes) {
-      if (searchKeywords.some(keyword => attr.value.toLowerCase().includes(attr.value.toLowerCase()))) return true;
+    let contextFound = false;
+
+    const closestSearchAncestor = element.closest('[role="search"]');
+    if (closestSearchAncestor) {
+      confidence += 15;
+      contextFound = true;
     }
 
-    return false;
+    if (!contextFound) {
+      const form = element.form || element.closest('form');
+      if (form) {
+        const formRole = (form.getAttribute('role') || '').toLowerCase();
+        if (formRole === 'search') {
+          confidence += 15;
+          contextFound = true;
+        }
+      }
+    }
+
+    if (!contextFound) {
+      const parent = element.parentElement;
+      if (parent) {
+        const parentClass = (parent.getAttribute('class') || '').toLowerCase();
+        
+        if (structuralKeywords.some(kw => parentClass.includes(kw))) {
+          confidence += 10;
+        }
+      }
+    }
+
+    const textualAttrs = ['placeholder', 'aria-label'];
+    let textualScore = 0;
+
+    for (const attr of textualAttrs) {
+      const value = (element.getAttribute(attr) || '').toLowerCase();
+      if (structuralKeywords.some(kw => value.includes(kw))) {
+        textualScore += 5;
+      }
+    }
+
+    confidence += Math.min(textualScore, 10);
+    return confidence >= 20;
   };
 
   const detectEditorType = (element) => {
