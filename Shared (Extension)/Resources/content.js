@@ -3,7 +3,28 @@
     navigator.platform.includes('Mac') && !(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   
   /* Global state variables */
+  const DEFAULT_SETTINGS = {
+    clearOption: 'all',
+    showClipboardPreview: false,
+    showInputSource: true,
+  };
+
+  let config = { ...DEFAULT_SETTINGS };
   let lastFocusedElement = null;
+
+  const requestConfigFromBackground = async () => {
+    try {
+      const response = await browser.runtime.sendMessage({
+        type: 'GET_CURRENT_CONFIG'
+      });
+
+      if (response?.config) {
+        config = { ...DEFAULT_SETTINGS, ...response.config };
+      }
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Failed to get config from background:', error);
+    }
+  };
 
   // ========================================
   // Input source popup
@@ -288,6 +309,8 @@
   };
 
   const showClipboardPreview = async (element) => {
+    if (!config.showClipboardPreview) return;
+
     if (!clipEl) {
       const created = createClipPopup();
       clipHost = created.host;
@@ -619,6 +642,18 @@
     hidePopup();
   }, { capture: true, passive: true });
 
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState !== 'visible') return;
+
+    try {
+      const stored = await browser.storage.local.get('settings');
+      config = { ...DEFAULT_SETTINGS, ...stored.settings };
+    } catch (error) {
+      console.warn('[TextClipHistoryExtension] Failed to refresh storage, fallback to background:', error);
+      requestConfigFromBackground();
+    }
+  });
+
   // ========================================
   // onMessage
   // ========================================
@@ -647,4 +682,28 @@
       }
     }
   });
+
+  // ========================================
+  // Config update: Receive from background
+  // ========================================
+  browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'CONFIG_UPDATED') {
+      config = { ...DEFAULT_SETTINGS, ...message.config };
+    }
+    
+    return;
+  });
+
+  // ========================================
+  // Initialization: Load config from storage
+  // ========================================
+  (async () => {
+    try {
+      const stored = await browser.storage.local.get('settings');
+      config = { ...DEFAULT_SETTINGS, ...stored.settings };
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Failed to load config:', error);
+      requestConfigFromBackground();
+    }
+  })();
 })();
