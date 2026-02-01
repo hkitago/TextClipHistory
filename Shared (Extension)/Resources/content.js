@@ -433,6 +433,8 @@
         targetElement.focus();
       });
     };
+    clipEl.onmouseover = (event) => clearTimeout(clipHideTimer);
+    clipEl.onmouseout = (event) => hideClipboardPreview();
 
     clipEl.style.display = 'block';
     const caretRect = getCaretCoordinates(element);
