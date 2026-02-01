@@ -493,25 +493,13 @@ const buildPopup = async (settings) => {
 
   // Settings View
   const settingItems = [
+    { key: 'showClipboardPreview', label: `${getCurrentLangLabelString('settingsClipboardPreview')}` },
     { key: 'showInputSource', label: `${getCurrentLangLabelString('settingsShowInputSource')}` },
   ];
 
   const checkboxes = {};
 
   const renderSettingsList = async () => {
-    try {
-      const data = await browser.storage.local.get('inputSourceEnabled');
-      const inputSourceEnabled = data.inputSourceEnabled !== undefined ? data.inputSourceEnabled : true;
-
-      if (!inputSourceEnabled) {
-        document.getElementById('settings').style.display = 'none';
-        return;
-      }
-    } catch (error) {
-      console.error('[TextClipHistoryExtension] Failed to check input source:', error);
-      return;
-    }
-
     settingItems.forEach(({ key, label }) => {
       const checkbox = document.getElementById(key);
       const labelElement = document.querySelector(`label[for="${key}"]`);
@@ -553,7 +541,7 @@ const initializePopup = async () => {
   try {
     await buildPopup(settings);
   } catch (error) {
-    console.error('[TextClipHistoryExtension] Fail to initialize to build the popup:', error);
+    console.error('[TextClipHistoryExtension] Failed to initialize to build the popup:', error);
     isInitialized = false;
   }
 };
