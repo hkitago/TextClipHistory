@@ -286,6 +286,14 @@ section#settings {
   margin-top: 10px;
 }
 
+#settingsInputSource {
+  display: none;
+}
+
+.os-macos #settingsInputSource {
+  display: list-item;
+}
+
 ul#settingsList {
   list-style: none;
   padding: 0;
