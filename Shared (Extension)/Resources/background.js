@@ -20,7 +20,7 @@ const getInputSource = async () => {
           resolve(response.inputSource);
         } else {
           console.error('[TextClipHistoryExtension] Failed to retrieve input source:', response);
-          reject(new Error(response?.error || 'Native App response error'));
+          reject(new Error(response?.error || '[TextClipHistoryExtension] Native App response error'));
         }
       }
     );
@@ -188,6 +188,11 @@ browser.tabs.onRemoved.addListener((tabId) => {
 
 // Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+  if (message.type === 'GET_CURRENT_CONFIG') {
+    sendResponse({ config: settings.get() });
+    return true;
+  }
+
   if (message.request === 'saveClipboard') {
     saveToHistory(message.text);
   }
@@ -217,7 +222,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
           inputSource: inputSource
         });
       } catch (error) {
-        console.error('[TextClipHistoryExtension] Error in inputFocused:', error);
+        console.error('[TextClipHistoryExtension] Failed to show input source on input focus:', error);
       }
     })();
   }
