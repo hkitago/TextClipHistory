@@ -85,13 +85,7 @@
       const style = window.getComputedStyle(element);
 
       const div = document.createElement('div');
-      const propertiesToCopy = [
-        'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing',
-        'lineHeight', 'textTransform', 'wordSpacing', 'textIndent',
-        'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft',
-        'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth',
-        'boxSizing', 'whiteSpace', 'wordBreak'
-      ];
+      const propertiesToCopy = [ 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'lineHeight', 'textTransform', 'wordSpacing', 'textIndent', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'boxSizing', 'whiteSpace', 'wordBreak' ];
 
       propertiesToCopy.forEach(prop => div.style[prop] = style[prop]);
 
@@ -419,23 +413,49 @@
       const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
       const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      let topPosition = (rect.top + scrollY) + (rect.height / 2) - (popupHeight / 2);
-
       const { side, inset } = getOverlayInsetForInput(element);
-      let leftPosition;
 
-      if (side === 'right') {
-        leftPosition = (rect.right + scrollX) - popupWidth - inset;
-        const elementAbsoluteLeft = rect.left + scrollX;
-        if (leftPosition < elementAbsoluteLeft + minInset) {
-          leftPosition = elementAbsoluteLeft + minInset;
+      let topPosition;
+      let useLeftAlignment = false;
+      try {
+        const caretRect = getCaretCoordinates(element);
+
+        topPosition = caretRect.top + scrollY - (popupHeight / 2) + (caretRect.height / 2);
+
+        const caretRatio = clamp(0, (caretRect.left - rect.left) / Math.max(1, rect.width), 1);
+        const threshold = 3 / 5;
+        
+        if (side === 'right') { // LTR
+          useLeftAlignment = caretRatio >= threshold;
+        } else { // RTL
+          useLeftAlignment = caretRatio <= (1 - threshold);
         }
-      } else {
-        // RTL: place relative to left edge plus inset
-        leftPosition = (rect.left + scrollX) + inset;
-        const elementAbsoluteRight = rect.right + scrollX;
-        if (leftPosition + popupWidth > elementAbsoluteRight - minInset) {
-          leftPosition = elementAbsoluteRight - minInset - popupWidth;
+      } catch (error) {
+        console.warn('[TextClipHistoryExtension] Failed to get caret metrics, fall back to default positioning:', error);
+        topPosition = (rect.top + scrollY) + (rect.height / 2) - (popupHeight / 2);
+        useLeftAlignment = false;
+      }
+
+      let leftPosition;
+      if (side === 'right') { // LTR
+        if (useLeftAlignment) { // Position at the left edge of the input element
+          leftPosition = (rect.left + scrollX) + minInset;
+        } else { // Position at the right edge of the input element (default)
+          leftPosition = (rect.right + scrollX) - popupWidth - inset;
+          const elementAbsoluteLeft = rect.left + scrollX;
+          if (leftPosition < elementAbsoluteLeft + minInset) {
+            leftPosition = elementAbsoluteLeft + minInset;
+          }
+        }
+      } else { // RTL
+        if (useLeftAlignment) { // Position at the right edge of the input element (reversed for RTL)
+          leftPosition = (rect.right + scrollX) - popupWidth - minInset;
+        } else { // Position at the left edge of the input element (default for RTL)
+          leftPosition = (rect.left + scrollX) + inset;
+          const elementAbsoluteRight = rect.right + scrollX;
+          if (leftPosition + popupWidth > elementAbsoluteRight - minInset) {
+            leftPosition = elementAbsoluteRight - minInset - popupWidth;
+          }
         }
       }
 
