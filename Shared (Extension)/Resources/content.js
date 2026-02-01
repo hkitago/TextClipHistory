@@ -58,14 +58,12 @@
 
   const getCaretCoordinates = (element) => {
     const isInput = element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
-
     if (!isInput && element.isContentEditable) {
       // for ContentEditable
       const selection = window.getSelection();
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0).cloneRange();
         let rects = range.getClientRects();
-
         if (rects.length === 0) {
           const tempSpan = document.createElement('span');
           tempSpan.appendChild(document.createTextNode('\u200b'));
@@ -74,7 +72,6 @@
           tempSpan.parentNode.removeChild(tempSpan);
           return { top: rect.top, left: rect.left, width: 0, height: rect.height, bottom: rect.bottom };
         }
-
         const r = rects[0];
         return { top: r.top, left: r.left, width: 0, height: r.height, bottom: r.bottom };
       }
@@ -83,32 +80,32 @@
       // --- for Input / Textarea
       const { selectionStart, value } = element;
       const style = window.getComputedStyle(element);
-
       const div = document.createElement('div');
-      const propertiesToCopy = [ 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'lineHeight', 'textTransform', 'wordSpacing', 'textIndent', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'boxSizing', 'whiteSpace', 'wordBreak' ];
-
+      const propertiesToCopy = [ 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'lineHeight', 'textTransform', 'wordSpacing', 'textIndent', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'boxSizing', 'whiteSpace', 'wordBreak', 'overflowWrap' ];
       propertiesToCopy.forEach(prop => div.style[prop] = style[prop]);
-
       div.style.position = 'fixed';
       div.style.visibility = 'hidden';
       div.style.top = '0';
       div.style.left = '0';
-
       div.style.width = element.offsetWidth + 'px';
+      div.style.height = 'auto';
+      div.style.overflow = 'hidden';
 
-      div.textContent = value.substring(0, selectionStart);
+      const textBeforeCaret = value.substring(0, selectionStart);
+      div.textContent = textBeforeCaret;
 
       const span = document.createElement('span');
-      span.textContent = value.substring(selectionStart, selectionStart + 1) || '.';
+      span.textContent = '\u200b';
       div.appendChild(span);
 
       document.body.appendChild(div);
 
       const elementRect = element.getBoundingClientRect();
+      const spanRect = span.getBoundingClientRect();
 
-      const top = elementRect.top + span.offsetTop - element.scrollTop;
-      const left = elementRect.left + span.offsetLeft - element.scrollLeft;
-      const height = span.offsetHeight;
+      const top = elementRect.top + (spanRect.top - div.getBoundingClientRect().top) - element.scrollTop;
+      const left = elementRect.left + (spanRect.left - div.getBoundingClientRect().left) - element.scrollLeft;
+      const height = spanRect.height;
 
       document.body.removeChild(div);
 
