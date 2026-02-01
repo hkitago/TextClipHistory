@@ -193,15 +193,15 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     return true;
   }
 
-  if (message.request === 'saveClipboard') {
+  if (message.request === 'SAVE_CLIPBOARD') {
     saveToHistory(message.text);
   }
 
-  if (message.request === 'togglePin') {
+  if (message.request === 'TOGGLE_PIN') {
     togglePin(message.id);
   }
 
-  if (message.request === 'inputFocused') {
+  if (message.request === 'INPUT_FOCUSED') {
     (async () => {
       if (!isMacOS()) return;
 
@@ -218,7 +218,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         if (inputSource.isSingleInputSource) return;
 
         browser.tabs.sendMessage(sender.tab.id, {
-          request: 'showInputSource',
+          request: 'SHOW_INPUT_SOURCE',
           inputSource: inputSource
         });
       } catch (error) {

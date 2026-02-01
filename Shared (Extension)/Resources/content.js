@@ -232,7 +232,7 @@
     if (!isEditableElement(target)) return;
 
     browser.runtime.sendMessage({
-      request: 'inputFocused',
+      request: 'INPUT_FOCUSED',
     });
   };
 
@@ -512,7 +512,7 @@
       if (targetUrl) {
         copyText = targetUrl;
         browser.runtime.sendMessage({
-          request: 'saveClipboard',
+          request: 'SAVE_CLIPBOARD',
           text: copyText
         });
       }
@@ -552,7 +552,7 @@
       if (!selectedText) return;
 
       browser.runtime.sendMessage({
-        request: 'saveClipboard',
+        request: 'SAVE_CLIPBOARD',
         text: selectedText
       });
 
@@ -834,7 +834,7 @@
       }
     }
 
-    if (message.request === 'showInputSource' && message.inputSource) {
+    if (message.request === 'SHOW_INPUT_SOURCE' && message.inputSource) {
       const activeElement = document.activeElement;
       if (activeElement && isEditableElement(activeElement)) {
         // Use the duration decided by the triggering event; mark as shown-once for this element.

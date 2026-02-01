@@ -195,7 +195,7 @@ const buildPopup = async (settings) => {
       const itemId = li.dataset.id;
 
       await browser.runtime.sendMessage({
-        request: 'togglePin',
+        request: 'TOGGLE_PIN',
         id: itemId
       });
 
