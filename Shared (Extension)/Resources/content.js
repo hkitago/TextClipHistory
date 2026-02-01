@@ -33,6 +33,7 @@
   let popupHost = null;
   let popupEl = null;
   let hideTimer = null;
+  let popupRafId = null;
 
   const POPUP_DISPLAY_COOLDOWN_MS = 2000;
   let lastPopupTimestamp = 0;
@@ -156,6 +157,11 @@
   };
 
   const showPopup = async (element, inputSourceName, durationMs = POPUP_DISPLAY_DURATION_MS) => {
+    if (popupRafId) {
+      cancelAnimationFrame(popupRafId);
+      popupRafId = null;
+    }
+
     if (!popupEl) {
       const created = createPopup();
       popupHost = created.host;
@@ -170,12 +176,11 @@
 
     hidePopup();
 
+    popupEl.textContent = inputSourceName;
+    popupEl.style.display = 'block';
     const caretRect = getCaretCoordinates(element);
 
-    popupEl.style.display = 'block';
-    popupEl.textContent = inputSourceName;
-
-    requestAnimationFrame(() => {
+    popupRafId = requestAnimationFrame(() => {
       const popupWidth = popupEl.offsetWidth;
       const popupHeight = popupEl.offsetHeight;
       const gap = 8;
@@ -197,6 +202,8 @@
 
     clearTimeout(hideTimer);
     hideTimer = setTimeout(() => hidePopup(), durationMs);
+
+    popupRafId = null;
   };
 
   const requestInputSourcePopup = (target) => {
@@ -312,6 +319,7 @@
   let clipEl = null;
   let clipHideTimer = null;
   let isClipCssLoaded = false;
+  let clipRafId = null;
 
   const createClipPopup = () => {
     const host = document.createElement('div');
@@ -354,6 +362,11 @@
 
   const showClipboardPreview = async (element) => {
     if (!config.showClipboardPreview) return;
+
+    if (clipRafId) {
+      cancelAnimationFrame(clipRafId);
+      clipRafId = null;
+    }
 
     if (!clipEl) {
       const created = createClipPopup();
@@ -401,8 +414,9 @@
     };
 
     clipEl.style.display = 'block';
+    const caretRect = getCaretCoordinates(element);
 
-    requestAnimationFrame(() => {
+    clipRafId = requestAnimationFrame(() => {
       const rect = element.getBoundingClientRect();
       const popupWidth = clipEl.offsetWidth;
       const popupHeight = clipEl.offsetHeight;
@@ -415,7 +429,6 @@
       let topPosition;
       let useLeftAlignment = false;
       try {
-        const caretRect = getCaretCoordinates(element);
 
         topPosition = caretRect.top + scrollY - (popupHeight / 2) + (caretRect.height / 2);
 
@@ -458,6 +471,8 @@
 
       clipEl.style.top = `${topPosition}px`;
       clipEl.style.left = `${leftPosition}px`;
+
+      clipRafId = null;
     });
 
     clearTimeout(clipHideTimer);
@@ -691,11 +706,7 @@
     if (element.isContentEditable) return true;
 
     const tagName = element.tagName.toUpperCase();
-
-    if (tagName === 'TEXTAREA') {
-      return !element.readOnly && !element.disabled;
-    }
-
+    if (tagName === 'TEXTAREA') return !element.readOnly && !element.disabled;
     if (tagName === 'INPUT') {
       const editableTypes = ['text', 'password', 'email', 'number', 'search', 'tel', 'url'];
       const type = element.type.toLowerCase();
@@ -710,7 +721,7 @@
   // ========================================
   document.addEventListener('focusin', (event) => {
     if (!isEditableElement(event.target)) return;
-    if (clipEl && clipEl.style.display === 'block') return;
+//    if (clipEl && clipEl.style.display === 'block') return;
     
     lastFocusedElement = event.target;
 
@@ -740,7 +751,7 @@
   document.addEventListener('pointerdown', (event) => {
     if (!isMacOS()) return;
     if (!isEditableElement(event.target)) return;
-    if (clipEl && clipEl.style.display === 'block') return;
+//    if (clipEl && clipEl.style.display === 'block') return;
 
     if (isMacOS()) {
       const now = performance.now();
@@ -761,7 +772,8 @@
     showClipboardPreview(event.target);
   });
 
-  document.addEventListener('touchstart', (event) => {
+  document.addEventListener('click', (event) => {
+    if (isMacOS()) return;
     if (!isEditableElement(event.target)) return;
     
     showClipboardPreview(event.target);
