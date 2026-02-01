@@ -447,31 +447,25 @@
 
       const { side, inset } = getOverlayInsetForInput(element);
 
-      let topPosition;
-      let useLeftAlignment = false;
-      try {
+      // Vertical positioning: center-aligned for INPUT, caret-aligned for multi-line elements
+      const topPosition =
+        element.tagName === 'INPUT'
+          ? (rect.top + scrollY) + (rect.height / 2) - (popupHeight / 2)
+          : caretRect.top + scrollY - (popupHeight / 2) + (caretRect.height / 2);
 
-        topPosition = caretRect.top + scrollY - (popupHeight / 2) + (caretRect.height / 2);
-
-        const caretRatio = clamp(0, (caretRect.left - rect.left) / Math.max(1, rect.width), 1);
-        const threshold = 3 / 5;
-        
-        if (side === 'right') { // LTR
-          useLeftAlignment = caretRatio >= threshold;
-        } else { // RTL
-          useLeftAlignment = caretRatio <= (1 - threshold);
-        }
-      } catch (error) {
-        console.warn('[TextClipHistoryExtension] Failed to get caret metrics, fall back to default positioning:', error);
-        topPosition = (rect.top + scrollY) + (rect.height / 2) - (popupHeight / 2);
-        useLeftAlignment = false;
-      }
+      // Horizontal positioning: determine left/right alignment based on caret position
+      const caretRatio = clamp(0, (caretRect.left - rect.left) / Math.max(1, rect.width), 1);
+      const threshold = 3 / 5;
+      
+      const useLeftAlignment = side === 'right' // LTR
+        ? caretRatio >= threshold
+        : caretRatio <= (1 - threshold); // RTL
 
       let leftPosition;
       if (side === 'right') { // LTR
-        if (useLeftAlignment) { // Position at the left edge of the input element
+        if (useLeftAlignment) {
           leftPosition = (rect.left + scrollX) + minInset;
-        } else { // Position at the right edge of the input element (default)
+        } else {
           leftPosition = (rect.right + scrollX) - popupWidth - inset;
           const elementAbsoluteLeft = rect.left + scrollX;
           if (leftPosition < elementAbsoluteLeft + minInset) {
@@ -479,9 +473,9 @@
           }
         }
       } else { // RTL
-        if (useLeftAlignment) { // Position at the right edge of the input element (reversed for RTL)
+        if (useLeftAlignment) {
           leftPosition = (rect.right + scrollX) - popupWidth - minInset;
-        } else { // Position at the left edge of the input element (default for RTL)
+        } else {
           leftPosition = (rect.left + scrollX) + inset;
           const elementAbsoluteRight = rect.right + scrollX;
           if (leftPosition + popupWidth > elementAbsoluteRight - minInset) {
@@ -742,9 +736,10 @@
   // ========================================
   document.addEventListener('focusin', (event) => {
     if (!isEditableElement(event.target)) return;
-//    if (clipEl && clipEl.style.display === 'block') return;
-    
+
     lastFocusedElement = event.target;
+
+    showClipboardPreview(event.target);
 
     if (isMacOS()) {
       const now = performance.now();
@@ -759,8 +754,6 @@
 
       requestInputSourcePopup(event.target);
     }
-
-    showClipboardPreview(event.target);
   });
 
   document.addEventListener('focusout', (event) => {
@@ -772,7 +765,8 @@
   document.addEventListener('pointerdown', (event) => {
     if (!isMacOS()) return;
     if (!isEditableElement(event.target)) return;
-//    if (clipEl && clipEl.style.display === 'block') return;
+
+    showClipboardPreview(event.target);
 
     if (isMacOS()) {
       const now = performance.now();
@@ -789,14 +783,12 @@
 
       requestInputSourcePopup(event.target);
     }
-
-    showClipboardPreview(event.target);
   });
 
-  document.addEventListener('click', (event) => {
+  document.addEventListener('touchend', (event) => {
     if (isMacOS()) return;
     if (!isEditableElement(event.target)) return;
-    
+
     showClipboardPreview(event.target);
   });
 
