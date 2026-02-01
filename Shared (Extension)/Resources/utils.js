@@ -33,9 +33,19 @@ export const applyPlatformClass = () => {
   }
 };
 
+export const sendMessageSafe = async (tabId, message) => {
+  try {
+    await browser.tabs.sendMessage(tabId, message);
+  } catch (error) {
+    // Ignore errors if the content script is not yet loaded or the tab is not accessible.
+    console.warn('[TextClipHistoryExtension] Failed to send message to content.js:', error);
+  }
+};
+
 export const settings = (() => {
   const DEFAULT_SETTINGS = {
     clearOption: 'all',
+    showClipboardPreview: false,
     showInputSource: true,
   };
 
@@ -50,7 +60,10 @@ export const settings = (() => {
     }
   };
 
-  const get = (key) => cache[key];
+  const get = (key) => {
+    if (key === undefined) return { ...cache };
+    return cache[key];
+  };
 
   const set = async (key, value) => {
     cache[key] = value;
@@ -61,9 +74,15 @@ export const settings = (() => {
     }
   };
 
-  browser.storage.onChanged.addListener((changes, area) => {
+  browser.storage.onChanged.addListener(async (changes, area) => {
     if (area === 'local' && changes.settings) {
       cache = { ...DEFAULT_SETTINGS, ...changes.settings.newValue };
+
+      const tabs = await browser.tabs.query({ active: true });
+
+      for (const tab of tabs) {
+        sendMessageSafe(tab.id, { type: 'CONFIG_UPDATED', config: cache });
+      }
     }
   });
 
