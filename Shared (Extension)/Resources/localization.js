@@ -15,6 +15,7 @@ export const labelStrings = {
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done",
+    "settingsClipboardPreview": "Show Latest Text Clipping",
     "settingsShowInputSource": "Show Input Source"
   },
   "ar": {
@@ -26,6 +27,7 @@ export const labelStrings = {
     "pinnedLabel": "مثبّت",
     "editActions": "تحرير قصاصات النص...",
     "editDone": "تم",
+    "settingsClipboardPreview": "عرض أحدث قصاصة نصية",
     "settingsShowInputSource": "إظهار مصدر الإدخال"
   },
   "ar-SA": {
@@ -37,6 +39,7 @@ export const labelStrings = {
     "pinnedLabel": "مثبّت",
     "editActions": "تحرير قصاصات النص...",
     "editDone": "تم",
+    "settingsClipboardPreview": "عرض أحدث قصاصة نصية",
     "settingsShowInputSource": "إظهار مصدر الإدخال"
   },
   "ca": {
@@ -48,6 +51,7 @@ export const labelStrings = {
     "pinnedLabel": "Fixat",
     "editActions": "Editar retalls de text...",
     "editDone": "Fet",
+    "settingsClipboardPreview": "Mostrar l’últim retall de text",
     "settingsShowInputSource": "Mostra la font d’entrada"
   },
   "cs": {
@@ -59,6 +63,7 @@ export const labelStrings = {
     "pinnedLabel": "Připnuto",
     "editActions": "Upravit textové výstřižky...",
     "editDone": "Hotovo",
+    "settingsClipboardPreview": "Zobrazit poslední výstřižek",
     "settingsShowInputSource": "Zobrazit zdroj vstupu"
   },
   "da": {
@@ -70,6 +75,7 @@ export const labelStrings = {
     "pinnedLabel": "Připnuto",
     "editActions": "Rediger tekstudklip...",
     "editDone": "Færdig",
+    "settingsClipboardPreview": "Vis seneste tekstudklip",
     "settingsShowInputSource": "Vis inputkilde"
   },
   "de": {
@@ -81,6 +87,7 @@ export const labelStrings = {
     "pinnedLabel": "Angeheftet",
     "editActions": "Textausschnitte bearbeiten...",
     "editDone": "Fertig",
+    "settingsClipboardPreview": "Letzten Textausschnitt anzeigen",
     "settingsShowInputSource": "Eingabequelle einblenden"
   },
   "el": {
@@ -92,6 +99,7 @@ export const labelStrings = {
     "pinnedLabel": "Καρφιτσωμένο",
     "editActions": "Επεξεργασία αποκομμάτων κειμένου...",
     "editDone": "Έγινε",
+    "settingsClipboardPreview": "Εμφάνιση τελευταίου αποκόμματος",
     "settingsShowInputSource": "Εμφάνιση πηγής εισόδου"
   },
   "en-AU": {
@@ -103,6 +111,7 @@ export const labelStrings = {
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done",
+    "settingsClipboardPreview": "Show Latest Text Clipping",
     "settingsShowInputSource": "Show Input Source"
   },
   "en-CA": {
@@ -114,6 +123,7 @@ export const labelStrings = {
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done",
+    "settingsClipboardPreview": "Show Latest Text Clipping",
     "settingsShowInputSource": "Show Input Source"
   },
   "en-GB": {
@@ -125,6 +135,7 @@ export const labelStrings = {
     "pinnedLabel": "Pinned",
     "editActions": "Edit Text Clippings...",
     "editDone": "Done",
+    "settingsClipboardPreview": "Show Latest Text Clipping",
     "settingsShowInputSource": "Show Input Source"
   },
   "es": {
@@ -136,6 +147,7 @@ export const labelStrings = {
     "pinnedLabel": "Fijado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Hecho",
+      "settingsClipboardPreview": "Mostrar último recorte de texto",
     "settingsShowInputSource": "Mostrar fuente de entrada"
   },
   "es-MX": {
@@ -147,6 +159,7 @@ export const labelStrings = {
     "pinnedLabel": "Fijado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Hecho",
+    "settingsClipboardPreview": "Mostrar último recorte de texto",
     "settingsShowInputSource": "Mostrar fuente de entrada"
   },
   "fi": {
@@ -158,6 +171,7 @@ export const labelStrings = {
     "pinnedLabel": "Kiinnitetty",
     "editActions": "Muokkaa tekstileikkeitä...",
     "editDone": "Valmis",
+    "settingsClipboardPreview": "Näytä uusin tekstileike",
     "settingsShowInputSource": "Näytä syöttölähde"
   },
   "fr": {
@@ -169,6 +183,7 @@ export const labelStrings = {
     "pinnedLabel": "Épinglé",
     "editActions": "Modifier les extraits de texte...",
     "editDone": "Terminé",
+    "settingsClipboardPreview": "Afficher le dernier extrait",
     "settingsShowInputSource": "Afficher la source de saisie"
   },
   "fr-CA": {
@@ -180,6 +195,7 @@ export const labelStrings = {
     "pinnedLabel": "Épinglé",
     "editActions": "Modifier les extraits de texte...",
     "editDone": "Terminé",
+    "settingsClipboardPreview": "Afficher le dernier extrait",
     "settingsShowInputSource": "Afficher la source de saisie"
   },
   "he": {
@@ -191,6 +207,7 @@ export const labelStrings = {
     "pinnedLabel": "מוצמד",
     "editActions": "ערוך קטעי טקסט...",
     "editDone": "סיים",
+    "settingsClipboardPreview": "הצגת קטע הטקסט האחרון",
     "settingsShowInputSource": "הצגת מקור קלט"
   },
   "hi": {
@@ -202,6 +219,7 @@ export const labelStrings = {
     "pinnedLabel": "पिन किया गया",
     "editActions": "टेक्स्ट क्लिपिंग संपादित करें...",
     "editDone": "पूर्ण",
+    "settingsClipboardPreview": "नवीनतम टेक्स्ट क्लिपिंग दिखाएँ",
     "settingsShowInputSource": "इनपुट स्रोत दिखाएँ"
   },
   "hr": {
@@ -213,6 +231,7 @@ export const labelStrings = {
     "pinnedLabel": "Prikvačeno",
     "editActions": "Uredi isječke teksta...",
     "editDone": "Gotovo",
+    "settingsClipboardPreview": "Prikaži najnoviji isječak teksta",
     "settingsShowInputSource": "Prikaži izvor unosa"
   },
   "hu": {
@@ -224,6 +243,7 @@ export const labelStrings = {
     "pinnedLabel": "Rögzítve",
     "editActions": "Szövegkivágások szerkesztése...",
     "editDone": "Kész",
+    "settingsClipboardPreview": "Legutóbbi kivágás megjelenítése",
     "settingsShowInputSource": "Beviteli forrás megjelenítése"
   },
   "id": {
@@ -235,6 +255,7 @@ export const labelStrings = {
     "pinnedLabel": "Disematkan",
     "editActions": "Edit Potongan Teks...",
     "editDone": "Selesai",
+    "settingsClipboardPreview": "Tampilkan Potongan Teks Terbaru",
     "settingsShowInputSource": "Tampilkan sumber input"
   },
   "it": {
@@ -246,6 +267,7 @@ export const labelStrings = {
     "pinnedLabel": "Fissato",
     "editActions": "Modifica ritagli di testo...",
     "editDone": "Fatto",
+    "settingsClipboardPreview": "Mostra ultimo ritaglio di testo",
     "settingsShowInputSource": "Mostra sorgente di input"
   },
   "ja": {
@@ -257,6 +279,7 @@ export const labelStrings = {
     "pinnedLabel": "ピン留め",
     "editActions": "文字コピー履歴を編集...",
     "editDone": "完了",
+    "settingsClipboardPreview": "最新の文字コピー履歴を表示",
     "settingsShowInputSource": "入力ソースを表示"
   },
   "ko-KR": {
@@ -268,6 +291,7 @@ export const labelStrings = {
     "pinnedLabel": "고정됨",
     "editActions": "텍스트 클리핑 편집...",
     "editDone": "완료",
+    "settingsClipboardPreview": "최신 텍스트 클리핑 보기",
     "settingsShowInputSource": "입력 소스 표시"
   },
   "ms": {
@@ -279,6 +303,7 @@ export const labelStrings = {
     "pinnedLabel": "Disematkan",
     "editActions": "Edit Potongan Teks...",
     "editDone": "Selesai",
+    "settingsClipboardPreview": "Tunjukkan Potongan Teks Terkini",
     "settingsShowInputSource": "Tunjukkan sumber input"
   },
   "nb": {
@@ -290,6 +315,7 @@ export const labelStrings = {
     "pinnedLabel": "Festet",
     "editActions": "Rediger tekstutklipp...",
     "editDone": "Ferdig",
+    "settingsClipboardPreview": "Vis siste tekstutklipp",
     "settingsShowInputSource": "Vis inndatakilde"
   },
   "nl": {
@@ -301,6 +327,7 @@ export const labelStrings = {
     "pinnedLabel": "Vastgezet",
     "editActions": "Tekstknipsels bewerken...",
     "editDone": "Klaar",
+    "settingsClipboardPreview": "Laatste tekstknipsel tonen",
     "settingsShowInputSource": "Toon invoerbron"
   },
   "pl": {
@@ -312,6 +339,7 @@ export const labelStrings = {
     "pinnedLabel": "Przypięte",
     "editActions": "Edytuj wycinki tekstu...",
     "editDone": "Gotowe",
+    "settingsClipboardPreview": "Pokaż ostatni wycinek tekstu",
     "settingsShowInputSource": "Pokaż źródło wprowadzania"
   },
   "pt": {
@@ -323,6 +351,7 @@ export const labelStrings = {
     "pinnedLabel": "Fixado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Concluído",
+    "settingsClipboardPreview": "Mostrar último recorte de texto",
     "settingsShowInputSource": "Mostrar fonte de entrada"
   },
   "pt-PT": {
@@ -334,6 +363,7 @@ export const labelStrings = {
     "pinnedLabel": "Afixado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Concluído",
+    "settingsClipboardPreview": "Mostrar último recorte de texto",
     "settingsShowInputSource": "Mostrar fonte de introdução"
   },
   "pt-BR": {
@@ -345,6 +375,7 @@ export const labelStrings = {
     "pinnedLabel": "Fixado",
     "editActions": "Editar recortes de texto...",
     "editDone": "Concluído",
+    "settingsClipboardPreview": "Mostrar último recorte de texto",
     "settingsShowInputSource": "Mostrar fonte de entrada"
   },
   "ro": {
@@ -356,6 +387,7 @@ export const labelStrings = {
     "pinnedLabel": "Fixat",
     "editActions": "Editează decupaje text...",
     "editDone": "Finalizat",
+    "settingsClipboardPreview": "Afișează ultimul decupaj text",
     "settingsShowInputSource": "Afișează sursa de introducere"
   },
   "ru": {
@@ -367,6 +399,7 @@ export const labelStrings = {
     "pinnedLabel": "Закреплено",
     "editActions": "Редактировать текстовые вырезки...",
     "editDone": "Готово",
+    "settingsClipboardPreview": "Показать последний фрагмент",
     "settingsShowInputSource": "Показать источник ввода"
   },
   "sv": {
@@ -378,6 +411,7 @@ export const labelStrings = {
     "pinnedLabel": "Fäst",
     "editActions": "Redigera textklipp...",
     "editDone": "Klar",
+    "settingsClipboardPreview": "Visa senaste textklippet",
     "settingsShowInputSource": "Visa inmatningskälla"
   },
   "sk": {
@@ -389,6 +423,7 @@ export const labelStrings = {
     "pinnedLabel": "Pripnuté",
     "editActions": "Upraviť textové výstrižky...",
     "editDone": "Hotovo",
+    "settingsClipboardPreview": "Zobraziť posledný výstrižok",
     "settingsShowInputSource": "Zobraziť zdroj vstupu"
   },
   "th": {
@@ -400,6 +435,7 @@ export const labelStrings = {
     "pinnedLabel": "ปักหมุด",
     "editActions": "แก้ไขข้อความที่คัดลอก...",
     "editDone": "เสร็จสิ้น",
+    "settingsClipboardPreview": "แสดงข้อความที่คัดลอกล่าสุด",
     "settingsShowInputSource": "แสดงแหล่งป้อนข้อมูล"
   },
   "tr": {
@@ -411,6 +447,7 @@ export const labelStrings = {
     "pinnedLabel": "Sabitlendi",
     "editActions": "Metin Kırpmaları Düzenle...",
     "editDone": "Tamam",
+    "settingsClipboardPreview": "En Son Metin Kırpmasını Göster",
     "settingsShowInputSource": "Giriş kaynağını göster"
   },
   "uk": {
@@ -422,6 +459,7 @@ export const labelStrings = {
     "pinnedLabel": "Закріплено",
     "editActions": "Редагувати текстові вирізки...",
     "editDone": "Готово",
+    "settingsClipboardPreview": "Показати останній фрагмент",
     "settingsShowInputSource": "Показати джерело введення"
   },
   "vi": {
@@ -433,6 +471,7 @@ export const labelStrings = {
     "pinnedLabel": "Được ghim",
     "editActions": "Chỉnh sửa các đoạn văn bản...",
     "editDone": "Xong",
+    "settingsClipboardPreview": "Hiển thị đoạn văn bản mới nhất",
     "settingsShowInputSource": "Hiển thị nguồn nhập"
   },
   "zh": {
@@ -444,6 +483,7 @@ export const labelStrings = {
     "pinnedLabel": "已固定",
     "editActions": "编辑文本剪辑...",
     "editDone": "完成",
+    "settingsClipboardPreview": "显示最新文本剪辑",
     "settingsShowInputSource": "显示输入源"
   },
   "zh-CN": {
@@ -455,6 +495,7 @@ export const labelStrings = {
     "pinnedLabel": "已固定",
     "editActions": "编辑文本剪辑...",
     "editDone": "完成",
+    "settingsClipboardPreview": "显示最新文本剪辑",
     "settingsShowInputSource": "显示输入源"
   },
   "zh-TW": {
@@ -466,6 +507,7 @@ export const labelStrings = {
     "pinnedLabel": "已釘選",
     "editActions": "編輯文字剪輯...",
     "editDone": "完成",
+    "settingsClipboardPreview": "顯示最新文字剪輯",
     "settingsShowInputSource": "顯示輸入來源"
   },
   "zh-HK": {
@@ -477,6 +519,7 @@ export const labelStrings = {
     "pinnedLabel": "已釘選",
     "editActions": "編輯文字剪輯...",
     "editDone": "完成",
+    "settingsClipboardPreview": "顯示最新文字剪輯",
     "settingsShowInputSource": "顯示輸入來源"
   }
 };
