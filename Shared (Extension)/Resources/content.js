@@ -59,8 +59,9 @@
 
   const getCaretCoordinates = (element) => {
     const isInput = element.tagName === 'INPUT' || element.tagName === 'TEXTAREA';
+
     if (!isInput && element.isContentEditable) {
-      // for ContentEditable
+      // --- for ContentEditable
       const selection = window.getSelection();
       if (selection.rangeCount > 0) {
         const range = selection.getRangeAt(0).cloneRange();
@@ -77,13 +78,29 @@
         return { top: r.top, left: r.left, width: 0, height: r.height, bottom: r.bottom };
       }
       return element.getBoundingClientRect();
+
     } else {
       // --- for Input / Textarea
-      const { selectionStart, value } = element;
+      let selectionStart = 0;
+      let value = '';
+
+      try {
+        value = element.value;
+        if (element.selectionStart !== null && element.selectionStart !== undefined) {
+          selectionStart = element.selectionStart;
+        } else {
+          selectionStart = value.length;
+        }
+      } catch (e) {
+        selectionStart = value.length;
+      }
+
       const style = window.getComputedStyle(element);
       const div = document.createElement('div');
-      const propertiesToCopy = [ 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'lineHeight', 'textTransform', 'wordSpacing', 'textIndent', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'boxSizing', 'whiteSpace', 'wordBreak', 'overflowWrap' ];
+      const propertiesToCopy = [ 'fontFamily', 'fontSize', 'fontWeight', 'fontStyle', 'letterSpacing', 'lineHeight', 'textTransform', 'wordSpacing', 'textIndent', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'borderTopWidth', 'borderRightWidth', 'borderBottomWidth', 'borderLeftWidth', 'boxSizing', 'whiteSpace', 'wordBreak', 'overflowWrap', 'textAlign', 'direction' ];
+
       propertiesToCopy.forEach(prop => div.style[prop] = style[prop]);
+
       div.style.position = 'fixed';
       div.style.visibility = 'hidden';
       div.style.top = '0';
@@ -91,6 +108,9 @@
       div.style.width = element.offsetWidth + 'px';
       div.style.height = 'auto';
       div.style.overflow = 'hidden';
+      
+      div.style.webkitAppearance = 'none';
+      div.style.appearance = 'none';
 
       const textBeforeCaret = value.substring(0, selectionStart);
       div.textContent = textBeforeCaret;
@@ -103,9 +123,10 @@
 
       const elementRect = element.getBoundingClientRect();
       const spanRect = span.getBoundingClientRect();
+      const divRect = div.getBoundingClientRect();
 
-      const top = elementRect.top + (spanRect.top - div.getBoundingClientRect().top) - element.scrollTop;
-      const left = elementRect.left + (spanRect.left - div.getBoundingClientRect().left) - element.scrollLeft;
+      const top = elementRect.top + (spanRect.top - divRect.top) - element.scrollTop;
+      const left = elementRect.left + (spanRect.left - divRect.left) - element.scrollLeft;
       const height = spanRect.height;
 
       document.body.removeChild(div);
