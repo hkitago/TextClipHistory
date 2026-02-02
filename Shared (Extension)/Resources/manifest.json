@@ -4,7 +4,7 @@
 
     "name": "__MSG_extension_name__",
     "description": "__MSG_extension_description__",
-    "version": "1.2.6",
+    "version": "26.1",
 
     "icons": {
         "48": "images/icon.svg",
@@ -32,7 +32,7 @@
     "permissions": [ "contextMenus", "clipboardRead", "clipboardWrite", "storage", "tabs", "activeTab", "nativeMessaging" ],
 
     "web_accessible_resources": [{
-        "resources": ["textcliphistory-ext.css"],
+        "resources": ["textcliphistory-ext-inputsource.css", "textcliphistory-ext-latestclip.css"],
         "matches": [ "http://*/*", "https://*/*" ]
     }]
 }
