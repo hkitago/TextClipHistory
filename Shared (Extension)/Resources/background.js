@@ -68,17 +68,25 @@ const saveToHistory = async (text) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
 
+    let pinned = false;
+    const deduped = [];
+    for (const item of history) {
+      if (item.text === text) {
+        if (item.pinned === true) {
+          pinned = true;
+        }
+        continue;
+      }
+      deduped.push(item);
+    }
+
     const newEntry = {
       id: generateUUID(),
       text,
-      pinned: false
+      pinned
     };
 
-    const updatedHistory = [
-      newEntry,
-      ...history
-    ];
-
+    const updatedHistory = [newEntry, ...deduped];
     await browser.storage.local.set({ history: updatedHistory });
 
   } catch (error) {
