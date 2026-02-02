@@ -60,6 +60,7 @@
 		604D48ED2CC86FEB003D59F7 /* TextClipHistory.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextClipHistory.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		604D48F92CC86FEB003D59F7 /* TextClipHistory Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "TextClipHistory Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		604D49032CC86FEB003D59F7 /* TextClipHistory Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "TextClipHistory Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		60C0878B2F304DFA00EC9F47 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -126,7 +127,7 @@
 				Resources/popup.css,
 				Resources/popup.html,
 				Resources/popup.js,
-				"Resources/textcliphistory-ext.css",
+				"Resources/textcliphistory-ext-latestclip.css",
 				Resources/utils.js,
 				SafariWebExtensionHandler.swift,
 			);
@@ -144,7 +145,8 @@
 				Resources/popup.css,
 				Resources/popup.html,
 				Resources/popup.js,
-				"Resources/textcliphistory-ext.css",
+				"Resources/textcliphistory-ext-inputsource.css",
+				"Resources/textcliphistory-ext-latestclip.css",
 				Resources/utils.js,
 				SafariWebExtensionHandler.swift,
 			);
@@ -241,6 +243,7 @@
 		604D48BE2CC86FE8003D59F7 = {
 			isa = PBXGroup;
 			children = (
+				60C0878B2F304DFA00EC9F47 /* CHANGELOG.md */,
 				603092F72CD712F0000851C5 /* LICENSE */,
 				603092F82CD712F0000851C5 /* README.md */,
 				604D48C32CC86FE9003D59F7 /* Shared (App) */,
@@ -496,7 +499,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -526,7 +529,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -564,7 +567,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -602,7 +605,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -624,7 +627,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/TextClipHistory.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -639,7 +642,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -658,7 +661,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/TextClipHistory.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -673,7 +676,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -695,7 +698,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/TextClipHistory.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -711,7 +714,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -734,7 +737,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = "macOS (App)/TextClipHistory.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -750,7 +753,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.4;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 26.1;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
