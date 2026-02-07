@@ -280,6 +280,7 @@
     const cs = getComputedStyle(el);
     const dir = (cs.direction || 'ltr').toLowerCase();
     const isRTL = dir === 'rtl';
+    // const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
 
     const pr = parseFloat(cs.paddingRight) || 0;
     const pl = parseFloat(cs.paddingLeft) || 0;
@@ -499,7 +500,48 @@
   };
 
   // ========================================
-  // Getting clipboard by contextmenu
+  // Save copied text to history
+  // ========================================
+  const generateUUID = () => {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+
+  const saveToHistory = async (text) => {
+    console.log('saveToHistory:', text);
+
+    try {
+      const { history = [] } = await browser.storage.local.get('history');
+
+      let pinned = false;
+      const deduped = [];
+      for (const item of history) {
+        if (item.text === text) {
+          if (item.pinned === true) {
+            pinned = true;
+          }
+          continue;
+        }
+        deduped.push(item);
+      }
+
+      const newEntry = {
+        id: generateUUID(),
+        text,
+        pinned
+      };
+
+      const updatedHistory = [newEntry, ...deduped];
+      await browser.storage.local.set({ history: updatedHistory });
+    } catch (error) {
+      console.error('[TextClipHistoryExtension] Failed to save to history:', error);
+    }
+  };
+
+  // ========================================
+  // Handling for 'copy url' command by contextmenu
   // ========================================
   document.addEventListener('contextmenu', (event) => {
     let copyText = '';
@@ -507,14 +549,8 @@
     if (event.target.tagName === 'A' || event.target.closest('a')) {
       const targetUrl = event.target.href || event.target.closest('a').href;
 
-      if (copyText === targetUrl) return;
-
       if (targetUrl) {
-        copyText = targetUrl;
-        browser.runtime.sendMessage({
-          request: 'SAVE_CLIPBOARD',
-          text: copyText
-        });
+        saveToHistory(targetUrl);
       }
     }
   });
@@ -549,12 +585,10 @@
       }
 
       selectedText = selectedText.trim();
+      console.log('handleClipboardEvent:', selectedText);
       if (!selectedText) return;
 
-      browser.runtime.sendMessage({
-        request: 'SAVE_CLIPBOARD',
-        text: selectedText
-      });
+      saveToHistory(selectedText);
 
       hideClipboardPreview();
     } catch (error) {

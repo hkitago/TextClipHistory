@@ -56,44 +56,6 @@ browser.runtime.onInstalled.addListener(async () => {
   }
 });
 
-// UUID
-const generateUUID = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-};
-
-const saveToHistory = async (text) => {
-  try {
-    const { history = [] } = await browser.storage.local.get('history');
-
-    let pinned = false;
-    const deduped = [];
-    for (const item of history) {
-      if (item.text === text) {
-        if (item.pinned === true) {
-          pinned = true;
-        }
-        continue;
-      }
-      deduped.push(item);
-    }
-
-    const newEntry = {
-      id: generateUUID(),
-      text,
-      pinned
-    };
-
-    const updatedHistory = [newEntry, ...deduped];
-    await browser.storage.local.set({ history: updatedHistory });
-
-  } catch (error) {
-    console.error('[TextClipHistoryExtension] Failed to save to history:', error);
-  }
-};
-
 const togglePin = async (id) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
