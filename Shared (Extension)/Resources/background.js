@@ -163,10 +163,6 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     return true;
   }
 
-  if (message.request === 'SAVE_CLIPBOARD') {
-    saveToHistory(message.text);
-  }
-
   if (message.request === 'TOGGLE_PIN') {
     togglePin(message.id);
   }
