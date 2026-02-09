@@ -1,7 +1,5 @@
 import { isMacOS, settings } from './utils.js';
 
-await settings.load();
-
 // Get input source from native app (macOS only)
 const getInputSource = async () => {
   if (!isMacOS()) return;
@@ -38,24 +36,6 @@ const updateInputSourceStorage = async () => {
   }
 };
 
-browser.windows.onFocusChanged.addListener((windowId) => {
-  if (windowId !== browser.windows.WINDOW_ID_NONE) {
-    updateInputSourceStorage();
-    initToolbarIcon();
-  }
-});
-
-// When enabled with tabs already open, just tricky part for Safari
-browser.runtime.onInstalled.addListener(async () => {
-  const tabs = await browser.tabs.query({});
-
-  for (const tab of tabs) {
-    if (tab.url.startsWith('http') || tab.url.startsWith('https')) {
-      await browser.tabs.reload(tab.id);
-    }
-  }
-});
-
 const togglePin = async (id) => {
   try {
     const { history = [] } = await browser.storage.local.get('history');
@@ -76,7 +56,9 @@ const hasHistoryStorage = async () => {
   return history.length > 0;
 };
 
+// ========================================
 // Icon Handlings
+// ========================================
 const activeTabs = new Set();
 
 const getAllTabIds = async () => {
@@ -108,10 +90,15 @@ const setIconForAllTabs = async (iconPath) => {
   await Promise.all(promises);
 };
 
-const updateIcon = (iconState, tabId = null) => {
-  const iconPath = iconState === 'extension-on'
-    ? 'images/toolbar-icon-on.svg'
-    : 'images/toolbar-icon.svg';
+const updateToolbarIcon = async (tabId = null) => {
+  const hasHistory = await hasHistoryStorage();
+
+  let iconPath;
+  if (hasHistory) {
+    iconPath = `./images/toolbar-icon-on.svg`;
+  } else {
+    iconPath = './images/toolbar-icon.svg';
+  }
 
   if (tabId === null) {
     setIconForAllTabs(iconPath);
@@ -120,27 +107,18 @@ const updateIcon = (iconState, tabId = null) => {
   }
 };
 
-const initToolbarIcon = async (tabId = null) => {
-  const hasHistory = await hasHistoryStorage();
-
-  if (hasHistory) {
-    updateIcon('extension-on', tabId);
-  } else {
-    updateIcon('default', tabId);
-  }
-};
-
-browser.storage.onChanged.addListener(async (changes, areaName) => {
-  if (areaName === 'local' && changes.history) {
-    initToolbarIcon();
-  }
+// ========================================
+// Event Listeners
+// ========================================
+browser.tabs.onRemoved.addListener((tabId) => {
+  activeTabs.delete(tabId);
 });
 
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   activeTabs.add(tab.id);
 
   if (changeInfo.status === 'complete') {
-    initToolbarIcon(tabId);
+    updateToolbarIcon(tabId);
   }
 });
 
@@ -148,12 +126,26 @@ browser.tabs.onCreated.addListener(async (tab) => {
   // Prevent duplicate event handling
   if (tab.index === 0) return; // for itself
   if (Number.isNaN(tab.index)) return; // for iOS/iPadOS
-
-  initToolbarIcon(tab.id);
 });
 
-browser.tabs.onRemoved.addListener((tabId) => {
-  activeTabs.delete(tabId);
+browser.windows.onFocusChanged.addListener(async (windowId) => {
+  if (windowId === browser.windows.WINDOW_ID_NONE) return;
+  
+  updateInputSourceStorage();
+  
+  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+  await updateToolbarIcon(activeTab?.id ?? null);
+
+  updateToolbarIcon(activeTab.id);
+});
+
+browser.storage.onChanged.addListener(async (changes, areaName) => {
+  if (areaName === 'local' && changes.history) {
+    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+    if (!activeTab?.id) return;
+
+    await updateToolbarIcon(activeTab?.id ?? null);
+  }
 });
 
 // Get Message Listeners
@@ -195,3 +187,17 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   return false;
 });
+
+// ========================================
+// Initialization
+// ========================================
+(async () => {
+  try {
+    await settings.load();
+
+    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+    await updateToolbarIcon(activeTab?.id ?? null);
+  } catch (error) {
+    console.error('[TextClipHistoryExtension] Failed to initialize:', error);
+  }
+})();
