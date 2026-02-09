@@ -6,7 +6,7 @@
   const DEFAULT_SETTINGS = {
     clearOption: 'all',
     showClipboardPreview: false,
-    showInputSource: true,
+    showInputSource: false,
   };
 
   let config = { ...DEFAULT_SETTINGS };
