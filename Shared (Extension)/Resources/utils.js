@@ -46,7 +46,7 @@ export const settings = (() => {
   const DEFAULT_SETTINGS = {
     clearOption: 'all',
     showClipboardPreview: false,
-    showInputSource: true,
+    showInputSource: false,
   };
 
   let cache = { ...DEFAULT_SETTINGS };
@@ -77,12 +77,6 @@ export const settings = (() => {
   browser.storage.onChanged.addListener(async (changes, area) => {
     if (area === 'local' && changes.settings) {
       cache = { ...DEFAULT_SETTINGS, ...changes.settings.newValue };
-
-      const tabs = await browser.tabs.query({ active: true });
-
-      for (const tab of tabs) {
-        sendMessageSafe(tab.id, { type: 'CONFIG_UPDATED', config: cache });
-      }
     }
   });
 
