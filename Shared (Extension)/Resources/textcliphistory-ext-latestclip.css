@@ -1,7 +1,7 @@
 .textcliphistory-ext-clipboard-popup {
   position: absolute;
-  padding: 3px 13px;
-  border: 1px solid rgb(0 0 0 / 30%);
+  padding: 2px 13px;
+  border: 1px solid rgb(0 0 0 / 20%);
   border-radius: 25px;
   font-size: 11px;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -26,6 +26,7 @@
 
 @media (prefers-color-scheme: dark) {
   .textcliphistory-ext-clipboard-popup {
+    border-color: rgb(255 255 255 / 20%);
     background: rgb(0 0 0 / 60%);
     color: white;
   }
