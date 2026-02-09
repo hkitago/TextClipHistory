@@ -510,8 +510,6 @@
   };
 
   const saveToHistory = async (text) => {
-    console.log('saveToHistory:', text);
-
     try {
       const { history = [] } = await browser.storage.local.get('history');
 
@@ -585,7 +583,6 @@
       }
 
       selectedText = selectedText.trim();
-      console.log('handleClipboardEvent:', selectedText);
       if (!selectedText) return;
 
       saveToHistory(selectedText);
