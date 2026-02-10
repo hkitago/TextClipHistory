@@ -215,7 +215,7 @@ const buildPopup = async (settings) => {
             if (li.dataset.pinned === 'false') { /* Pinned */
               if (!document.querySelector('#pinnedHistoryList')) {
                 main.prepend(pinnedUl); // Prepend to ensure pinned list is above unpinned
-                if (getState('isEditMode') && !isMacOS()) {
+                if (getState('isEditMode')) {
                   pinnedUl.classList.add('isEditMode');
                 }
                 pinnedUl.parentNode.insertBefore(pinnedLabel, pinnedUl);
