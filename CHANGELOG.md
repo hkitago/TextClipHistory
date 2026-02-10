@@ -1,5 +1,11 @@
 # Changelog
 
+## [26.1] - 2026-02-02
+
+- Added the latest text clipping display, showing the most recently saved text near the text cursor
+- Handled complex character input correctly, ensuring accurate text clipping display
+- Refined search input detection logic, reducing unintended activation across different input fields
+
 ## [1.2.6]
 
 ## **macOS** - 2025-12-23

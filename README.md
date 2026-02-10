@@ -19,10 +19,10 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Usage
 
-1. Load a web page.
+1. Open a webpage in Safari.
 2. Select the text within the web page and copy it. The extension also supports the 'Cut' and 'Copy link' command from the context menu.
-3. Tap the icon next to the address bar and choose the extension.
-4. A window will slide up from the bottom on iPhone, or a pop-up window will appear on iPad and Mac; select an item of text for pasting and click or tap it. If an input field (including textareas) is focused, the selected text will be inserted automatically.
+3. Tap or click the icon next to the address bar and choose the extension.
+4. Choose an item of text for pasting and click or tap it. If an input field (including textareas) is focused, the selected text will be inserted automatically.
 
 > [!IMPORTANT]
 > Some rich-text editors such as Quill and Gutenberg (WordPress Block Editor) use complex internal structures including Shadow DOM, virtual DOM, or iframes. Because of these architectural constraints, the extension currently offers limited compatibility with these editors. Improvements are planned, but full integration may require additional event bridging.
@@ -33,11 +33,10 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Latest Version
 
-### [26.1] - 2026-02-02
+### [26.2] - 2026-02-11
 
-- Added the latest text clipping display, showing the most recently saved text near the text cursor
-- Handled complex character input correctly, ensuring accurate text clipping display
-- Refined search input detection logic, reducing unintended activation across different input fields
+- Fixed an issue preventing copied text from saving to history
+- Improved UI details and reliability
 
 Previous Updates: [CHANGELOG.md](./CHANGELOG.md)
 
