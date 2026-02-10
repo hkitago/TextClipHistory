@@ -480,7 +480,7 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
   }
 
   .iconCopyWrapper {
-    background-color: rgb(53 53 53/.8);
+    background-color: rgb(44 43 45/.8);
   }
 
   main > ul.isEditMode > li > span.iconPinWrapper {
