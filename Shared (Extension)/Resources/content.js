@@ -91,7 +91,8 @@
         } else {
           selectionStart = value.length;
         }
-      } catch (e) {
+      } catch (error) {
+        console.warn('[TextClipHistoryExtension] Failed to set selectionStart:', error);
         selectionStart = value.length;
       }
 
@@ -767,8 +768,64 @@
   // ========================================
   // Event listeners
   // ========================================
+  const OVERLAY_SELECTORS = [
+    '[role="dialog"]',
+    '[aria-modal="true"]',
+    '[class*="modal"]',
+    '[class*="overlay"]',
+    '[class*="dialog"]',
+    '[class*="popover"]',
+    '[class*="backdrop"]',
+    '[class*="lightbox"]',
+    '[class*="sheet"]',
+    '.github-overlay',
+    '.x-overlay',
+    '.overlay-backdrop'
+  ].join(', ');
+
+  const isAnyOverlayVisible = () => {
+    const elements = document.querySelectorAll(OVERLAY_SELECTORS);
+    
+    return [...elements].some(el => {
+      const rect = el.getBoundingClientRect();
+      const isSizeVisible = rect.width > 0 && rect.height > 0;
+      if (!isSizeVisible) return false;
+
+      const style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') {
+        return false;
+      }
+
+      const zIndex = parseInt(style.zIndex);
+      const isHighZIndex = !isNaN(zIndex) && zIndex >= 100;
+
+      const hasModalRole =
+        el.getAttribute('role') === 'dialog' ||
+        el.getAttribute('aria-modal') === 'true' ||
+        el.tagName === 'DIALOG';
+
+      const isClosedDetails = el.tagName === 'DETAILS' && !el.open;
+      if (isClosedDetails) return false;
+
+      return isHighZIndex || hasModalRole;
+    });
+  };
+
+  let wasOverlayVisibleAtInteraction = false;
+
+  ['pointerdown', 'keydown'].forEach(type => {
+    document.addEventListener(type, () => {
+      wasOverlayVisibleAtInteraction = isAnyOverlayVisible();
+    }, { capture: true });
+  });
+
   document.addEventListener('focusin', (event) => {
-    if (!isEditableElement(event.target)) return;
+    console.log(wasOverlayVisibleAtInteraction);
+    if (!isEditableElement(event.target) || wasOverlayVisibleAtInteraction) {
+      hidePopup();
+      hideClipboardPreview();
+      return;
+    }
 
     lastFocusedElement = event.target;
 
@@ -790,14 +847,21 @@
   });
 
   document.addEventListener('focusout', (event) => {
-    if (!isEditableElement(event.target)) return;
-    hidePopup();
-    hideClipboardPreview();
+    if (!isEditableElement(event.target)) {
+      hidePopup();
+      hideClipboardPreview();
+      return;
+    }
   });
 
   document.addEventListener('pointerdown', (event) => {
     if (!isMacOS()) return;
-    if (!isEditableElement(event.target)) return;
+
+    if (!isEditableElement(event.target)) {
+      hidePopup();
+      hideClipboardPreview();
+      return;
+    }
 
     showClipboardPreview(event.target);
 
