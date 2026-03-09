@@ -1,11 +1,5 @@
-//
-//  popup.js
-//  TextClipHistory
-//
-//  Created by Hiroyuki KITAGO on 2024/11/01.
-//
 import { getCurrentLangLabelString, applyRTLSupport } from './localization.js';
-import { isIOS, isIPadOS, isMacOS, getIOSMajorVersion, applyPlatformClass, settings } from './utils.js';
+import { applyPlatformClass, settings, closeWindow, platformInfo } from './utils.js';
 
 const appState = {
   isEditMode: false,
@@ -17,22 +11,6 @@ const getState = (key) => {
 
 const setState = (key, value) => {
   appState[key] = value;
-};
-
-const closeWindow = () => {
-  window.close();
-
-  // In older iOS versions (<18), reloading the extension helped with some popup issues
-  // Might no longer be necessary — safe to remove if no issues found
-  if (getIOSMajorVersion() > 0 && getIOSMajorVersion() < 18) {
-    setTimeout(() => {
-      try {
-        browser.runtime.reload();
-      } catch (error) {
-        console.warn('[TextClipHistoryExtension] browser.runtime.reload failed:', error);
-      }
-    }, 100);
-  }
 };
 
 /* Global variables */
@@ -47,6 +25,8 @@ let lastMousePosition = { x: 0, y: 0 };
 
 const toggleEditMode = () => {
   setState('isEditMode', !getState('isEditMode'));
+  document.documentElement.style.height = '';
+
   const nav = document.querySelector('nav');
   const pinnedUl = document.getElementById('pinnedHistoryList');
   const unpinnedUl = document.getElementById('unpinnedHistoryList');
@@ -179,7 +159,7 @@ const buildPopup = async (settings) => {
     iconCopy.src = copyIcons.off;
     iconCopy.classList.add('iconCopy');
 
-    if (!isMacOS) {
+    if (!platformInfo.isMacOS) {
       iconCopy.style.display = 'initial';
     }
 
@@ -188,7 +168,7 @@ const buildPopup = async (settings) => {
     iconPin.classList.add('iconPin');
 
     iconPin.addEventListener('click', async (event) => {
-      if (!getState('isEditMode') && !isMacOS()) return false;
+      if (!getState('isEditMode') && !platformInfo.isMacOS) return false;
 
       event.stopPropagation();
 
@@ -328,21 +308,27 @@ const buildPopup = async (settings) => {
     li.dataset.pinned = item.pinned;
 
     li.addEventListener('click', async (event) => {
-      if (getState('isEditMode') && !isMacOS()) return false;
+      if (getState('isEditMode') && !platformInfo.isMacOS) return false;
 
       const textToCopy = item.text;
       await navigator.clipboard.writeText(textToCopy);
       
       // send msg to content.js
-      browser.tabs.query({active: true, currentWindow: true}, async (tabs) => {
-        const langCode = window.navigator.language || 'en';
-        await browser.tabs.sendMessage(tabs[0].id, {
-          request: 'pasteText',
-          langcode: langCode.substring(0, 2),
-          text: textToCopy
-        });
-      });
-      
+      try {
+        const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+        const activeTabId = tabs[0]?.id;
+        if (activeTabId) {
+          const langCode = window.navigator.language || 'en';
+          await browser.tabs.sendMessage(activeTabId, {
+            request: 'pasteText',
+            langcode: langCode.substring(0, 2),
+            text: textToCopy
+          });
+        }
+      } catch (error) {
+        console.warn('[TextClipHistoryExtension] Failed to send pasteText to content script:', error);
+      }
+
       // animation for seeing done to copy
       event.stopPropagation();
       iconCopy.src = copyIcons.on;
@@ -352,7 +338,7 @@ const buildPopup = async (settings) => {
       }, 500);
     });
 
-    if (isMacOS()) {
+    if (platformInfo.isMacOS) {
       li.addEventListener('mouseover', onMouseOver);
       li.addEventListener('mouseout', onMouseOut);
     }
@@ -441,7 +427,6 @@ const buildPopup = async (settings) => {
         if (history.length === pinnedOnly.length) return false;
         
         await browser.storage.local.remove('history');
-
         await browser.storage.local.set({ history: pinnedOnly });
         
         // Remove unpinned items
@@ -458,38 +443,39 @@ const buildPopup = async (settings) => {
       }
 
       updateClearOptionsVisibility();
+
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
+
+      const html = document.documentElement;
+      html.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     } catch (error) {
       console.error('[TextClipHistoryExtension] Failed to clear text clippings:', error);
     }
   });
 
-  if (isMacOS()) {
-    clearAllHistory.addEventListener('mouseover', (event) => {
-      event.target.classList.add('hover');
-    });
-    clearAllHistory.addEventListener('mouseout', (event) => {
-      event.target.classList.remove('hover');
-    });
+  if (platformInfo.isMacOS) {
+    clearAllHistory.addEventListener('mouseover', (event) => event.target.classList.add('hover'));
+    clearAllHistory.addEventListener('mouseout', (event)  => event.target.classList.remove('hover'));
   }
 
   /* rendering footer */
   editActions.textContent = `${getCurrentLangLabelString('editActions')}`;
   editActions.addEventListener('click', toggleEditMode);
-  editActions.addEventListener('touchstart', (event) => {
-    event.target.classList.add('selected');
-  });
-  editActions.addEventListener('touchend', (event) => {
-    event.target.classList.remove('selected');
-  });
+  editActions.addEventListener('touchstart', (event)  => event.target.classList.add('selected'));
+  editActions.addEventListener('touchend', (event)    => event.target.classList.remove('selected'));
+  editActions.addEventListener('touchcancel', (event) => event.target.classList.remove('selected'));
 
   editDone.textContent = `${getCurrentLangLabelString('editDone')}`;
   editDone.addEventListener('click', toggleEditMode);
-  editDone.addEventListener('touchstart', (event) => {
-    event.target.classList.add('selected');
-  });
-  editDone.addEventListener('touchend', (event) => {
-    event.target.classList.remove('selected');
-  });
+  editDone.addEventListener('touchstart', (event)   => event.target.classList.add('selected'));
+  editDone.addEventListener('touchend', (event)     => event.target.classList.remove('selected'));
+  editDone.addEventListener('touchcancel', (event)  => event.target.classList.remove('selected'));
 
   // Settings View
   const settingItems = [
