@@ -250,12 +250,18 @@ const buildPopup = async (settings) => {
                 if (nextVisibleItem) {
                   if (!document.querySelector('#unpinnedHistoryList')) {
                     main.appendChild(unpinnedUl); // Append after pinned list
+                    if (getState('isEditMode')) {
+                      unpinnedUl.classList.add('isEditMode');
+                    }
                   }
                   createListItem(nextVisibleItem, unpinnedUl);
                 }
               } else {
                 if (!document.querySelector('#unpinnedHistoryList')) {
                   main.appendChild(unpinnedUl); // Append after pinned list
+                  if (getState('isEditMode')) {
+                    unpinnedUl.classList.add('isEditMode');
+                  }
                 }
 
                 const unpinnedItems = Array.from(
