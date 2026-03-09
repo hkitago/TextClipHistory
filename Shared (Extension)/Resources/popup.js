@@ -117,7 +117,8 @@ const buildPopup = async (settings) => {
     footer.style.display = 'none';
   };
 
-  const { history = [] } = await browser.storage.local.get('history');
+  const { history: storedHistory = [] } = await browser.storage.local.get('history');
+  let history = [...storedHistory];
 
   if (history.length === 0) {
     initializePopupPage();
@@ -193,6 +194,11 @@ const buildPopup = async (settings) => {
             const sourceUl = li.closest('ul');
             
             if (li.dataset.pinned === 'false') { /* Pinned */
+              const targetHistoryItem = history.find(h => h.id === item.id);
+              if (targetHistoryItem) {
+                targetHistoryItem.pinned = true;
+              }
+
               if (!document.querySelector('#pinnedHistoryList')) {
                 main.prepend(pinnedUl); // Prepend to ensure pinned list is above unpinned
                 if (getState('isEditMode')) {
@@ -427,16 +433,18 @@ const buildPopup = async (settings) => {
   clearAllHistory.addEventListener('click', async () => {
     try {
       if (showClearOptions() && clearOption === 'keep') {
-        const { history = [] } = await browser.storage.local.get('history');
-        const pinnedOnly = history.filter(item => item.pinned === true);
+        const { history: currentHistory = [] } = await browser.storage.local.get('history');
+        const pinnedOnly = currentHistory.filter(item => item.pinned === true);
         
-        if (history.length === pinnedOnly.length) return false;
+        if (currentHistory.length === pinnedOnly.length) return false;
         
         await browser.storage.local.remove('history');
         await browser.storage.local.set({ history: pinnedOnly });
+        history = [...pinnedOnly];
         
         // Remove unpinned items
         if (document.querySelector('#unpinnedHistoryList')) {
+          unpinnedUl.replaceChildren();
           unpinnedUl.remove();
         }
         
@@ -445,6 +453,7 @@ const buildPopup = async (settings) => {
         }
       } else {
         await browser.storage.local.remove('history');
+        history = [];
         initializePopupPage();
       }
 
@@ -524,7 +533,6 @@ const buildPopup = async (settings) => {
 };
 
 let isInitialized = false;
-
 const initializePopup = async () => {
   if (isInitialized) return;
   isInitialized = true;
