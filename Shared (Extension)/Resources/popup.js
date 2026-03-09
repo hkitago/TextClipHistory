@@ -106,11 +106,13 @@ const buildPopup = async (settings) => {
   const editActions = document.getElementById('editActions');
   const editDone = document.getElementById('editDone');
 
-  const wrapIconWithSpan = (imgElement, wrapperClass) => {
+  const wrapIcon = (imgElement, wrapperClass) => {
+    const div = document.createElement('div');
+    div.classList.add(wrapperClass);
     const span = document.createElement('span');
-    span.classList.add(wrapperClass);
     span.appendChild(imgElement);
-    return span;
+    div.appendChild(span);
+    return div;
   };
 
   const initializePopupPage = async () => {
@@ -154,10 +156,9 @@ const buildPopup = async (settings) => {
   const createListItem = (item, targetUl) => {
     const li = document.createElement('li');
     const div = document.createElement('div');
-    
+    div.classList.add('clippingText');
     div.textContent = item.text;
 
-    // iconCopy
     const iconCopy = document.createElement('img');
     iconCopy.src = copyIcons.off;
     iconCopy.classList.add('iconCopy');
@@ -170,7 +171,10 @@ const buildPopup = async (settings) => {
     iconPin.src = item.pinned ? pinIcons.on : pinIcons.off;
     iconPin.classList.add('iconPin');
 
-    iconPin.addEventListener('click', async (event) => {
+    const iconPinWrapper = wrapIcon(iconPin, 'iconPinWrapper');
+    const iconCopyWrapper = wrapIcon(iconCopy, 'iconCopyWrapper');
+
+    iconPinWrapper.addEventListener('click', async (event) => {
       if (!getState('isEditMode') && !platformInfo.isMacOS) return false;
 
       event.stopPropagation();
@@ -309,9 +313,6 @@ const buildPopup = async (settings) => {
         }
       });
     });
-
-    const iconPinWrapper = wrapIconWithSpan(iconPin, 'iconPinWrapper');
-    const iconCopyWrapper = wrapIconWithSpan(iconCopy, 'iconCopyWrapper');
 
     li.appendChild(iconPinWrapper);
     li.appendChild(div);
@@ -475,11 +476,6 @@ const buildPopup = async (settings) => {
       console.error('[TextClipHistoryExtension] Failed to clear text clippings:', error);
     }
   });
-
-  if (platformInfo.isMacOS) {
-    clearAllHistory.addEventListener('mouseover', (event) => event.target.classList.add('hover'));
-    clearAllHistory.addEventListener('mouseout', (event)  => event.target.classList.remove('hover'));
-  }
 
   /* rendering footer */
   editActions.textContent = `${getCurrentLangLabelString('editActions')}`;
