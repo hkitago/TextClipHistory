@@ -1,7 +1,12 @@
 (() => {
-  const isMacOS = () =>
-    navigator.platform.includes('Mac') && !(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  
+  const userAgent = navigator.userAgent;
+  const platform = navigator.platform;
+  const maxTouchPoints = navigator.maxTouchPoints || 0;
+
+  const isIPadOS = platform === 'MacIntel' && maxTouchPoints > 1;
+  const isIOS = /iPhone|iPod/.test(userAgent);
+  const isMacOS = platform.includes('Mac') && !isIPadOS;
+
   /* Global state variables */
   const DEFAULT_SETTINGS = {
     clearOption: 'all',
@@ -230,12 +235,18 @@
   };
 
   const requestInputSourcePopup = (target) => {
-    if (!isMacOS()) return;
+    if (!isMacOS) return;
     if (!isEditableElement(target)) return;
 
-    browser.runtime.sendMessage({
-      request: 'INPUT_FOCUSED',
-    });
+    (async () => {
+      try {
+        await browser.runtime.sendMessage({
+          request: 'INPUT_FOCUSED',
+        });
+      } catch (error) {
+        console.warn('[TextClipHistoryExtension] Failed to notify background on input focus:', error);
+      }
+    })();
   };
 
   // ========================================
@@ -308,7 +319,7 @@
       return { side: isRTL ? 'left' : 'right', inset: icon + gap };
     }
 
-    if (isMacOS()) {
+    if (isMacOS) {
       if (hasWebKitContactsButton(el) || isLikelyContactField(el)) {
         const h = el.clientHeight || parseFloat(cs.height) || 32;
         const icon = clamp(26, h * 0.7, 34);
@@ -831,7 +842,7 @@
 
     showClipboardPreview(event.target);
 
-    if (isMacOS()) {
+    if (isMacOS) {
       const now = performance.now();
       const isPointerCoalesced = (now - lastPointerDownTs) < COALESCE_WINDOW_MS && event.target === lastPointerDownElement;
       if (isPointerCoalesced) return;
@@ -855,7 +866,7 @@
   });
 
   document.addEventListener('pointerdown', (event) => {
-    if (!isMacOS()) return;
+    if (!isMacOS) return;
 
     if (!isEditableElement(event.target)) {
       hidePopup();
@@ -863,7 +874,7 @@
       return;
     }
 
-    if (isMacOS()) {
+    if (isMacOS) {
       const now = performance.now();
       if (event.target === lastFocusedElement && now - lastPopupTimestamp < POPUP_DISPLAY_COOLDOWN_MS) return;
 
@@ -882,7 +893,7 @@
   });
 
   document.addEventListener('touchend', (event) => {
-    if (isMacOS()) return;
+    if (isMacOS) return;
     if (!isEditableElement(event.target)) return;
 
     showClipboardPreview(event.target);
