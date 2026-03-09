@@ -41,6 +41,7 @@
   let pendingPopupDurationMs = POPUP_DISPLAY_DURATION_MS;
   const COALESCE_WINDOW_MS = 150;
   let lastPointerDownTs = 0;
+  let lastPointerDownElement = null;
   const shownOnceForElement = new WeakSet();
 
   // Popup durations (ms) tuned for recognition vs. intrusiveness.
@@ -820,7 +821,6 @@
   });
 
   document.addEventListener('focusin', (event) => {
-    console.log(wasOverlayVisibleAtInteraction);
     if (!isEditableElement(event.target) || wasOverlayVisibleAtInteraction) {
       hidePopup();
       hideClipboardPreview();
@@ -833,7 +833,7 @@
 
     if (isMacOS()) {
       const now = performance.now();
-      const isPointerCoalesced = (now - lastPointerDownTs) < COALESCE_WINDOW_MS && event.target === lastFocusedElement;
+      const isPointerCoalesced = (now - lastPointerDownTs) < COALESCE_WINDOW_MS && event.target === lastPointerDownElement;
       if (isPointerCoalesced) return;
 
       // Decide the next popup duration for focusin
@@ -863,8 +863,6 @@
       return;
     }
 
-    showClipboardPreview(event.target);
-
     if (isMacOS()) {
       const now = performance.now();
       if (event.target === lastFocusedElement && now - lastPopupTimestamp < POPUP_DISPLAY_COOLDOWN_MS) return;
@@ -877,6 +875,7 @@
         ? POPUP_DURATIONS.pointerdown.first
         : POPUP_DURATIONS.pointerdown.repeat;
       lastPointerDownTs = now;
+      lastPointerDownElement = event.target;
 
       requestInputSourcePopup(event.target);
     }
@@ -910,6 +909,17 @@
     }
   });
 
+  browser.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== 'local' || !changes.settings) return;
+
+    const previousConfig = config;
+    config = { ...DEFAULT_SETTINGS, ...changes.settings.newValue };
+
+    if (previousConfig.showClipboardPreview && !config.showClipboardPreview) {
+      hideClipboardPreview();
+    }
+  });
+
   // ========================================
   // onMessage
   // ========================================
@@ -940,17 +950,6 @@
   });
 
   // ========================================
-  // Config update: Receive from background
-  // ========================================
-  browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.type === 'CONFIG_UPDATED') {
-      config = { ...DEFAULT_SETTINGS, ...message.config };
-    }
-    
-    return;
-  });
-
-  // ========================================
   // Initialization: Load config from storage
   // ========================================
   (async () => {
@@ -963,5 +962,3 @@
     }
   })();
 })();
-
-

@@ -1,5 +1,9 @@
 import { isMacOS, settings } from './utils.js';
 
+const INPUT_SOURCE_CACHE_TTL_MS = 1000;
+let cachedInputSource = null;
+let cachedInputSourceAt = 0;
+
 // Get input source from native app (macOS only)
 const getInputSource = async () => {
   if (!isMacOS()) return;
@@ -25,9 +29,21 @@ const getInputSource = async () => {
   });
 };
 
+const getCachedInputSource = async () => {
+  const now = Date.now();
+  if (cachedInputSource && (now - cachedInputSourceAt) < INPUT_SOURCE_CACHE_TTL_MS) {
+    return cachedInputSource;
+  }
+
+  const inputSource = await getInputSource();
+  cachedInputSource = inputSource ?? null;
+  cachedInputSourceAt = now;
+  return inputSource;
+};
+
 const updateInputSourceStorage = async () => {
   try {
-    const inputSource = await getInputSource();
+    const inputSource = await getCachedInputSource();
 
     const isEnabled = inputSource && !inputSource.isSingleInputSource;
     await browser.storage.local.set({ inputSourceEnabled: isEnabled });
@@ -170,7 +186,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
       if (!showInputSource) return;
 
       try {
-        const inputSource = await getInputSource();
+        const inputSource = await getCachedInputSource();
 
         if (!inputSource || !sender.tab || !sender.tab.id) return;
         if (inputSource.isSingleInputSource) return;
