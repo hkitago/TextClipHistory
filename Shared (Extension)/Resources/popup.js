@@ -163,10 +163,6 @@ const buildPopup = async (settings) => {
     iconCopy.src = copyIcons.off;
     iconCopy.classList.add('iconCopy');
 
-    if (!platformInfo.isMacOS) {
-      iconCopy.style.display = 'initial';
-    }
-
     const iconPin = document.createElement('img');
     iconPin.src = item.pinned ? pinIcons.on : pinIcons.off;
     iconPin.classList.add('iconPin');
@@ -476,19 +472,22 @@ const buildPopup = async (settings) => {
       console.error('[TextClipHistoryExtension] Failed to clear text clippings:', error);
     }
   });
+  clearAllHistory.addEventListener('touchstart', (event)  => clearAllHistory.classList.add('selected'));
+  clearAllHistory.addEventListener('touchend', (event)    => clearAllHistory.classList.remove('selected'));
+  clearAllHistory.addEventListener('touchcancel', (event) => clearAllHistory.classList.remove('selected'));
 
   /* rendering footer */
   editActions.textContent = `${getCurrentLangLabelString('editActions')}`;
   editActions.addEventListener('click', toggleEditMode);
-  editActions.addEventListener('touchstart', (event)  => event.target.classList.add('selected'));
-  editActions.addEventListener('touchend', (event)    => event.target.classList.remove('selected'));
-  editActions.addEventListener('touchcancel', (event) => event.target.classList.remove('selected'));
+  editActions.addEventListener('touchstart', (event)  => editActions.classList.add('selected'));
+  editActions.addEventListener('touchend', (event)    => editActions.classList.remove('selected'));
+  editActions.addEventListener('touchcancel', (event) => editActions.classList.remove('selected'));
 
   editDone.textContent = `${getCurrentLangLabelString('editDone')}`;
   editDone.addEventListener('click', toggleEditMode);
-  editDone.addEventListener('touchstart', (event)   => event.target.classList.add('selected'));
-  editDone.addEventListener('touchend', (event)     => event.target.classList.remove('selected'));
-  editDone.addEventListener('touchcancel', (event)  => event.target.classList.remove('selected'));
+  editDone.addEventListener('touchstart', (event)   => editDone.classList.add('selected'));
+  editDone.addEventListener('touchend', (event)     => editDone.classList.remove('selected'));
+  editDone.addEventListener('touchcancel', (event)  => editDone.classList.remove('selected'));
 
   // Settings View
   const settingItems = [
