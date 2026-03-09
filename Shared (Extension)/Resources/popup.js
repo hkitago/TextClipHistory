@@ -64,18 +64,20 @@ const buildPopup = async (settings) => {
   applyPlatformClass();
   applyRTLSupport();
 
-  document.body.addEventListener('mouseleave', () => {
-    closeTimeout = setTimeout(() => {
-      closeWindow();
-    }, closeWindowTime);
-  });
+  if (platformInfo.supportsMouseHover) {
+    document.body.addEventListener('mouseleave', () => {
+      closeTimeout = setTimeout(() => {
+        closeWindow();
+      }, closeWindowTime);
+    });
 
-  document.body.addEventListener('mouseenter', () => {
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
-      closeTimeout = null;
-    }
-  });
+    document.body.addEventListener('mouseenter', () => {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
+    });
+  }
 
   document.body.addEventListener('mousemove', (event) => {
     const currentPosition = { x: event.clientX, y: event.clientY };
