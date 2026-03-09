@@ -4,6 +4,7 @@
 const userAgent = navigator.userAgent;
 const platform = navigator.platform;
 const maxTouchPoints = navigator.maxTouchPoints || 0;
+const supportsMouseHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 const isIPadOS = platform === 'MacIntel' && maxTouchPoints > 1;
 const isIOS = /iPhone|iPod/.test(userAgent);
@@ -11,7 +12,8 @@ const isMacOS = platform.includes('Mac') && !isIPadOS;
 export const platformInfo = {
   isIOS,
   isIPadOS,
-  isMacOS
+  isMacOS,
+  supportsMouseHover
 };
 
 export const applyPlatformClass = async () => {
