@@ -1,9 +1,3 @@
-/*/
-///  popup.css
-///  TextClipHistory
-///
-///  Created by Hiroyuki KITAGO on 2024/11/01.
-/*/
 @keyframes popIn {
   from {
     opacity: 0;
@@ -92,15 +86,18 @@ button#clearAllHistory {
   background-color: rgb(0 136 254);
 }
 
+.os-macos button#clearAllHistory {
+  background-color: rgb(52 120 246);
+}
+
 button#clearAllHistory:active {
   background-color: rgb(209 209 213);
 }
 
 .os-macos button#clearAllHistory:active,
 .os-macos button#clearAllHistory:focus {
-  background-color: rgb(47 108 222);
+  background-color: rgb(33 100 226);
 }
-
 
 #history-options {
   display: flex;
@@ -121,7 +118,7 @@ button#clearAllHistory:active {
 
 #history-options button.selected {
   color: rgb(70 146 254);
-  background-color: rgb(240 242 242);
+  background-color: rgb(236 236 236);
 }
 
 #history-options button:not(.selected) {
@@ -195,7 +192,7 @@ main > ul > li.selected {
   background-color: rgb(210 209 215);
 }
 
-main > ul > li > div {
+main > ul > li > div.clippingText {
   margin: 10px 0px;
   overflow-wrap: break-word;
   overflow: hidden;
@@ -207,42 +204,45 @@ main > ul > li > div {
   flex: 1;
 }
 
-main > ul > li > span.iconPinWrapper {
-  display: none;
-}
-
-main > ul.isEditMode > li > span.iconPinWrapper {
-  display: inline-flex;
-}
-
-.iconPinWrapper,
-.iconCopyWrapper {
-  background-color: rgb(255 255 255/.8);
-  border-radius: 50%;
-  width: 26px;
-  height: 26px;
-  display: inline-flex;
+div.iconPinWrapper,
+div.iconCopyWrapper {
+  width: 36px;
+  height: 24px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0;
   cursor: pointer;
+  overflow: hidden;
 }
 
-.iconPinWrapper > img,
-.iconCopyWrapper > img {
-  width: 55%;
-  height: auto;
-  margin: 0px;
-}
-
-main > ul.isEditMode > li > span.iconPinWrapper {
-  background-color: rgb(255 255 255/.8);
-/*  display: initial;*/
-/*  opacity:1;*/
-}
-
-main > ul.isEditMode > li > span.iconCopyWrapper {
+div.iconPinWrapper{
   display: none;
+}
+
+ul.isEditMode div.iconPinWrapper {
+  display: flex;
+}
+
+ul.isEditMode div.iconCopyWrapper {
+  display: none;
+}
+
+div.iconPinWrapper > span,
+div.iconCopyWrapper > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: rgb(236 236 236);
+  border-radius: 50%;
+}
+
+div.iconPinWrapper > span > img,
+div.iconCopyWrapper > span > img {
+  width: auto;
+  height: 14px;
+  margin: 0px;
 }
 
 /* Pin-Toggle related animation */
@@ -272,6 +272,7 @@ footer {
 }
 
 footer > div {
+  display: inline-block;
   margin: 0 15px;
   cursor: pointer;
   color: rgb(70 146 254);
@@ -334,7 +335,7 @@ input[type='checkbox'] {
   border-radius: 11px;
   position: relative;
   cursor: pointer;
-  margin: 0 5px;
+  margin: 0;
 }
 
 .os-macos .toggle {
@@ -405,41 +406,22 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
 @media (hover: hover) and (pointer: fine) {
   #history-options button:hover:not(.selected) {
     opacity: 1;
-/*    color: rgb(70 146 254);*/
   }
   
-  .delete-button:hover {
-/*    opacity: 0.5;*/
-  }
-  
-  /*  main > ul > li.hover {*/
   main > ul:not(.isEditMode) > li.hover {
-    background-color: rgb(210 209 215);
+    background-color: rgb(236 236 236);
     cursor: pointer;
   }
   
-  main > ul > li > span > img:hover {
-    opacity: 1;
+  div.iconPinWrapper > span:hover {
+    background-color: transparent;
   }
-  
-  main > ul > li.hover > span > img {
-    display: inline-block;
-  }
-  
-  main > ul > li.hover > span > img.iconCopy {
-    opacity: 1;
-  }
-  
-  main > ul > li.hover > span > img.iconCopy.fadeIn {
-    opacity: 0;
+
+  main > ul > li.hover > div > span > img.iconCopy.fadeIn {
     animation: popIn 0.3s ease-out forwards;
   }
 
-  main > ul > li > span > img.hover {
-    opacity: 1;
-  }
-
-  footer > div.hover {
+  footer > div:hover {
     opacity: 0.5;
   }
 }
@@ -453,38 +435,36 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
     color: rgb(255 255 255/.7);
   }
 
-  main > ul.isEditMode > li > span.iconPinWrapper {
-    background-color: rgb(255 255 255/.15);
+  div.iconPinWrapper > span,
+  div.iconCopyWrapper > span {
+    background-color: rgb(47 47 47);
+  }
+
+  div.iconPinWrapper > span > img,
+  div.iconCopyWrapper > span > img {
+    filter: invert(1) hue-rotate(180deg);
   }
 
   nav {
-    background-color: rgb(44 43 45);
+    background-color: rgb(36 36 36);
   }
 
   main > ul > li {
-    background-color: rgb(44 43 45);
+    background-color: rgb(36 36 36);
   }
 
   #history-options button.selected {
-    background-color: rgb(53 53 53);
+    background-color: rgb(47 47 47);
   }
 
   @media (hover: hover) and (pointer: fine) {
     main > ul:not(.isEditMode) > li.hover {
-      background-color: rgb(58 57 59);
+      background-color: rgb(47 47 47);
     }
   }
 
   main > ul > li.selected {
-    background-color: rgb(58 57 59);
-  }
-
-  .iconCopyWrapper {
-    background-color: rgb(44 43 45/.8);
-  }
-
-  main > ul.isEditMode > li > span.iconPinWrapper {
-/*    background-color: rgb(53 53 53/.7);*/
+    background-color: rgb(47 47 47);
   }
 
   ul#settingsList > li {
