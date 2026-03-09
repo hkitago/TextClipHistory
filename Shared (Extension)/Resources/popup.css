@@ -90,7 +90,7 @@ button#clearAllHistory {
   background-color: rgb(52 120 246);
 }
 
-button#clearAllHistory:active {
+button#clearAllHistory.selected {
   background-color: rgb(209 209 213);
 }
 
@@ -179,8 +179,6 @@ main > ul > li {
   overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
   padding: 0px 15px;
 }
 
@@ -276,6 +274,10 @@ footer > div {
   margin: 0 15px;
   cursor: pointer;
   color: rgb(70 146 254);
+}
+
+footer > div.selected {
+  opacity: 0.5;
 }
 
 #editDone {
@@ -471,6 +473,9 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
     background-color: rgb(37 37 37);
   }
 
+  button#clearAllHistory.selected {
+    background-color: rgb(58 58 60);
+  }
 }
 
 @supports (-apple-visual-effect: -apple-system-glass-material) {
