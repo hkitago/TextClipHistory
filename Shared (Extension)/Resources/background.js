@@ -75,96 +75,46 @@ const hasHistoryStorage = async () => {
 // ========================================
 // Icon Handlings
 // ========================================
-const activeTabs = new Set();
-
-const getAllTabIds = async () => {
-  try {
-    const tabs = await browser.tabs.query({});
-    tabs.forEach(tab => activeTabs.add(tab.id));
-  } catch (error) {
-    console.error('[TextClipHistoryExtension] Failed to initialize tabs:', error);
-  }
-};
-
-const setIconForAllTabs = async (iconPath) => {
-  if (activeTabs.size === 0) {
-    await getAllTabIds();
-  }
-  
-  const promises = Array.from(activeTabs).map(async (tabId) => {
-    try {
-      await browser.action.setIcon({
-        path: iconPath,
-        tabId: tabId
-      });
-    } catch (error) {
-      console.warn(`[TextClipHistoryExtension] Failed to set icon for tab ${tabId}:`, error);
-      activeTabs.delete(tabId);
-    }
-  });
-  
-  await Promise.all(promises);
-};
-
 const updateToolbarIcon = async (tabId = null) => {
   const hasHistory = await hasHistoryStorage();
 
   let iconPath;
   if (hasHistory) {
-    iconPath = `./images/toolbar-icon-on.svg`;
+    iconPath = `./images/toolbar-icon.svg`;
   } else {
-    iconPath = './images/toolbar-icon.svg';
+    iconPath = './images/toolbar-icon-off.svg';
   }
 
   if (tabId === null) {
-    setIconForAllTabs(iconPath);
-  } else {
-    browser.action.setIcon({ path: iconPath, tabId: tabId });
+    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
+    tabId = activeTab?.id;
   }
+
+  browser.action.setIcon({ path: iconPath, tabId });
 };
 
 // ========================================
 // Event Listeners
 // ========================================
-browser.tabs.onRemoved.addListener((tabId) => {
-  activeTabs.delete(tabId);
-});
-
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
-  activeTabs.add(tab.id);
-
   if (changeInfo.status === 'complete') {
-    updateToolbarIcon(tabId);
+    await updateToolbarIcon(tabId);
   }
-});
-
-browser.tabs.onCreated.addListener(async (tab) => {
-  // Prevent duplicate event handling
-  if (tab.index === 0) return; // for itself
-  if (Number.isNaN(tab.index)) return; // for iOS/iPadOS
 });
 
 browser.windows.onFocusChanged.addListener(async (windowId) => {
   if (windowId === browser.windows.WINDOW_ID_NONE) return;
   
   updateInputSourceStorage();
-  
-  const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
-  await updateToolbarIcon(activeTab?.id ?? null);
-
-  updateToolbarIcon(activeTab.id);
+  await updateToolbarIcon();
 });
 
 browser.storage.onChanged.addListener(async (changes, areaName) => {
   if (areaName === 'local' && changes.history) {
-    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
-    if (!activeTab?.id) return;
-
-    await updateToolbarIcon(activeTab?.id ?? null);
+    await updateToolbarIcon();
   }
 });
 
-// Get Message Listeners
 browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
   if (message.type === 'GET_CURRENT_CONFIG') {
     sendResponse({ config: settings.get() });
@@ -210,9 +160,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 (async () => {
   try {
     await settings.load();
-
-    const [activeTab] = await browser.tabs.query({ active: true, currentWindow: true });
-    await updateToolbarIcon(activeTab?.id ?? null);
+    await updateToolbarIcon();
   } catch (error) {
     console.error('[TextClipHistoryExtension] Failed to initialize:', error);
   }
