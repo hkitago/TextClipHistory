@@ -1,4 +1,4 @@
-import { isMacOS, settings } from './utils.js';
+import { settings, platformInfo } from './utils.js';
 
 const INPUT_SOURCE_CACHE_TTL_MS = 1000;
 let cachedInputSource = null;
@@ -6,7 +6,7 @@ let cachedInputSourceAt = 0;
 
 // Get input source from native app (macOS only)
 const getInputSource = async () => {
-  if (!isMacOS()) return;
+  if (!platformInfo.isMacOS) return;
 
   return new Promise((resolve, reject) => {
     browser.runtime.sendNativeMessage(
@@ -127,7 +127,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   if (message.request === 'INPUT_FOCUSED') {
     (async () => {
-      if (!isMacOS()) return;
+      if (!platformInfo.isMacOS) return;
 
       const storage = await browser.storage.local.get('inputSourceEnabled');
       if (storage.inputSourceEnabled === false) return;
