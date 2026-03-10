@@ -123,6 +123,7 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
 
   if (message.request === 'TOGGLE_PIN') {
     togglePin(message.id);
+    return false;
   }
 
   if (message.request === 'INPUT_FOCUSED') {
@@ -149,10 +150,12 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         console.error('[TextClipHistoryExtension] Failed to show input source on input focus:', error);
       }
     })();
+    return false;
   }
 
   if (message.action === 'UPDATE_ICON') {
     updateToolbarIcon(sender.tab?.id);
+    return false;
   }
 
   return false;
