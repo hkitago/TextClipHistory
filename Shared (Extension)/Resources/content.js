@@ -918,6 +918,8 @@
       console.warn('[TextClipHistoryExtension] Failed to refresh storage, fallback to background:', error);
       requestConfigFromBackground();
     }
+    
+    browser.runtime.sendMessage({ action: 'UPDATE_ICON' });
   });
 
   browser.storage.onChanged.addListener((changes, areaName) => {

@@ -151,6 +151,10 @@ browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
     })();
   }
 
+  if (message.action === 'UPDATE_ICON') {
+    updateToolbarIcon(sender.tab?.id);
+  }
+
   return false;
 });
 
