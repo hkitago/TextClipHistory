@@ -49,6 +49,137 @@ body.os-ios, body.os-ipados {
   text-align: right;
 }
 
+main {
+  min-height: 38px;
+}
+
+main > div { /* no items */
+  margin: 0 15px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background-color: rgb(254 255 255);
+}
+
+main > div > p {
+  margin: 0;
+}
+
+main > h2#pinnedLabel {
+  margin: 0 30px 10px;
+  font-size: 1rem;
+  color: rgb(33 33 33/.7);
+}
+
+main > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 15px 15px;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+main > ul:not(.isEditMode) > li.hover {
+  background-color: rgb(236 236 236);
+  cursor: pointer;
+}
+
+main > ul > li {
+  min-height: 38px;
+  background-color: rgb(254 255 255);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0px 15px;
+}
+
+main > ul > li:not(:last-child) {
+  margin-bottom: 1px;
+}
+
+main > ul > li.selected {
+  background-color: rgb(210 209 215);
+}
+
+main > ul > li > div.clippingText {
+  margin: 10px 0px;
+  overflow-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+  flex: 1;
+}
+
+div.iconPinWrapper,
+div.iconCopyWrapper {
+  width: 36px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+div.iconPinWrapper{
+  display: none;
+}
+
+ul.isEditMode div.iconPinWrapper {
+  display: flex;
+}
+
+ul.isEditMode div.iconCopyWrapper {
+  display: none;
+}
+
+div.iconPinWrapper > span,
+div.iconCopyWrapper > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background-color: rgb(236 236 236);
+  border-radius: 50%;
+}
+
+div.iconPinWrapper.hover > span {
+  background-color: transparent;
+}
+
+div.iconPinWrapper > span > img,
+div.iconCopyWrapper > span > img {
+  width: auto;
+  height: 14px;
+  margin: 0px;
+}
+
+main > ul > li.hover > div > span > img.iconCopy.fadeIn {
+  animation: popIn 0.3s ease-out forwards;
+}
+
+/* Pin-Toggle related animation */
+.history-item {
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.history-item.fade-out {
+  opacity: 0;
+}
+
+.history-item.fade-in {
+  opacity: 1;
+}
+
+/* nav for clear-option */
 nav {
   margin: 0 15px 15px;
   display: none;
@@ -62,10 +193,10 @@ nav {
 
   justify-content: space-around;
   align-items: center;
-  margin: 10px 0;
+  margin: 15px 0;
   width: 100%;
   overflow: hidden;
-  gap: 9px;
+  gap: 10px;
 }
 
 #history-toolbar button {
@@ -127,23 +258,18 @@ button#clearAllHistory.selected {
   -webkit-text-fill-color: inherit;
 }
 
-.delete-button {
-  white-space: nowrap;
-  color: rgb(70 146 254);
-}
-
-.toggle-option {
+button.toggle-option {
   display: flex;
   align-items: center;
   white-space: nowrap;
 }
 
-.toggle-option::before {
+button.toggle-option::before {
   visibility: hidden;
-  content: '✔︎';
-  font-size: 0.75rem;
+  content: '✓';
+  font-size: 1rem;
   color: rgb(70 146 254);
-  margin: 0 0.25rem;
+  margin: 0 0.5rem;
 }
 
 .toggle-option.selected::before {
@@ -155,116 +281,16 @@ button#clearAllHistory.selected {
   cursor: initial;
 }
 
-main {
-  min-height: 38px;
-}
-
-main > h2#pinnedLabel {
-  margin: 0 30px 10px;
-  font-size: 1rem;
-  color: rgb(33 33 33/.7);
-}
-
-main > ul {
-  list-style: none;
-  padding: 0;
-  margin: 0 15px 15px;
-  overflow: hidden;
-  border-radius: 15px;
-}
-
-main > ul > li {
-  min-height: 38px;
-  background-color: rgb(254 255 255);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  padding: 0px 15px;
-}
-
-main > ul > li:not(:last-child) {
-  margin-bottom: 1px;
-}
-
-main > ul > li.selected {
-  background-color: rgb(210 209 215);
-}
-
-main > ul > li > div.clippingText {
-  margin: 10px 0px;
-  overflow-wrap: break-word;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  white-space: pre-wrap;
-  flex: 1;
-}
-
-div.iconPinWrapper,
-div.iconCopyWrapper {
-  width: 36px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  overflow: hidden;
-}
-
-div.iconPinWrapper{
-  display: none;
-}
-
-ul.isEditMode div.iconPinWrapper {
-  display: flex;
-}
-
-ul.isEditMode div.iconCopyWrapper {
-  display: none;
-}
-
-div.iconPinWrapper > span,
-div.iconCopyWrapper > span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background-color: rgb(236 236 236);
-  border-radius: 50%;
-}
-
-div.iconPinWrapper > span > img,
-div.iconCopyWrapper > span > img {
-  width: auto;
-  height: 14px;
-  margin: 0px;
-}
-
-/* Pin-Toggle related animation */
-.history-item {
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-
-.history-item.fade-out {
-  opacity: 0;
-}
-
-.history-item.fade-in {
+#history-options button.hover:not(.selected) {
   opacity: 1;
 }
 
-main > div {
-  margin: 0 35px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+#history-options button.hover:not(.selected)::before {
+  visibility: visible;
+  color: inherit;
 }
 
+/* footer */
 footer {
   margin: 0 15px 15px;
 }
@@ -277,6 +303,10 @@ footer > div {
 }
 
 footer > div.selected {
+  opacity: 0.5;
+}
+
+footer > div.hover {
   opacity: 0.5;
 }
 
@@ -405,32 +435,13 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
   animation: bounce-off 0.4s ease forwards;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  #history-options button:hover:not(.selected) {
-    opacity: 1;
-  }
-  
-  main > ul:not(.isEditMode) > li.hover {
-    background-color: rgb(236 236 236);
-    cursor: pointer;
-  }
-  
-  div.iconPinWrapper > span:hover {
-    background-color: transparent;
-  }
-
-  main > ul > li.hover > div > span > img.iconCopy.fadeIn {
-    animation: popIn 0.3s ease-out forwards;
-  }
-
-  footer > div:hover {
-    opacity: 0.5;
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   body.os-ios, body.os-ipados {
     background-color: rgb(30 30 30);
+  }
+
+  main > div { /* no items */
+    background-color: rgb(36 36 36);
   }
 
   main > h2#pinnedLabel {
@@ -455,17 +466,15 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
     background-color: rgb(36 36 36);
   }
 
-  #history-options button.selected {
+  main > ul:not(.isEditMode) > li.hover {
     background-color: rgb(47 47 47);
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    main > ul:not(.isEditMode) > li.hover {
-      background-color: rgb(47 47 47);
-    }
+  main > ul > li.selected {
+    background-color: rgb(47 47 47);
   }
 
-  main > ul > li.selected {
+  #history-options button.selected {
     background-color: rgb(47 47 47);
   }
 
@@ -499,5 +508,4 @@ input[type='checkbox']:not(:checked) ~ .toggle::before {
     50%  { transform: translateX(0px) scale(2); background: transparent; -apple-visual-effect: -apple-system-glass-material; }
     100% { transform: translateX(0px) scale(1); }
   }
-
 }

@@ -36,12 +36,12 @@ const toggleEditMode = () => {
     pinnedUl?.classList.add('isEditMode');
     unpinnedUl?.classList.add('isEditMode');
     editActions.style.display = 'none';
-    editDone.style.display = 'block';
+    editDone.style.display = 'inline-block';
   } else {
     nav.style.display = 'none';
     pinnedUl?.classList.remove('isEditMode');
     unpinnedUl?.classList.remove('isEditMode');
-    editActions.style.display = 'block';
+    editActions.style.display = 'inline-block';
     editDone.style.display = 'none';
   }
 
@@ -309,6 +309,10 @@ const buildPopup = async (settings) => {
         }
       });
     });
+    if (platformInfo.isMacOS) {
+      iconPinWrapper.addEventListener('mouseover', (event)  => iconPinWrapper.classList.add('hover'));
+      iconPinWrapper.addEventListener('mouseout', (event)   => iconPinWrapper.classList.remove('hover'));
+    }
 
     li.appendChild(iconPinWrapper);
     li.appendChild(div);
@@ -418,17 +422,24 @@ const buildPopup = async (settings) => {
 
   allHistory.addEventListener('click', () => clearOptionHandlers('all', settings));
   keepPinned.addEventListener('click', () => clearOptionHandlers('keep', settings));
-  
+
+  if (platformInfo.isMacOS) {
+    allHistory.addEventListener('mouseover', (event)  => allHistory.classList.add('hover'));
+    allHistory.addEventListener('mouseout', (event)   => allHistory.classList.remove('hover'));
+    keepPinned.addEventListener('mouseover', (event)  => keepPinned.classList.add('hover'));
+    keepPinned.addEventListener('mouseout', (event)   => keepPinned.classList.remove('hover'));
+  }
+
   allHistory.classList.toggle('selected', clearOption === 'all');
   keepPinned.classList.toggle('selected', clearOption === 'keep');
-  
+
   const updateClearOptionsVisibility = () => {
     historyOptions.style.display = showClearOptions() ? '' : 'none';
     clearAllHistory.textContent = showClearOptions() ? `${getCurrentLangLabelString('clearButton')}` : `${getCurrentLangLabelString('clearAllHistory')}`;
   };
-  
+
   updateClearOptionsVisibility();
-  
+
   clearAllHistory.addEventListener('click', async () => {
     try {
       if (showClearOptions() && clearOption === 'keep') {
@@ -482,12 +493,20 @@ const buildPopup = async (settings) => {
   editActions.addEventListener('touchstart', (event)  => editActions.classList.add('selected'));
   editActions.addEventListener('touchend', (event)    => editActions.classList.remove('selected'));
   editActions.addEventListener('touchcancel', (event) => editActions.classList.remove('selected'));
+  if (platformInfo.isMacOS) {
+    editActions.addEventListener('mouseover', (event) => editActions.classList.add('hover'));
+    editActions.addEventListener('mouseout', (event)  => editActions.classList.remove('hover'));
+  }
 
   editDone.textContent = `${getCurrentLangLabelString('editDone')}`;
   editDone.addEventListener('click', toggleEditMode);
   editDone.addEventListener('touchstart', (event)   => editDone.classList.add('selected'));
   editDone.addEventListener('touchend', (event)     => editDone.classList.remove('selected'));
   editDone.addEventListener('touchcancel', (event)  => editDone.classList.remove('selected'));
+  if (platformInfo.isMacOS) {
+    editDone.addEventListener('mouseover', (event)  => editDone.classList.add('hover'));
+    editDone.addEventListener('mouseout', (event)   => editDone.classList.remove('hover'));
+  }
 
   // Settings View
   const settingItems = [
