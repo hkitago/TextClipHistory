@@ -21,6 +21,10 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 1. Open a webpage in Safari.
 2. Select the text within the web page and copy it. The extension also supports the 'Cut' and 'Copy link' command from the context menu.
+
+- No copy item: <code><img src="https://raw.githubusercontent.com/hkitago/CleanURL/refs/heads/main/Shared%20(Extension)/Resources/images/toolbar-icon-off.svg" height="24" valign="bottom"/></code>
+- Copy something at once: <code><img src="https://raw.githubusercontent.com/hkitago/CleanURL/refs/heads/main/Shared%20(Extension)/Resources/images/toolbar-icon.svg" height="24" valign="bottom"/></code>
+
 3. Tap or click the icon next to the address bar and choose the extension.
 4. Choose an item of text for pasting and click or tap it. If an input field (including textareas) is focused, the selected text will be inserted automatically.
 
@@ -33,10 +37,11 @@ To uninstall the extension, similarly to the installation process, toggle the ex
 
 ## Latest Version
 
-### [26.2] - 2026-02-11
+### [26.3] - 2026-03-11
 
-- Fixed an issue preventing copied text from saving to history
-- Improved UI details and reliability
+- Fixed display issues with clipboard history and pinned items, improving edit mode handling and list updates
+- Updated the popup UI and icon behavior, with minor styling and interaction adjustments
+- Improved interaction handling across devices, with adjustments for different input methods
 
 Previous Updates: [CHANGELOG.md](./CHANGELOG.md)
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## [26.2] - 2026-02-11
+
+- Fixed an issue preventing copied text from saving to history
+- Improved UI details and reliability
+
 ## [26.1] - 2026-02-02
 
 - Added the latest text clipping display, showing the most recently saved text near the text cursor
